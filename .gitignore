@@ -1,5 +1,5 @@
 # Compiled class file
-*.class
+# *.class
 
 # Log file
 *.log
@@ -45,7 +45,7 @@ x86/
 bld/
 [Bb]in/
 [Oo]bj/
-[Ll]og/
+# [Ll]og/
 
 # Visual Studio 2015 cache/options directory
 .vs/
