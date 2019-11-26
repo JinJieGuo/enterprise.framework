@@ -1,2 +1,7 @@
+enterprise\framework\core\engine\BaseScheduler.class
+enterprise\framework\core\log\LogManager.class
+enterprise\framework\core\engine\Components.class
 enterprise\framework\core\http\HttpResponse.class
 enterprise\framework\core\http\HttpStatus.class
+enterprise\framework\core\log\ILogManager.class
+enterprise\framework\core\engine\IScheduler.class

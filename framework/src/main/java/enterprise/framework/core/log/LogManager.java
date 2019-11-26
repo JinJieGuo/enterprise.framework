@@ -19,6 +19,22 @@
 
 package enterprise.framework.core.log;
 
-public class LogManager {
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
+public class LogManager implements ILogManager {
+
+    //    private static final Logger LOGGER = LoggerFactory.getLogger(LogManager.class);
+    private static Logger logger;
+
+    @Override
+    public Logger instance() {
+        if (logger == null) {
+            //加上同步锁，保证线程安全
+            synchronized (LogManager.class) {
+                logger = LoggerFactory.getLogger(LogManager.class);
+            }
+        }
+        return logger;
+    }
 }
