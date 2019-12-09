@@ -1,4 +1,5 @@
 enterprise\framework\utility\security\Base64Utils.class
+enterprise\framework\utility\security\HexUtils.class
 enterprise\framework\core\engine\BaseScheduler.class
 enterprise\framework\core\log\LogManager.class
 enterprise\framework\core\token\ITokenManager.class

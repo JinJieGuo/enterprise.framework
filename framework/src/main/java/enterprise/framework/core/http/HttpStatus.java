@@ -70,6 +70,11 @@ public enum HttpStatus {
     OVERDUE,
 
     /**
+     * 用户不存在
+     */
+    USER_NOTEXIST,
+
+    /**
      * 用户已存在
      */
     USER_EXIST,
