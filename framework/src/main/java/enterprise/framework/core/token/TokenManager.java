@@ -24,24 +24,17 @@ import enterprise.framework.utility.generaltools.TimeStampHandler;
 import enterprise.framework.utility.generaltools.TimeTypeEnum;
 import enterprise.framework.utility.security.Base64Utils;
 import enterprise.framework.utility.security.RSAUtils;
-import io.jsonwebtoken.CompressionCodecs;
 import io.jsonwebtoken.Jwts;
-import io.jsonwebtoken.SignatureAlgorithm;
 
-import java.io.UnsupportedEncodingException;
-import java.util.Date;
 import java.util.Map;
 import java.util.UUID;
 
 public class TokenManager implements ITokenManager {
-    private Long tokenExpiration;
-    private String tokenSignKey;
 
     TimeStampHandler timeStampHandler = new TimeStampHandler();
 
-
     @Override
-    public TokenInfo createToken(String user_id) throws Exception {
+    public TokenInfo createToken(String user_id, Map<String, Object> keyMap) throws Exception {
 
         JwtHeader jwtHeader = new JwtHeader();
         jwtHeader.setAlg("SHA1");
@@ -65,7 +58,7 @@ public class TokenManager implements ITokenManager {
         TokenInfo tokenInfo = new TokenInfo();
         tokenInfo.setJwtInfo(jwtInfo);
         tokenInfo.setEncrypt_str(jwtHeaderStr + "." + jwtPayloadStr);
-        Map<String, Object> keyMap = RSAUtils.genKeyPair(1024);
+//        Map<String, Object> keyMap = RSAUtils.genKeyPair(1024);
         tokenInfo.setPublic_key(RSAUtils.getPublicKey(keyMap));
         tokenInfo.setPrivate_key(RSAUtils.getPrivateKey(keyMap));
         tokenInfo.setSignature(RSAUtils.sign(tokenInfo.getEncrypt_str().getBytes("utf-8"), tokenInfo.getPrivate_key()));
@@ -74,14 +67,14 @@ public class TokenManager implements ITokenManager {
         return tokenInfo;
     }
 
-    @Override
-    public String getToken(String token) {
-        String user = Jwts.parser().setSigningKey(tokenSignKey).parseClaimsJws(token).getBody().getSubject();
-        return user;
-    }
-
-    @Override
-    public void removeToken(String token) {
-        //jwttoken无需删除，客户端扔掉即可。
-    }
+//    @Override
+//    public String getToken(String token) {
+//        String user = Jwts.parser().setSigningKey(tokenSignKey).parseClaimsJws(token).getBody().getSubject();
+//        return user;
+//    }
+//
+//    @Override
+//    public void removeToken(String token) {
+//        //jwttoken无需删除，客户端扔掉即可。
+//    }
 }
