@@ -23,64 +23,81 @@ package enterprise.framework.core.http;
  * 核心组件 — 请求状态枚举
  */
 public enum HttpStatus {
-
     /**
      * 成功
      */
-    SUCCESS,
+    SUCCESS(10000, "Success"),
 
     /**
      * 错误日志
      */
-    ERROR,
+    ERROR(10001, "Error"),
 
     /**
      * log输出信息
      */
-    INFO,
+    INFO(10002, "Info"),
 
     /**
      * 调试日志
      */
-    DEBUG,
+    DEBUG(10003, "Debug"),
 
     /**
      * 调试日志
      */
-    TRACE,
+    TRACE(10004, "Trace"),
 
     /**
      * 异常日志
      */
-    FATAL,
+    FATAL(10005, "Fatal"),
 
     /**
      * 警告日志
      */
-    WARN,
+    WARN(10006, "Warn"),
 
     /**
      * 格式错误
      */
-    FORMAT_ERROR,
+    FORMAT_ERROR(20000, "Format Error"),
 
     /**
      * 许可证已过期
      */
-    OVERDUE,
+    OVERDUE(20001, "Overdue"),
 
     /**
      * 用户不存在
      */
-    USER_NOTEXIST,
+    USER_NOTEXIST(20002, "User NotExist"),
 
     /**
      * 用户已存在
      */
-    USER_EXIST,
+    USER_EXIST(20003, "User Exist"),
 
     /**
      * 密码错误
      */
-    PASSWORD_ERROR
+    PASSWORD_ERROR(20004, "Password Error");
+
+    private final int value;
+    private final String reasonPhrase;
+
+    public int value() {
+        return this.value;
+    }
+
+    public String getReasonPhrase() {
+        return this.reasonPhrase;
+    }
+
+    HttpStatus(int value, String reasonPhrase) {
+        this.value = value;
+        this.reasonPhrase = reasonPhrase;
+    }
+
+
 }
