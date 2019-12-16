@@ -34,13 +34,13 @@ public class HttpResponse {
         this.msg = msg;
     }
 
-    public HttpStatus status;
+    public int status;
 
-    public HttpStatus getStatus() {
+    public int getStatus() {
         return status;
     }
 
-    public void setStatus(HttpStatus status) {
+    public void setStatus(int status) {
         this.status = status;
     }
 
