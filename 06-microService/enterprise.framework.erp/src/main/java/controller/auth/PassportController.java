@@ -59,7 +59,6 @@ public class PassportController {
     @RequestMapping(value = "signIn", method = RequestMethod.POST)
     public HttpResponse signIn(@RequestBody SignInModel signInModel) {
 //        sysAuthUserService.listAllUser()
-        scheduler.singleSignOnManager().instance().Test();
         return new HttpResponse();
     }
 

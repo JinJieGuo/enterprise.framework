@@ -20,7 +20,6 @@
 package enterprise.framework.mapper.auth.user;
 
 import enterprise.framework.domain.auth.SysAuthUser;
-import enterprise.framework.mapper.auth.user.SysAuthUserGenerateSql;
 import org.apache.ibatis.annotations.InsertProvider;
 import org.apache.ibatis.annotations.Options;
 import org.apache.ibatis.annotations.Select;

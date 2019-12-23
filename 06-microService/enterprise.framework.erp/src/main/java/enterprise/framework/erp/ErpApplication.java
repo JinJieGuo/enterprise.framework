@@ -28,7 +28,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 
 @tk.mybatis.spring.annotation.MapperScan("enterprise.framework.mapper")
-@ComponentScan(basePackages = {"controller", "enterprise.framework.business", "common.datasource"})
+@ComponentScan(basePackages = {"controller", "enterprise.framework.business", "enterprise.framework.service", "common.datasource"})
 @SpringBootApplication(exclude = DataSourceAutoConfiguration.class) // 禁用springBoot自动配置的数据源，这样才能自定义数据源
 public class ErpApplication {
     public static void main(String[] args) {

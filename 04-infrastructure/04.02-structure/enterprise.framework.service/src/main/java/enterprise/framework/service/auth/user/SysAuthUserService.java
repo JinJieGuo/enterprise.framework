@@ -33,9 +33,25 @@ public interface SysAuthUserService {
     HttpResponse saveUser(SysAuthUser sysAuthUser);
 
     /**
+     * 更新用户
+     *
+     * @param sysAuthUser
+     * @return
+     */
+    HttpResponse updateUser(SysAuthUser sysAuthUser);
+
+    /**
      * 获取所有用户
      *
      * @return
      */
     HttpResponse listAllUser();
+
+    /**
+     * 根据条件获取用户集合
+     *
+     * @param sysAuthUser
+     * @return
+     */
+    HttpResponse listUserByParameters(SysAuthUser sysAuthUser);
 }

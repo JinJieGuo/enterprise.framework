@@ -67,6 +67,32 @@ public class SysAuthUserServiceImpl implements SysAuthUserService {
     }
 
     /**
+     * 更新用户
+     *
+     * @param sysAuthUser
+     * @return
+     */
+    public HttpResponse updateUser(SysAuthUser sysAuthUser) {
+        HttpResponse httpResponse = new HttpResponse();
+        try {
+            int response = sysAuthUserMapper.updateUser(sysAuthUser);
+            if (response > 0) {
+                httpResponse.status = HttpStatus.SUCCESS.value();
+                httpResponse.msg = "更新成功";
+                httpResponse.content = sysAuthUser;
+            } else {
+                httpResponse.status = HttpStatus.FAIL.value();
+                httpResponse.msg = "更新失败";
+            }
+            return httpResponse;
+        } catch (Exception error) {
+            httpResponse.status = HttpStatus.ERROR.value();
+            httpResponse.msg = "[类名:(" + this.getClass() + ")]" + "更新异常:" + error.getMessage();
+            return httpResponse;
+        }
+    }
+
+    /**
      * 获取所有用户
      *
      * @return
@@ -87,7 +113,33 @@ public class SysAuthUserServiceImpl implements SysAuthUserService {
             return httpResponse;
         } catch (Exception error) {
             httpResponse.status = HttpStatus.ERROR.value();
-            httpResponse.msg = "[类名:(" + this.getClass() + ")]" + "保存异常:" + error.getMessage();
+            httpResponse.msg = "[类名:(" + this.getClass() + ")]" + "查询异常:" + error.getMessage();
+            return httpResponse;
+        }
+    }
+
+    /**
+     * 根据条件获取用户集合
+     *
+     * @param sysAuthUser
+     * @return
+     */
+    public HttpResponse listUserByParameters(SysAuthUser sysAuthUser) {
+        HttpResponse httpResponse = new HttpResponse();
+        try {
+            List<SysAuthUser> response = sysAuthUserMapper.select(sysAuthUser);
+            if (response.size() > 0) {
+                httpResponse.status = HttpStatus.SUCCESS.value();
+                httpResponse.msg = "查询成功";
+                httpResponse.content = response;
+            } else {
+                httpResponse.status = HttpStatus.FAIL.value();
+                httpResponse.msg = "查询失败";
+            }
+            return httpResponse;
+        } catch (Exception error) {
+            httpResponse.status = HttpStatus.ERROR.value();
+            httpResponse.msg = "[类名:(" + this.getClass() + ")]" + "查询异常:" + error.getMessage();
             return httpResponse;
         }
     }

@@ -19,5 +19,69 @@
 
 package enterprise.framework.pojo.auth.user;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 public class SignInModel {
+    @JsonProperty(value = "user_id")
+    private String user_id;
+
+    @JsonProperty(value = "login_name")
+    private String login_name;
+
+    private String user_name;
+
+    @JsonProperty(value = "password")
+    private String password;
+
+    private String verify_code;
+
+    private String confirm_password;
+
+    public void setUserId(String userId) {
+        this.user_id = userId;
+    }
+
+    public String getUserId() {
+        return user_id;
+    }
+
+    public void setLoginName(String loginName) {
+        this.login_name = loginName;
+    }
+
+    public String getLoginName() {
+        return login_name;
+    }
+
+    public void setUserName(String userName) {
+        this.user_name = userName;
+    }
+
+    public String getUserName() {
+        return user_name;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
+    }
+
+    public String getPassword() {
+        return password;
+    }
+
+    public void setConfirmPassword(String confirmPassword) {
+        this.confirm_password = confirmPassword;
+    }
+
+    public String getConfirmPassword() {
+        return confirm_password;
+    }
+
+    public void setVerifyCode(String verifyCode) {
+        this.verify_code = verifyCode;
+    }
+
+    public String getVerifyCode() {
+        return verify_code;
+    }
 }
