@@ -1,0 +1,84 @@
+#程序启动端口
+server:
+  port: 8080
+  connectionTimeout: 180000
+#数据库地址
+spring:
+  datasource:
+    druid:
+      type: com.alibaba.druid.pool.DruidDataSource
+      initialSize: 1
+      minIdle: 3
+      maxActive: 20
+      maxWait: 60000
+      timeBetweenEvictionRunsMillis: 60000
+      minEvictableIdleTimeMillis: 30000
+      testWhileIdle: true
+      testOnBorrow: false
+      testOnReturn: false
+      poolPreparedStatements: true
+      maxPoolPreparedStatementPerConnectionSize: 20
+      # 配置监控统计拦截的filters，去掉后监控界面sql无法统计，'wall'用于防火墙
+      filters: stat,wall,slf4j
+      # 通过connectProperties属性来打开mergeSql功能；慢SQL记录
+      connectionProperties: druid.stat.mergeSql=true;druid.stat.slowSqlMillis=5000
+      # 合并多个DruidDataSource的监控数据
+      #useGlobalDataSourceStat: true
+    cbsBase:
+      url: jdbc:mysql://192.168.2.110:3306/db_cbs_base?useUnicode=true&characterEncoding=utf-8&useSSL=true&serverTimezone=UTC
+      username: root
+      password: Liang_0213
+      #      url: jdbc:mysql://172.18.0.11:58885/db_cbs_base?useUnicode=true&characterEncoding=utf-8&useSSL=true&serverTimezone=UTC
+      #      username: develop
+      #      password: chaboshigps
+      driverClassName: com.mysql.jdbc.Driver
+      validationQuery: select 'x'
+    mysql2:
+      url: jdbc:mysql://172.16.0.241:3306/db02?useUnicode=true&useSSL=false&characterEncoding=utf8
+      username: root
+      password: 1234
+      driverClassName: com.mysql.jdbc.Driver
+      validationQuery: select 'x'
+    mysql3:
+      url: jdbc:mysql://172.16.0.241:3306/db03?useUnicode=true&useSSL=false&characterEncoding=utf8
+      username: root
+      password: 1234
+      driverClassName: com.mysql.jdbc.Driver
+      validationQuery: select 'x'
+    # Redis服务器地址
+  redis:
+    host: 192.168.2.110
+    port: 6380
+    password: Liang_0213
+    jedis:
+      pool:
+        min-idle: 10
+        max-idle: 50
+        max-wait: 50
+
+    #服务治理
+  application:
+    name:
+      enterprise.framework.erp.auth
+  cloud:
+    consul:
+      host:
+        192.168.2.110 #192.168.2.110
+      port:
+        8500
+      discovery:
+        servername:
+          permission
+        hostname:
+          192.168.2.110
+        port:
+          8080
+        health-check-path:
+          /consul/health
+
+        # 分页配置
+pagehelper:
+  helper-dialect: mysql
+  reasonable: true
+  support-methods-arguments: true
+  params: count=countSql

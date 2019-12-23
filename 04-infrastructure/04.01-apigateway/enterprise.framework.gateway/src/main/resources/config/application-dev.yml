@@ -1,0 +1,66 @@
+server:
+  address: localhost
+  port: 8800
+  connectionTimeout: 180000
+spring:
+  application:
+    name: enterprise.framework.gateway
+  cloud:
+#    loadbalancer:
+#      ribbon:
+#        enabled: false
+    consul:
+      host: 192.168.2.110
+      port: 8500
+      discovery:
+        prefer-ip-address: true
+        healthCheckPath: /consul/health
+        hostname: 192.168.2.110
+        port: 8500
+    gateway:
+#      全局跨域不管用
+#      globalcors:
+#        corsConfigurations:
+#          '[/**]':
+#          allow-credentials: true
+#          allowed-origins:
+#            - "http://localhost:8800"
+#            - "http://localhost:8080"
+#            - "http://localhost:8889"
+#          allowed-headers: "*"
+#          allowed-methods:
+#            - GET
+#            - POST
+      discovery:
+        locator:
+          enabled: true
+          lower-case-service-id: true
+      routes:
+        - id: gatewayRoute
+          #          uri: http://localhost:8889
+          uri: http://localhost:8080
+          #          uri: lb://com-gps-erp-permission
+          predicates:
+            - Path=/erp/sys/**
+          #转发等级
+          filters:
+            - StripPrefix=2
+            # 开启权限认证
+            - Auth=true
+  # Redis服务器地址
+  redis:
+    host: 192.168.2.110
+    port: 6380
+    password: Liang_0213
+    jedis:
+      pool:
+        min-idle: 10
+        max-idle: 50
+        max-wait: 50
+mybatis:
+  configuration:
+    call-setters-on-nulls: true
+
+mybatis-plus:
+  configuration:
+    call-setters-on-nulls: true

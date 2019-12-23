@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+    <parent>
+        <groupId>org.springframework.boot</groupId>
+        <artifactId>spring-boot-starter-parent</artifactId>
+        <version>2.0.8.RELEASE</version>
+        <relativePath/> <!-- lookup parent from repository -->
+    </parent>
+
+    <groupId>enterprise.framework</groupId>
+    <artifactId>enterprise.framework</artifactId>
+    <packaging>pom</packaging>
+    <version>1.0.0.191223-ALPHA</version>
+    <modules>
+        <module>01-presentation/enterprise.framework.business</module>
+        <module>02-application/02.01-pojo/enterprise.framework.pojo</module>
+        <module>03-domain/enterprise.framework.domain</module>
+        <module>04-infrastructure/04.02-structure/enterprise.framework.service</module>
+        <module>04-infrastructure/04.02-structure/enterprise.framework.mapper</module>
+        <module>04-infrastructure/04.03-inside/enterprise.framework.utility</module>
+        <module>04-infrastructure/04.03-inside/enterprise.framework.core</module>
+        <module>06-microService/enterprise.framework.erp</module>
+        <module>02-application/02.01-pojo/enterprise.framework.pojo</module>
+    </modules>
+
+
+    <dependencies>
+        <dependency>
+            <groupId>org.jetbrains</groupId>
+            <artifactId>annotations</artifactId>
+            <version>RELEASE</version>
+            <scope>compile</scope>
+        </dependency>
+        <!--        <dependency>-->
+        <!--            <groupId>enterprise.framework</groupId>-->
+        <!--            <artifactId>enterprise.framework.business</artifactId>-->
+        <!--            <version>1.0.0.191223-ALPHA</version>-->
+        <!--        </dependency>-->
+        <!--        <dependency>-->
+        <!--            <groupId>enterprise.framework</groupId>-->
+        <!--            <artifactId>enterprise.framework.service</artifactId>-->
+        <!--            <version>1.0.0.191223-ALPHA</version>-->
+        <!--        </dependency>-->
+        <!--        <dependency>-->
+        <!--            <groupId>enterprise.framework</groupId>-->
+        <!--            <artifactId>enterprise.framework.mapper</artifactId>-->
+        <!--            <version>1.0.0.191223-ALPHA</version>-->
+        <!--        </dependency>-->
+        <!--        <dependency>-->
+        <!--            <groupId>enterprise.framework</groupId>-->
+        <!--            <artifactId>enterprise.framework.domain</artifactId>-->
+        <!--            <version>1.0.0.191223-ALPHA</version>-->
+        <!--        </dependency>-->
+        <dependency>
+            <groupId>enterprise</groupId>
+            <artifactId>framework</artifactId>
+            <version>1.0.1.191220-RELEASE</version>
+        </dependency>
+        <!--通用Mapper-->
+        <dependency>
+            <groupId>tk.mybatis</groupId>
+            <artifactId>mapper</artifactId>
+            <version>4.1.5</version>
+        </dependency>
+        <!--Json Object 开始-->
+        <dependency>
+            <groupId>com.alibaba</groupId>
+            <artifactId>fastjson</artifactId>
+            <version>1.2.37</version>
+        </dependency>
+        <!--Json Object 结束-->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-web</artifactId>
+        </dependency>
+        <!--        <dependency>-->
+        <!--            <groupId>org.springframework.cloud</groupId>-->
+        <!--            <artifactId>spring-cloud-starter-consul-discovery</artifactId>-->
+        <!--        </dependency>-->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-webflux</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-test</artifactId>
+            <scope>test</scope>
+        </dependency>
+    </dependencies>
+
+</project>
