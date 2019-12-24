@@ -23,8 +23,9 @@ import enterprise.framework.business.engine.Components;
 import enterprise.framework.business.engine.IScheduler;
 import enterprise.framework.core.http.HttpResponse;
 import enterprise.framework.core.token.TokenInfo;
-import enterprise.framework.pojo.auth.user.RegisterModel;
+import enterprise.framework.domain.auth.SysAuthUser;
 import enterprise.framework.pojo.auth.user.SignInModel;
+import enterprise.framework.pojo.auth.user.SysAuthUserVO;
 import enterprise.framework.service.auth.user.SysAuthUserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
@@ -46,13 +47,15 @@ public class PassportController {
     /**
      * 用户注册
      *
-     * @param registerModel
+     * @param sysAuthUserVO
      * @return
      */
     @ResponseBody
     @PostMapping("register")
-    public HttpResponse register(@RequestBody RegisterModel registerModel) {
-        return new HttpResponse();
+    public HttpResponse register(@RequestBody SysAuthUserVO sysAuthUserVO) throws Exception {
+        SysAuthUser sysAuthUser = new SysAuthUser();
+        sysAuthUser.setPassword(sysAuthUserVO.getIsDefaultPassword() == 1 ? "123456" : sysAuthUserVO.getPassword());
+        return businessScheduler.singleSignOnManager().instance().register(sysAuthUser);
     }
 
     /**
