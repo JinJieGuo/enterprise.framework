@@ -14,24 +14,22 @@
  *       11.Others:
  * EditResume:
  *	   Author				Date			  version			   ChangeContent 
- *		gl				 2019-12-19		        1.00					新建
+ *		gl				 2019-12-20		        1.00					新建
  *******************************************************************************/
 
-package controller.config;
+package enterprise.framework.pojo.config;
 
-import enterprise.framework.core.http.HttpResponse;
-import enterprise.framework.pojo.config.CategorySearchModel;
-import org.springframework.web.bind.annotation.*;
+import com.fasterxml.jackson.annotation.JsonProperty;
 
-@RestController
-@RequestMapping("/v1/category/")
-public class CategoryController {
+public class CategorySearchModel {
+//    @JsonProperty("parent_id")
+    private int parent_id;
 
+    public void setParent_id(int parent_id) {
+        this.parent_id = parent_id;
+    }
 
-    @ResponseBody
-    @PostMapping("getCategoryList")
-//    @RequestMapping(value = "getCategoryList", method = RequestMethod.POST)
-    public HttpResponse getCategoryList(@RequestBody CategorySearchModel categorySearchModel) {
-        return new HttpResponse();
+    public int getParent_id() {
+        return parent_id;
     }
 }

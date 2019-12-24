@@ -47,7 +47,7 @@ spring:
       validationQuery: select 'x'
     # Redis服务器地址
   redis:
-    host: 172.18.0.10
+    host: 192.168.2.110
     port: 6380
     password: Liang_0213
     jedis:
