@@ -23,9 +23,12 @@ import com.alibaba.fastjson.JSON;
 import enterprise.framework.core.http.HttpResponse;
 import enterprise.framework.core.http.HttpStatus;
 import enterprise.framework.core.redis.RedisHandler;
+import enterprise.framework.core.token.ITokenManager;
 import enterprise.framework.core.token.TokenInfo;
+import enterprise.framework.core.token.TokenManager;
 import enterprise.framework.domain.auth.SysAuthUser;
 import enterprise.framework.pojo.auth.user.SignInModel;
+import enterprise.framework.pojo.auth.user.SignOutModel;
 import enterprise.framework.service.auth.user.SysAuthUserService;
 import enterprise.framework.utility.security.Base64Utils;
 import enterprise.framework.utility.security.RSAUtils;
@@ -60,12 +63,55 @@ public class SingleSignOnHandler {
         this.redisTemplate = redisTemplate;
     }
 
+    @Autowired(required = false)
+    private void setSysAuthUserService(SysAuthUserService sysAuthUserService) {
+        SingleSignOnHandler.sysAuthUserService = sysAuthUserService;
+    }
+
+    /**
+     * 用户注册
+     *
+     * @param userInfo
+     * @return
+     */
+    public HttpResponse register(SysAuthUser userInfo) throws Exception {
+        HttpResponse httpResponse = new HttpResponse();
+        try {
+            Map<String, Object> keyMap = RSAUtils.genKeyPair(1024);
+            userInfo.setPassword(Base64Utils.encode(RSAUtils.decryptByPublicKey(userInfo.getPassword().getBytes("utf-8"), RSAUtils.getPublicKey(keyMap))));
+            HttpResponse response = sysAuthUserService.saveUser(userInfo);
+            if (response.status == HttpStatus.SUCCESS.value()) {
+                //用户信息保存成功后,为用户颁发令牌并写入缓存
+                ITokenManager tokenManager = new TokenManager();
+                TokenInfo tokenInfo = tokenManager.createToken((String) response.content, keyMap);
+                RedisHandler redisHandler = new RedisHandler(redisTemplate);
+                StrHandler strHandler = new StrHandler();
+                HttpResponse redisResponse = redisHandler.set("token_info:33", strHandler.toBinary(JSON.toJSONString(tokenInfo)));
+                if (redisResponse.status != HttpStatus.SUCCESS.value()) {
+                    redisResponse.msg = "用户保存成功,但令牌写入缓存失败:" + redisResponse.msg;
+                    return redisResponse;
+                }
+                httpResponse.msg = "用户保存成功,且已颁发令牌并已写入缓存";
+                httpResponse.status = HttpStatus.SUCCESS.value();
+                return httpResponse;
+            }
+            httpResponse.msg = "用户保存失败";
+            httpResponse.status = HttpStatus.FAIL.value();
+            return httpResponse;
+        } catch (Exception error) {
+            httpResponse.status = HttpStatus.ERROR.value();
+            httpResponse.msg = error.getMessage();
+            return httpResponse;
+        }
+    }
+
     /**
      * 单点登录
+     *
      * @param signInModel
      * @return
      */
-    public Map<String, Object> SingleSignon(SignInModel signInModel) {
+    public Map<String, Object> singleSignOn(SignInModel signInModel) {
         Map<String, Object> map = new HashMap<>();
         HttpResponse httpResponse = new HttpResponse();
         try {
@@ -95,13 +141,6 @@ public class SingleSignOnHandler {
                 return map;
             }
             SysAuthUser tempUser = userList.get(0);
-            Object userRedis = redisHandler.get("user_info:" + tempUser.getUserId() + "");
-            if (userRedis != null) {
-                httpResponse.msg = "用户已登录,请勿重复登录!";
-                httpResponse.status = HttpStatus.SUCCESS.value();
-                map.put("response", httpResponse);
-                return map;
-            }
 
             Object tokenInfoByte = redisHandler.get("token_info:" + tempUser.getUserId() + "");
             if (tokenInfoByte == null) {
@@ -115,14 +154,23 @@ public class SingleSignOnHandler {
             TokenInfo tokenInfo = JSON.parseObject(tokenInfoJson, TokenInfo.class);
             SysAuthUser userInfo = tempUser;
 
+            Object userRedis = redisHandler.get("user_info:" + tempUser.getUserId() + "");
+            if (userRedis != null) {
+                httpResponse.msg = "用户已登录,请勿重复登录!";
+                httpResponse.status = HttpStatus.SUCCESS.value();
+                map.put("response", httpResponse);
+                map.put("token_info", tokenInfo);
+                return map;
+            }
+
             if (userInfo != null) {
                 //验证密码
                 byte[] userPasswordByte = Base64Utils.decode(userInfo.getPassword());
                 byte[] passwordStr = RSAUtils.decryptByPrivateKey(userPasswordByte, tokenInfo.getPrivate_key());
                 String userPassword = new String(passwordStr, "utf-8");
                 if (userPassword.equals(signInModel.getPassword())) {
-                    boolean userInfoRedisResult = redisHandler.set("user_info:" + userInfo.getUserId() + "", strHandler.toBinary(JSON.toJSONString(userInfo)));
-                    if (userInfoRedisResult) {
+                    HttpResponse userInfoRedisResult = redisHandler.set("user_info:" + userInfo.getUserId() + "", strHandler.toBinary(JSON.toJSONString(userInfo)));
+                    if (userInfoRedisResult.status == HttpStatus.SUCCESS.value()) {
                         //验证成功,记录token
                         map.put("token_info", tokenInfo);
                         httpResponse.msg = "登录成功";
@@ -144,6 +192,49 @@ public class SingleSignOnHandler {
             httpResponse.msg = error.getMessage();
             map.put("response", httpResponse);
             return map;
+        }
+    }
+
+    /**
+     * 用户登出
+     *
+     * @param signOutModel
+     * @return
+     */
+    public HttpResponse signOut(SignOutModel signOutModel) {
+        HttpResponse httpResponse = new HttpResponse();
+        try {
+            RedisHandler redisHandler = new RedisHandler(redisTemplate);
+            String userKey = "user_info" + signOutModel.getUserId();
+            HttpResponse userInfoResponse = redisHandler.get(userKey);
+            if (userInfoResponse.status == HttpStatus.SUCCESS.value() && userInfoResponse.content != null) {
+                HttpResponse removeUserResponse = redisHandler.del(userKey);
+                if (removeUserResponse.status == HttpStatus.SUCCESS.value()) {
+                    Map<String, Object> keyMap = RSAUtils.genKeyPair(1024);
+                    ITokenManager tokenManager = new TokenManager();
+                    StrHandler strHandler = new StrHandler();
+                    TokenInfo tokenInfo = tokenManager.createToken(signOutModel.getUserId(), keyMap);
+                    HttpResponse tokenRedisResult = redisHandler.set("token_info:" + signOutModel.getUserId(), strHandler.toBinary(JSON.toJSONString(tokenInfo)));
+                    if (tokenRedisResult.status == HttpStatus.SUCCESS.value()) {
+                        httpResponse.status = HttpStatus.SUCCESS.value();
+                        httpResponse.msg = "用户登出成功且重新颁发令牌";
+                        return httpResponse;
+                    }
+                    httpResponse.status = HttpStatus.FAIL.value();
+                    httpResponse.msg = "用户登出成功,令牌颁发失败!";
+                    return httpResponse;
+                } else {
+                    httpResponse.status = HttpStatus.FAIL.value();
+                    httpResponse.msg = "用户登出失败";
+                    return httpResponse;
+                }
+            } else {
+                return userInfoResponse;
+            }
+        } catch (Exception error) {
+            httpResponse.status = HttpStatus.ERROR.value();
+            httpResponse.msg = "用户登出异常";
+            return httpResponse;
         }
     }
 }

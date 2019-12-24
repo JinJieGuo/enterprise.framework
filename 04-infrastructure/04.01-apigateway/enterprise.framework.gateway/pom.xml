@@ -25,9 +25,14 @@
 
   <dependencies>
     <dependency>
-      <groupId>enterprise</groupId>
-      <artifactId>framework</artifactId>
-      <version>1.0.1.191220-RELEASE</version>
+      <groupId>enterprise.framework</groupId>
+      <artifactId>enterprise.framework.core</artifactId>
+      <version>1.0.1.191224-RELEASE</version>
+    </dependency>
+    <dependency>
+      <groupId>enterprise.framework</groupId>
+      <artifactId>enterprise.framework.utility</artifactId>
+      <version>1.0.1.191224-RELEASE</version>
     </dependency>
     <dependency>
       <groupId>com.alibaba</groupId>

@@ -19,6 +19,8 @@
 
 package enterprise.framework.core.redis;
 
+import enterprise.framework.core.http.HttpResponse;
+import enterprise.framework.core.http.HttpStatus;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -94,13 +96,27 @@ public class RedisHandler {
      * @param key 可以传一个值 或多个
      */
     @SuppressWarnings("unchecked")
-    public void del(String... key) {
-        if (key != null && key.length > 0) {
-            if (key.length == 1) {
-                redisTemplate.delete(key[0]);
+    public HttpResponse del(String... key) {
+        HttpResponse httpResponse = new HttpResponse();
+        try {
+            if (key != null && key.length > 0) {
+                if (key.length == 1) {
+                    redisTemplate.delete(key[0]);
+                } else {
+                    redisTemplate.delete(CollectionUtils.arrayToList(key));
+                }
+                httpResponse.msg = key + "缓存移除成功";
+                httpResponse.status = HttpStatus.SUCCESS.value();
+                return httpResponse;
             } else {
-                redisTemplate.delete(CollectionUtils.arrayToList(key));
+                httpResponse.msg = key + "缓存移除失败,key不能为空";
+                httpResponse.status = HttpStatus.FAIL.value();
+                return httpResponse;
             }
+        } catch (Exception error) {
+            httpResponse.msg = error.getMessage();
+            httpResponse.status = HttpStatus.ERROR.value();
+            return httpResponse;
         }
     }
 
@@ -112,9 +128,36 @@ public class RedisHandler {
      * @param key 键
      * @return 值
      */
-    public Object get(String key) {
-        return key == null ? null : redisTemplate.opsForValue().get(key);
+    public HttpResponse get(String key) {
+        HttpResponse httpResponse = new HttpResponse();
+        try {
+            httpResponse.content = key == null ? null : redisTemplate.opsForValue().get(key);
+            httpResponse.status = HttpStatus.SUCCESS.value();
+            httpResponse.msg = key + ":缓存读取成功";
+            return httpResponse;
+        } catch (Exception error) {
+            httpResponse.status = HttpStatus.ERROR.value();
+            httpResponse.msg = error.getMessage();
+            return httpResponse;
+        }
     }
+
+//    /**
+//     * 普通缓存放入
+//     *
+//     * @param key   键
+//     * @param value 值
+//     * @return true成功 false失败
+//     */
+//    public boolean set(String key, Object value) {
+//        try {
+//            redisTemplate.opsForValue().set(key, value);
+//            return true;
+//        } catch (Exception e) {
+//            log.error("redis error: ", e);
+//            return false;
+//        }
+//    }
 
     /**
      * 普通缓存放入
@@ -123,15 +166,19 @@ public class RedisHandler {
      * @param value 值
      * @return true成功 false失败
      */
-    public boolean set(String key, Object value) {
+    public HttpResponse set(String key, Object value) {
+        HttpResponse httpResponse = new HttpResponse();
         try {
             redisTemplate.opsForValue().set(key, value);
-            return true;
+            httpResponse.msg = "缓存写入成功";
+            httpResponse.status = HttpStatus.SUCCESS.value();
+            return httpResponse;
         } catch (Exception e) {
             log.error("redis error: ", e);
-            return false;
+            httpResponse.msg = "缓存写入异常:" + e.getMessage();
+            httpResponse.status = HttpStatus.ERROR.value();
+            return httpResponse;
         }
-
     }
 
     /**

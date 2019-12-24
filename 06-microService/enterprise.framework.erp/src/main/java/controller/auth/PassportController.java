@@ -22,11 +22,17 @@ package controller.auth;
 import enterprise.framework.business.engine.Components;
 import enterprise.framework.business.engine.IScheduler;
 import enterprise.framework.core.http.HttpResponse;
+import enterprise.framework.core.token.TokenInfo;
 import enterprise.framework.pojo.auth.user.RegisterModel;
 import enterprise.framework.pojo.auth.user.SignInModel;
 import enterprise.framework.service.auth.user.SysAuthUserService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.Map;
 
 @RestController
 @RequestMapping("/v1/auth/passport/")
@@ -35,7 +41,7 @@ public class PassportController {
     @Autowired(required = false)
     private SysAuthUserService sysAuthUserService;
 
-    IScheduler scheduler = new Components();
+    IScheduler businessScheduler = new Components();
 
     /**
      * 用户注册
@@ -57,9 +63,18 @@ public class PassportController {
      */
     @ResponseBody
     @RequestMapping(value = "signIn", method = RequestMethod.POST)
-    public HttpResponse signIn(@RequestBody SignInModel signInModel) {
-//        sysAuthUserService.listAllUser()
-        return new HttpResponse();
+    public ResponseEntity<HttpResponse> signIn(@RequestBody SignInModel signInModel) {
+        HttpHeaders responseHeaders = new HttpHeaders();
+        Map<String, Object> map = businessScheduler.singleSignOnManager().instance().singleSignOn(signInModel);
+        HttpResponse httpResponse = (HttpResponse) map.get("response");
+        if (httpResponse.status == enterprise.framework.core.http.HttpStatus.SUCCESS.value()) {
+            TokenInfo tokenInfo = (TokenInfo) map.get("token_info");
+            if (tokenInfo != null) {//# BUG => 用户重复登录时,分发上一次token与公钥
+                responseHeaders.set("authorization", tokenInfo.getToken_str());
+                responseHeaders.set("public_key", tokenInfo.getPublic_key());
+            }
+        }
+        return new ResponseEntity(httpResponse, responseHeaders, HttpStatus.OK);
     }
 
     /**

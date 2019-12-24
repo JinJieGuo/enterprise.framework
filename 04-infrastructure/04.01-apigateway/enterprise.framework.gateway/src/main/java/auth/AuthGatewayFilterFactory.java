@@ -20,6 +20,7 @@
 package auth;
 
 import com.alibaba.fastjson.JSON;
+import enterprise.framework.core.http.HttpResponse;
 import enterprise.framework.core.redis.RedisHandler;
 import enterprise.framework.core.token.TokenInfo;
 import enterprise.framework.utility.security.Base64Utils;
@@ -93,7 +94,7 @@ public class AuthGatewayFilterFactory extends AbstractGatewayFilterFactory<AuthG
                 }
 
                 String uri = exchange.getRequest().getURI().toString().toLowerCase();
-                if (uri.contains("register") || uri.contains("login")) {
+                if (uri.contains("register") || uri.contains("login") || uri.contains("signin")) {
 //                    ParametersModel parametersModel = JSON.parseObject((String) requestBody, ParametersModel.class);
 //                    String bodyStr = new String(RSAUtils.decryptByPrivateKey(Base64Utils.decode(parametersModel.getParameters()), tokenInfo.getPrivate_key()));
 //                    //获取requestBody
@@ -127,7 +128,14 @@ public class AuthGatewayFilterFactory extends AbstractGatewayFilterFactory<AuthG
                 RedisHandler redisHandler = new RedisHandler(redisTemplate);
                 StrHandler strHandler = new StrHandler();
                 //token不为空时,先获取redis中的token字节,转为json字符串,并反序列化
-                TokenInfo tokenInfo = JSON.parseObject(strHandler.binaryToStr((String) redisHandler.get("token_info:" + user_id)), TokenInfo.class);
+                HttpResponse tokenInfoRedis = redisHandler.get("token_info:" + user_id);
+                if (tokenInfoRedis.status != enterprise.framework.core.http.HttpStatus.SUCCESS.value()) {
+                    //token不与缓存中的token相同,返回405
+                    response.setStatusCode(HttpStatus.METHOD_NOT_ALLOWED);
+                    return response.setComplete();
+                }
+                String tokenInfoByteStr = (String) tokenInfoRedis.content;
+                TokenInfo tokenInfo = JSON.parseObject(strHandler.binaryToStr(tokenInfoByteStr), TokenInfo.class);
 
                 if (!token.equals(tokenInfo.getToken_str())) {
                     //token不与缓存中的token相同,返回405

@@ -21,7 +21,9 @@ package enterprise.framework.service.auth.user;
 
 import enterprise.framework.domain.auth.SysAuthUser;
 import enterprise.framework.core.http.HttpResponse;
+import org.springframework.stereotype.Component;
 
+@Component
 public interface SysAuthUserService {
 
     /**

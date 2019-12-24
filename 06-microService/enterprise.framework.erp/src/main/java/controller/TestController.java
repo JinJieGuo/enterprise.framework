@@ -20,6 +20,7 @@
 package controller;
 
 import enterprise.framework.business.engine.Handler;
+import enterprise.framework.core.http.HttpResponse;
 import enterprise.framework.core.redis.RedisHandler;
 import org.jetbrains.annotations.NotNull;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -45,9 +46,10 @@ public class TestController {
         this.redisTemplate = redisTemplate;
     }
     @RequestMapping("test")
-    public void Test(){
+    public HttpResponse Test(){
         RedisHandler redisHandler = new RedisHandler(redisTemplate);
         Handler handler = new Handler();
         handler.HandlerTest();
+        return new HttpResponse();
     }
 }

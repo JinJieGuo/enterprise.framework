@@ -49,7 +49,7 @@ spring:
             - Auth=true
   # Redis服务器地址
   redis:
-    host: 192.168.2.110
+    host: 172.18.0.10
     port: 6380
     password: Liang_0213
     jedis:

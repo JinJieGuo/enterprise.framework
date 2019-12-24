@@ -113,7 +113,7 @@ public class AuthTest {
             if (result.status == HttpStatus.SUCCESS.value()) {
                 ITokenManager tokenManager = new TokenManager();
                 TokenInfo tokenInfo = tokenManager.createToken(user.getUserId().toString(), keyMap);
-                boolean tokenRedisResult = redisHandler.set("token_info:" + user.getUserId(), strHandler.toBinary(JSON.toJSONString(tokenInfo)));
+                HttpResponse tokenRedisResult = redisHandler.set("token_info:" + user.getUserId(), strHandler.toBinary(JSON.toJSONString(tokenInfo)));
             }
         } catch (Exception error) {
 
