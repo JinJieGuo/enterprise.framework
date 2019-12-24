@@ -2,15 +2,46 @@
 
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
-  <parent>
-    <artifactId>enterprise.framework</artifactId>
+<!--    <parent>-->
+<!--        <artifactId>enterprise.framework</artifactId>-->
+<!--        <groupId>enterprise.framework</groupId>-->
+<!--        <version>1.0.0.191223-ALPHA</version>-->
+<!--    </parent>-->
+    <modelVersion>4.0.0</modelVersion>
+
     <groupId>enterprise.framework</groupId>
-    <version>1.0.0.191223-ALPHA</version>
-  </parent>
-  <modelVersion>4.0.0</modelVersion>
+    <artifactId>enterprise.framework.utility</artifactId>
+    <version>1.0.1.191224-RELEASE</version>
 
-  <artifactId>enterprise.framework.utility</artifactId>
-
-  <name>enterprise.framework.utility</name>
-
+    <name>enterprise.framework.utility</name>
+    <distributionManagement>
+        <repository>
+            <!--ID可以随便写，但是要与maven的setting文件中一致-->
+            <id>releases</id>
+            <!--指向仓库类型为hosted(宿主仓库）的储存类型为Release的仓库-->
+            <url>http://172.17.202.122:8081/repository/enterprise.framework/</url>
+        </repository>
+    </distributionManagement>
+    <dependencies>
+        <!--Redis 结束-->
+        <!--Base 64 加密开始-->
+        <dependency>
+            <groupId>org.bouncycastle</groupId>
+            <artifactId>bcprov-jdk16</artifactId>
+            <version>1.45</version>
+        </dependency>
+        <!--Base 64 加密结束-->
+        <!--Token-->
+        <dependency>
+            <groupId>io.jsonwebtoken</groupId>
+            <artifactId>jjwt</artifactId>
+            <version>0.9.0</version>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-context</artifactId>
+            <version>5.2.2.RELEASE</version>
+            <scope>compile</scope>
+        </dependency>
+    </dependencies>
 </project>

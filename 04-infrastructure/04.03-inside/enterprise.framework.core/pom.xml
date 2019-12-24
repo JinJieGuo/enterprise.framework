@@ -2,15 +2,90 @@
 
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
-    <parent>
-        <artifactId>enterprise.framework</artifactId>
-        <groupId>enterprise.framework</groupId>
-        <version>1.0.0.191223-ALPHA</version>
-    </parent>
+    <!--    <parent>-->
+    <!--        <artifactId>enterprise.framework</artifactId>-->
+    <!--        <groupId>enterprise.framework</groupId>-->
+    <!--        <version>1.0.0.191223-ALPHA</version>-->
+    <!--    </parent>-->
     <modelVersion>4.0.0</modelVersion>
-
+    <groupId>enterprise.framework</groupId>
     <artifactId>enterprise.framework.core</artifactId>
+    <version>1.0.1.191224-RELEASE</version>
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <configuration>
+                    <source>6</source>
+                    <target>6</target>
+                </configuration>
+            </plugin>
+        </plugins>
+    </build>
 
     <name>enterprise.framework.core</name>
+    <properties>
+        <java.version>1.8</java.version>
+        <!-- redis 版本 -->
+        <redis.version>2.9.0</redis.version>
+        <spring.redis.version>2.0.10.RELEASE</spring.redis.version>
+    </properties>
+    <distributionManagement>
+        <repository>
+            <!--ID可以随便写，但是要与maven的setting文件中一致-->
+            <id>releases</id>
+            <!--指向仓库类型为hosted(宿主仓库）的储存类型为Release的仓库-->
+            <url>http://172.17.202.122:8081/repository/enterprise.framework/</url>
+        </repository>
+    </distributionManagement>
 
+    <dependencies>
+        <dependency>
+            <groupId>ch.qos.logback</groupId>
+            <artifactId>logback-classic</artifactId>
+            <version>1.2.3</version>
+        </dependency>
+        <!--  redis -->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-data-redis</artifactId>
+            <version>2.1.8.RELEASE</version>
+        </dependency>
+        <dependency>
+            <groupId>redis.clients</groupId>
+            <artifactId>jedis</artifactId>
+            <version>${redis.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.data</groupId>
+            <artifactId>spring-data-redis</artifactId>
+            <version>${spring.redis.version}</version>
+        </dependency>
+        <!--Redis 结束-->
+        <!--Token-->
+        <dependency>
+            <groupId>io.jsonwebtoken</groupId>
+            <artifactId>jjwt</artifactId>
+            <version>0.9.0</version>
+        </dependency>
+        <!--Json-->
+        <dependency>
+            <groupId>com.alibaba</groupId>
+            <artifactId>fastjson</artifactId>
+            <version>1.2.37</version>
+        </dependency>
+        <dependency>
+            <groupId>enterprise.framework</groupId>
+            <artifactId>enterprise.framework.utility</artifactId>
+            <version>1.0.1.191224-RELEASE</version>
+            <scope>compile</scope>
+        </dependency>
+
+        <!--        <dependency>-->
+<!--            <groupId>org.springframework.boot</groupId>-->
+<!--            <artifactId>spring-boot-starter-test</artifactId>-->
+<!--            <scope>test</scope>-->
+<!--        </dependency>-->
+    </dependencies>
 </project>
