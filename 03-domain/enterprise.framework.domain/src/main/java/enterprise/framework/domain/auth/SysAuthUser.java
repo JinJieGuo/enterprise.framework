@@ -19,6 +19,7 @@
 
 package enterprise.framework.domain.auth;
 
+import enterprise.framework.pojo.auth.user.SysAuthUserVO;
 import enterprise.framework.utility.database.DbBaseDO;
 import enterprise.framework.utility.database.PrimaryKey;
 import enterprise.framework.utility.database.Table;
@@ -35,6 +36,24 @@ import java.util.Date;
 @Table("sys_auth_user")
 @Component
 public class SysAuthUser extends DbBaseDO {
+
+    public SysAuthUser() {
+
+    }
+
+    public SysAuthUser(SysAuthUserVO sysAuthUserVO) {
+        this.login_name = sysAuthUserVO.getLoginName();
+        this.password = sysAuthUserVO.getIsDefaultPassword() == 1 ? "123456" : sysAuthUserVO.getPassword();
+        this.nick_name = sysAuthUserVO.getNickName();
+        this.real_name = sysAuthUserVO.getRealName();
+        this.head_portrait = sysAuthUserVO.getHeadPortrait();
+        this.major = sysAuthUserVO.getMajor();
+        this.classes = sysAuthUserVO.getClasses();
+        this.stu_number = sysAuthUserVO.getStuNumber();
+        this.email = sysAuthUserVO.getEmail();
+        this.phone = sysAuthUserVO.getPhone();
+        this.job = sysAuthUserVO.getJob();
+    }
 
     @PrimaryKey("user_id")
     private Integer user_id;

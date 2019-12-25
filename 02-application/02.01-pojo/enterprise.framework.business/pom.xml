@@ -11,11 +11,6 @@
     <packaging>jar</packaging>
     <dependencies>
 
-<!--        <dependency>-->
-<!--            <groupId>enterprise.framework</groupId>-->
-<!--            <artifactId>enterprise.framework.business</artifactId>-->
-<!--            <version>1.0.0.191223-ALPHA</version>-->
-<!--        </dependency>-->
         <dependency>
             <groupId>enterprise.framework</groupId>
             <artifactId>enterprise.framework.service</artifactId>

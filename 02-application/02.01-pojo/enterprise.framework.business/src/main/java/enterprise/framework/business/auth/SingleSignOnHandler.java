@@ -39,10 +39,7 @@ import org.springframework.data.redis.serializer.RedisSerializer;
 import org.springframework.data.redis.serializer.StringRedisSerializer;
 import org.springframework.stereotype.Component;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 @Component
 public class SingleSignOnHandler {
@@ -83,10 +80,11 @@ public class SingleSignOnHandler {
             if (response.status == HttpStatus.SUCCESS.value()) {
                 //用户信息保存成功后,为用户颁发令牌并写入缓存
                 ITokenManager tokenManager = new TokenManager();
-                TokenInfo tokenInfo = tokenManager.createToken((String) response.content, keyMap);
+                String userId = (String) response.content;
+                TokenInfo tokenInfo = tokenManager.createToken(userId, keyMap);
                 RedisHandler redisHandler = new RedisHandler(redisTemplate);
                 StrHandler strHandler = new StrHandler();
-                HttpResponse redisResponse = redisHandler.set("token_info:33", strHandler.toBinary(JSON.toJSONString(tokenInfo)));
+                HttpResponse redisResponse = redisHandler.set("token_info:" + userId, strHandler.toBinary(JSON.toJSONString(tokenInfo)));
                 if (redisResponse.status != HttpStatus.SUCCESS.value()) {
                     redisResponse.msg = "用户保存成功,但令牌写入缓存失败:" + redisResponse.msg;
                     return redisResponse;
@@ -176,6 +174,9 @@ public class SingleSignOnHandler {
                         httpResponse.msg = "登录成功";
                         httpResponse.status = HttpStatus.SUCCESS.value();
                         httpResponse.content = userInfo;
+                        userInfo.setLoginCount(userInfo.getLoginCount() + 1);
+                        userInfo.setLastLoginTime(new Date());
+                        sysAuthUserService.updateUser(userInfo);
                     } else {
                         httpResponse.msg = "用户信息缓存失败";
                         httpResponse.status = HttpStatus.ERROR.value();
@@ -183,6 +184,8 @@ public class SingleSignOnHandler {
                 } else {
                     httpResponse.msg = "账户名或密码错误,请重新输入!";
                     httpResponse.status = HttpStatus.ERROR.value();
+                    userInfo.setPwdErrorCount(userInfo.getPwdErrorCount() + 1);
+                    sysAuthUserService.updateUser(userInfo);
                 }
             }
             map.put("response", httpResponse);

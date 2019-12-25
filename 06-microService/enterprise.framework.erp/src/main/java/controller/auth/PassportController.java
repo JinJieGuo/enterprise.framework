@@ -51,10 +51,9 @@ public class PassportController {
      * @return
      */
     @ResponseBody
-    @PostMapping("register")
+    @PostMapping(value = "register")
     public HttpResponse register(@RequestBody SysAuthUserVO sysAuthUserVO) throws Exception {
-        SysAuthUser sysAuthUser = new SysAuthUser();
-        sysAuthUser.setPassword(sysAuthUserVO.getIsDefaultPassword() == 1 ? "123456" : sysAuthUserVO.getPassword());
+        SysAuthUser sysAuthUser = new SysAuthUser(sysAuthUserVO);
         return businessScheduler.singleSignOnManager().instance().register(sysAuthUser);
     }
 

@@ -3,16 +3,16 @@
 该版本为企业管理平台第三版(Java版)  
 第一版:ASP.NET MVC EF 领域驱动  
 第二版:前后端分离 ASP.NET WebApi Dapper + angular.js  
-第三版:前后端分离 ASP.NET 微服务架构/java + angular 8  
+第三版:前后端分离 ASP.NET/java 微服务架构 + angular 8  
 
 ## 01.目录结构  
 #####├── 01- presentation  
 #####├── 02- application
 #####│　　├── enterprise.framework.business
 #####│　　└── enterprise.framework.pojo
-#####├── 03-domain
+#####├── 03- domain
 #####│　　└── enterprise.framework.domain
-#####├── 04-infrastructure
+#####├── 04- infrastructure
 #####│　　├── 04.01-apigateway
 #####│　　│　　└── enterprise.framework.gateway
 #####│　　├── 04.02-structure
@@ -23,14 +23,14 @@
 #####│　　│　　└── enterprise.framework.utility
 #####├── 05-communication
 #####├── 06-microService
-#####└── └──　└── enterprise.framework.erp
+#####└── └──　└── enterprise.framework.erp    
 
 #####├── 01- 展示层  
 #####├── 02- 全局
-#####│　　├── enterprise.framework.business
-#####│　　└── enterprise.framework.pojo
+#####│　　├── 业务核心
+#####│　　└── 业务模型
 #####├── 03- 领域模型
-#####│　　└── enterprise.framework.domain
+#####│　　└── 数据模型    
 #####├── 04- 基础设施
 #####│　　├── 04.01- api网关
 #####│　　│　　└── 网关
