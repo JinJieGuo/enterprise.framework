@@ -77,8 +77,6 @@ spring:
           /consul/health
 
         # 分页配置
-  resources:
-    static-locations: classpath:static/,file:static/
 pagehelper:
   helper-dialect: mysql
   reasonable: true

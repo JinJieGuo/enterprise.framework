@@ -25,12 +25,12 @@ spring:
       # 合并多个DruidDataSource的监控数据
       #useGlobalDataSourceStat: true
     cbsBase:
-      url: jdbc:mysql://192.168.2.110:3306/enterprise_erp?useUnicode=true&characterEncoding=utf-8&useSSL=true&serverTimezone=UTC
-      username: root
-      password: Liang_0213
-      #      url: jdbc:mysql://172.18.0.11:58885/db_cbs_base?useUnicode=true&characterEncoding=utf-8&useSSL=true&serverTimezone=UTC
-      #      username: develop
-      #      password: chaboshigps
+      #      url: jdbc:mysql://192.168.2.110:3306/enterprise_erp?useUnicode=true&characterEncoding=utf-8&useSSL=true&serverTimezone=UTC
+      #      username: root
+      #      password: Liang_0213
+      url: jdbc:mysql://172.18.0.11:58885/db_cbs_base?useUnicode=true&characterEncoding=utf-8&useSSL=true&serverTimezone=UTC
+      username: develop
+      password: chaboshigps
       driverClassName: com.mysql.jdbc.Driver
       validationQuery: select 'x'
     mysql2:
@@ -47,7 +47,7 @@ spring:
       validationQuery: select 'x'
     # Redis服务器地址
   redis:
-    host: 192.168.2.110
+    host: 172.18.0.11
     port: 6380
     password: Liang_0213
     jedis:
@@ -63,22 +63,20 @@ spring:
   cloud:
     consul:
       host:
-        192.168.2.110 #192.168.2.110
+        172.18.0.11 #192.168.2.110
       port:
         8500
       discovery:
         servername:
           permission
         hostname:
-          192.168.2.110
+          172.18.0.11
         port:
           8080
         health-check-path:
           /consul/health
 
         # 分页配置
-  resources:
-    static-locations: classpath:static/,file:static/
 pagehelper:
   helper-dialect: mysql
   reasonable: true

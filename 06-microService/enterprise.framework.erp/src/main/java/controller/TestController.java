@@ -22,13 +22,18 @@ package controller;
 import enterprise.framework.business.engine.Handler;
 import enterprise.framework.core.http.HttpResponse;
 import enterprise.framework.core.redis.RedisHandler;
+import enterprise.framework.utility.generaltools.YmlPropUtils;
 import org.jetbrains.annotations.NotNull;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.data.redis.serializer.RedisSerializer;
 import org.springframework.data.redis.serializer.StringRedisSerializer;
+import org.springframework.util.ResourceUtils;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+
+import java.io.File;
+import java.io.FileNotFoundException;
 
 @RestController
 @RequestMapping("/erp/v1/test")
@@ -46,10 +51,16 @@ public class TestController {
         this.redisTemplate = redisTemplate;
     }
     @RequestMapping("test")
-    public HttpResponse Test(){
+    public HttpResponse Test() throws FileNotFoundException {
         RedisHandler redisHandler = new RedisHandler(redisTemplate);
         Handler handler = new Handler();
         handler.HandlerTest();
+        File file = new File(ResourceUtils.getURL("classpath:").getPath());
+        String path1 = System.getProperty("user.dir");
+        String path = file.getAbsolutePath();
+        Object property = YmlPropUtils.getInstance().getProperty("spring.datasource.type");
+        System.out.println(property);
         return new HttpResponse();
+
     }
 }
