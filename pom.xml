@@ -15,15 +15,14 @@
     <packaging>pom</packaging>
     <version>1.0.0.191223-ALPHA</version>
     <modules>
-        <module>01-presentation/enterprise.framework.business</module>
-        <module>02-application/02.01-pojo/enterprise.framework.pojo</module>
+        <module>02-application/enterprise.framework.business</module>
+        <module>02-application/enterprise.framework.pojo</module>
         <module>03-domain/enterprise.framework.domain</module>
         <module>04-infrastructure/04.02-structure/enterprise.framework.service</module>
         <module>04-infrastructure/04.02-structure/enterprise.framework.mapper</module>
         <module>04-infrastructure/04.03-inside/enterprise.framework.utility</module>
         <module>04-infrastructure/04.03-inside/enterprise.framework.core</module>
         <module>06-microService/enterprise.framework.erp</module>
-        <module>02-application/02.01-pojo/enterprise.framework.pojo</module>
     </modules>
 
 
