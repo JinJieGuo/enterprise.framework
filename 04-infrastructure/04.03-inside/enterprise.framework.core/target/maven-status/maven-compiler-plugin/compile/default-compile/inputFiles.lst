@@ -1,4 +1,7 @@
 E:\02_OpenSource\16_Enterprise.Framework\enterprise.framework\04-infrastructure\04.03-inside\enterprise.framework.core\src\main\java\enterprise\framework\core\engine\IScheduler.java
+E:\02_OpenSource\16_Enterprise.Framework\enterprise.framework\04-infrastructure\04.03-inside\enterprise.framework.core\src\main\java\enterprise\framework\core\rabbitmq\MQHandler.java
+E:\02_OpenSource\16_Enterprise.Framework\enterprise.framework\04-infrastructure\04.03-inside\enterprise.framework.core\src\main\java\enterprise\framework\core\rabbitmq\MQManager.java
+E:\02_OpenSource\16_Enterprise.Framework\enterprise.framework\04-infrastructure\04.03-inside\enterprise.framework.core\src\main\java\enterprise\framework\core\rabbitmq\RabbitMq.java
 E:\02_OpenSource\16_Enterprise.Framework\enterprise.framework\04-infrastructure\04.03-inside\enterprise.framework.core\src\main\java\enterprise\framework\core\token\HttpSourceEnum.java
 E:\02_OpenSource\16_Enterprise.Framework\enterprise.framework\04-infrastructure\04.03-inside\enterprise.framework.core\src\main\java\enterprise\framework\core\token\TokenManager.java
 E:\02_OpenSource\16_Enterprise.Framework\enterprise.framework\04-infrastructure\04.03-inside\enterprise.framework.core\src\main\java\enterprise\framework\core\token\JwtInfo.java
@@ -7,7 +10,9 @@ E:\02_OpenSource\16_Enterprise.Framework\enterprise.framework\04-infrastructure\
 E:\02_OpenSource\16_Enterprise.Framework\enterprise.framework\04-infrastructure\04.03-inside\enterprise.framework.core\src\main\java\enterprise\framework\core\engine\BaseScheduler.java
 E:\02_OpenSource\16_Enterprise.Framework\enterprise.framework\04-infrastructure\04.03-inside\enterprise.framework.core\src\main\java\enterprise\framework\core\http\HttpStatus.java
 E:\02_OpenSource\16_Enterprise.Framework\enterprise.framework\04-infrastructure\04.03-inside\enterprise.framework.core\src\main\java\enterprise\framework\core\http\HttpResponse.java
+E:\02_OpenSource\16_Enterprise.Framework\enterprise.framework\04-infrastructure\04.03-inside\enterprise.framework.core\src\main\java\enterprise\framework\core\rabbitmq\RabbitMqInfo.java
 E:\02_OpenSource\16_Enterprise.Framework\enterprise.framework\04-infrastructure\04.03-inside\enterprise.framework.core\src\main\java\enterprise\framework\core\log\ILogManager.java
+E:\02_OpenSource\16_Enterprise.Framework\enterprise.framework\04-infrastructure\04.03-inside\enterprise.framework.core\src\main\java\enterprise\framework\core\rabbitmq\IMQManager.java
 E:\02_OpenSource\16_Enterprise.Framework\enterprise.framework\04-infrastructure\04.03-inside\enterprise.framework.core\src\main\java\enterprise\framework\core\token\ITokenManager.java
 E:\02_OpenSource\16_Enterprise.Framework\enterprise.framework\04-infrastructure\04.03-inside\enterprise.framework.core\src\main\java\enterprise\framework\core\token\JwtPayload.java
 E:\02_OpenSource\16_Enterprise.Framework\enterprise.framework\04-infrastructure\04.03-inside\enterprise.framework.core\src\main\java\enterprise\framework\core\redis\RedisHandler.java

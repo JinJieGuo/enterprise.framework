@@ -14,31 +14,23 @@
  *       11.Others:
  * EditResume:
  *	   Author				Date			  version			   ChangeContent 
- *		gl				 2019-12-26		      1.00					新建
+ *		gl				 2019-12-27		      1.00					新建
  *******************************************************************************/
 
 package enterprise.framework.core.rabbitmq;
 
-import com.rabbitmq.client.ConnectionFactory;
-import com.rabbitmq.client.Connection;
-import com.rabbitmq.client.Channel;
 
-import java.io.IOException;
-import java.util.concurrent.TimeoutException;
+public class MQManager implements IMQManager {
 
-public class MQHandler {
+    private MQHandler mqHandler;
 
-    private static ConnectionFactory connectionFactory;
-
-    public Connection createConnection() throws IOException, TimeoutException {
-        if (connectionFactory != null) {
-            return connectionFactory.newConnection();
+    public MQHandler instance() {
+        if (mqHandler == null) {
+            //加上同步锁，保证线程安全
+            synchronized (MQManager.class) {
+                mqHandler = new MQHandler();
+            }
         }
-
-        RabbitMq rabbitMq = new RabbitMq();
-//        RabbitMqInfo rabbitMqInfo = new RabbitMqInfo();
-
-        return connectionFactory.newConnection();
+        return mqHandler;
     }
-
 }

@@ -19,13 +19,24 @@
 
 package enterprise.framework;
 
+import enterprise.framework.core.rabbitmq.IMQManager;
+import enterprise.framework.core.rabbitmq.MQManager;
 import enterprise.framework.erp.ErpApplication;
+import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
+
+import java.io.IOException;
+import java.util.concurrent.TimeoutException;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest(classes = ErpApplication.class)
 public class RabbitMqTest {
 
+    @Test
+    public void ConnectionRabbitTest() throws IOException, TimeoutException {
+        IMQManager imqManager = new MQManager();
+        imqManager.instance().createConnection();
+    }
 }

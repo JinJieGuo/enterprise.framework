@@ -21,19 +21,26 @@ package controller;
 
 import enterprise.framework.business.engine.Handler;
 import enterprise.framework.core.http.HttpResponse;
+import enterprise.framework.core.rabbitmq.IMQManager;
+import enterprise.framework.core.rabbitmq.MQManager;
 import enterprise.framework.core.redis.RedisHandler;
 import enterprise.framework.utility.generaltools.YmlPropUtils;
 import org.jetbrains.annotations.NotNull;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.data.redis.serializer.RedisSerializer;
 import org.springframework.data.redis.serializer.StringRedisSerializer;
+import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.util.ResourceUtils;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.util.concurrent.TimeoutException;
 
 @RestController
 @RequestMapping("/erp/v1/test")
@@ -50,8 +57,17 @@ public class TestController {
         redisTemplate.setHashValueSerializer(stringSerializer);
         this.redisTemplate = redisTemplate;
     }
+
+
+
     @RequestMapping("test")
-    public HttpResponse Test() throws FileNotFoundException {
+    public HttpResponse Test() throws IOException, TimeoutException {
+
+        //读取配置
+//        https://blog.csdn.net/qq_35337467/article/details/81508685
+        RabbitMq rabbitMq = new RabbitMq();
+//        IMQManager imqManager = new MQManager();
+//        imqManager.instance().createConnection();
         RedisHandler redisHandler = new RedisHandler(redisTemplate);
         Handler handler = new Handler();
         handler.HandlerTest();

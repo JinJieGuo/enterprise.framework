@@ -1,0 +1,17 @@
+{
+  "hints": [],
+  "groups": [
+    {
+      "sourceType": "controller.RabbitMq",
+      "name": "mq",
+      "type": "controller.RabbitMq"
+    }
+  ],
+  "properties": [
+    {
+      "sourceType": "controller.RabbitMq",
+      "name": "mq.rabbit-mq-info-list",
+      "type": "java.util.List<controller.RabbitMqInfo>"
+    }
+  ]
+}

@@ -2,4 +2,15 @@
 spring:
   profiles:
     active: dev
+mq:
+  info[0]:
+    mqname: "测试1"
+    username: "test1"
+    password: ""
+    hostname: ""
+  info[1]:
+    mqname: "测试2"
+    username: "test2"
+    password: ""
+    hostname: ""
 

@@ -1,0 +1,17 @@
+{
+  "groups": [
+    {
+      "name": "rabbitmq",
+      "type": "enterprise.framework.core.rabbitmq.RabbitMq",
+      "sourceType": "enterprise.framework.core.rabbitmq.RabbitMq"
+    }
+  ],
+  "properties": [
+    {
+      "name": "rabbitmq.rabbit-mq-info-list",
+      "type": "java.util.List<enterprise.framework.core.rabbitmq.RabbitMqInfo>",
+      "sourceType": "enterprise.framework.core.rabbitmq.RabbitMq"
+    }
+  ],
+  "hints": []
+}

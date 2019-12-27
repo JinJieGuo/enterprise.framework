@@ -31,6 +31,11 @@
     <dependencies>
         <dependency>
             <groupId>enterprise.framework</groupId>
+            <artifactId>enterprise.framework.core</artifactId>
+            <version>1.0.1.191224-RELEASE</version>
+        </dependency>
+        <dependency>
+            <groupId>enterprise.framework</groupId>
             <artifactId>enterprise.framework.business</artifactId>
             <version>1.0.0.191223-ALPHA</version>
             <scope>compile</scope>

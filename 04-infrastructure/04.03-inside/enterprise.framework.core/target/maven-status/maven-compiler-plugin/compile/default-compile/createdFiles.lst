@@ -1,0 +1,5 @@
+enterprise\framework\core\rabbitmq\MQManager.class
+enterprise\framework\core\rabbitmq\RabbitMq.class
+META-INF\spring-configuration-metadata.json
+enterprise\framework\core\rabbitmq\RabbitMqInfo.class
+enterprise\framework\core\rabbitmq\IMQManager.class

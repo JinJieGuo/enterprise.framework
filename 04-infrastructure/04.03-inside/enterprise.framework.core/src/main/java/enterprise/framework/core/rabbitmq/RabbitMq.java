@@ -14,31 +14,27 @@
  *       11.Others:
  * EditResume:
  *	   Author				Date			  version			   ChangeContent 
- *		gl				 2019-12-26		      1.00					新建
+ *		gl				 2019-12-27		      1.00					新建
  *******************************************************************************/
 
 package enterprise.framework.core.rabbitmq;
 
-import com.rabbitmq.client.ConnectionFactory;
-import com.rabbitmq.client.Connection;
-import com.rabbitmq.client.Channel;
+import org.springframework.boot.context.properties.ConfigurationProperties;
+import org.springframework.context.annotation.Configuration;
 
-import java.io.IOException;
-import java.util.concurrent.TimeoutException;
+import java.util.List;
 
-public class MQHandler {
+@Configuration
+@ConfigurationProperties("rabbitmq")
+public class RabbitMq {
 
-    private static ConnectionFactory connectionFactory;
+    private List<RabbitMqInfo> rabbitmqInfo;
 
-    public Connection createConnection() throws IOException, TimeoutException {
-        if (connectionFactory != null) {
-            return connectionFactory.newConnection();
-        }
-
-        RabbitMq rabbitMq = new RabbitMq();
-//        RabbitMqInfo rabbitMqInfo = new RabbitMqInfo();
-
-        return connectionFactory.newConnection();
+    public void setRabbitMqInfoList(List<RabbitMqInfo> rabbitmqInfo) {
+        this.rabbitmqInfo = rabbitmqInfo;
     }
 
+    public List<RabbitMqInfo> getRabbitMqInfoList() {
+        return rabbitmqInfo;
+    }
 }
