@@ -21,6 +21,7 @@ package enterprise.framework.erp;
 
 
 import org.springframework.boot.SpringApplication;
+import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.autoconfigure.jdbc.DataSourceAutoConfiguration;
 import org.springframework.boot.web.servlet.FilterRegistrationBean;
@@ -30,6 +31,7 @@ import org.springframework.context.annotation.ComponentScan;
 @tk.mybatis.spring.annotation.MapperScan("enterprise.framework.mapper")
 @ComponentScan(basePackages = {"controller", "enterprise.framework.business", "enterprise.framework.service", "common.datasource"})
 @SpringBootApplication(exclude = DataSourceAutoConfiguration.class) // 禁用springBoot自动配置的数据源，这样才能自定义数据源
+//@EnableAutoConfiguration
 public class ErpApplication {
     public static void main(String[] args) {
         SpringApplication.run(ErpApplication.class, args);

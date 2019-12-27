@@ -27,6 +27,7 @@ import enterprise.framework.core.redis.RedisHandler;
 import enterprise.framework.utility.generaltools.YmlPropUtils;
 import org.jetbrains.annotations.NotNull;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.data.redis.core.RedisTemplate;
@@ -58,6 +59,17 @@ public class TestController {
         this.redisTemplate = redisTemplate;
     }
 
+    @Autowired
+    public RabbitMq rabbitMq;
+
+    @Autowired
+    public RabbitMqInfo rabbitMqInfo;
+
+    @Autowired
+    private Test test;
+
+    @Value("${test.temp}")
+    private String temp;
 
 
     @RequestMapping("test")
@@ -65,7 +77,8 @@ public class TestController {
 
         //读取配置
 //        https://blog.csdn.net/qq_35337467/article/details/81508685
-        RabbitMq rabbitMq = new RabbitMq();
+//        RabbitMq rabbitMq = new RabbitMq();
+
 //        IMQManager imqManager = new MQManager();
 //        imqManager.instance().createConnection();
         RedisHandler redisHandler = new RedisHandler(redisTemplate);

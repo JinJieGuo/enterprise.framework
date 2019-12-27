@@ -19,13 +19,17 @@
 
 package controller;
 
+import org.springframework.context.annotation.Configuration;
 import org.springframework.stereotype.Component;
 
 /**
  * 队列配置信息
  */
-@Component
+//@Component
+@Configuration
 public class RabbitMqInfo {
+    private String temp;
+
     private String mqName;
 
     private String userName;
@@ -35,6 +39,14 @@ public class RabbitMqInfo {
     private String hostName;
 
     private String virtualHost;
+
+    public void setTemp(String temp) {
+        this.temp = temp;
+    }
+
+    public String getTemp() {
+        return temp;
+    }
 
     public void setMqName(String mqName) {
         this.mqName = mqName;

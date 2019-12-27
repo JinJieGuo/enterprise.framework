@@ -29,6 +29,12 @@
     </properties>
 
     <dependencies>
+        <!--用于获取application.yml配置-->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-configuration-processor</artifactId>
+            <version>2.1.8.RELEASE</version>
+        </dependency>
         <dependency>
             <groupId>enterprise.framework</groupId>
             <artifactId>enterprise.framework.core</artifactId>

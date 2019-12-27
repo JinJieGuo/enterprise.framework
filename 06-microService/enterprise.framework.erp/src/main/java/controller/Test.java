@@ -14,31 +14,24 @@
  *       11.Others:
  * EditResume:
  *	   Author				Date			  version			   ChangeContent 
- *		gl				 2019-12-27		      1.00					新建
+ *		gl				 2019-12-27		        1.00					新建
  *******************************************************************************/
 
 package controller;
 
 import org.springframework.boot.context.properties.ConfigurationProperties;
-import org.springframework.boot.context.properties.EnableConfigurationProperties;
-import org.springframework.context.annotation.Configuration;
 import org.springframework.stereotype.Component;
 
-import java.util.List;
+@Component
+@ConfigurationProperties(prefix = "test", ignoreInvalidFields = true)
+public class Test {
+    private String temp;
 
-@Configuration
-//@Component
-//@EnableConfigurationProperties(RabbitMqInfo.class)
-@ConfigurationProperties(prefix = "mq", ignoreInvalidFields = true)
-public class RabbitMq {
-
-    private List<RabbitMqInfo> info;
-
-    public void setRabbitMqInfoList(List<RabbitMqInfo> info) {
-        this.info = info;
+    public void setTemp(String temp) {
+        this.temp = temp;
     }
 
-    public List<RabbitMqInfo> getRabbitMqInfoList() {
-        return info;
+    public String getTemp() {
+        return temp;
     }
 }

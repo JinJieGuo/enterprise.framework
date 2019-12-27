@@ -1,17 +1,27 @@
 {
-  "hints": [],
   "groups": [
     {
-      "sourceType": "controller.RabbitMq",
       "name": "mq",
-      "type": "controller.RabbitMq"
+      "type": "controller.RabbitMq",
+      "sourceType": "controller.RabbitMq"
+    },
+    {
+      "name": "test",
+      "type": "controller.Test",
+      "sourceType": "controller.Test"
     }
   ],
   "properties": [
     {
-      "sourceType": "controller.RabbitMq",
       "name": "mq.rabbit-mq-info-list",
-      "type": "java.util.List<controller.RabbitMqInfo>"
+      "type": "java.util.List<controller.RabbitMqInfo>",
+      "sourceType": "controller.RabbitMq"
+    },
+    {
+      "name": "test.temp",
+      "type": "java.lang.String",
+      "sourceType": "controller.Test"
     }
-  ]
+  ],
+  "hints": []
 }
