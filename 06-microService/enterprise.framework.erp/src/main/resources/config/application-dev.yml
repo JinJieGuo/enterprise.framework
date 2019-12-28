@@ -85,15 +85,19 @@ pagehelper:
   support-methods-arguments: true
   params: count=countSql
 mq:
-  info[0]:
-    mqname: "测试1"
-    username: "test1"
-    password: ""
-    hostname: ""
-  info[1]:
-    mqname: "测试2"
-    username: "test2"
-    password: ""
-    hostname: ""
+  infos:
+    - mqname: "测试1"
+      username: "test1"
+      password: ""
+      hostname: ""
+    - mqname: "测试2"
+      username: "test2"
+      password: ""
+      hostname: ""
+myapp:
+  mail:
+    smtp-servers:
+      - server1: "1"
+      - server2: "2"
 test:
   temp: 1

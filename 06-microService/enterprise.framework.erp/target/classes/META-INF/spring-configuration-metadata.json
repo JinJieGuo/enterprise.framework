@@ -6,6 +6,11 @@
       "sourceType": "controller.RabbitMq"
     },
     {
+      "name": "myapp.mail",
+      "type": "controller.MailModuleProperties",
+      "sourceType": "controller.MailModuleProperties"
+    },
+    {
       "name": "test",
       "type": "controller.Test",
       "sourceType": "controller.Test"
@@ -13,9 +18,14 @@
   ],
   "properties": [
     {
-      "name": "mq.rabbit-mq-info-list",
-      "type": "java.util.List<controller.RabbitMqInfo>",
+      "name": "mq.infos",
+      "type": "java.util.List<java.util.Map<java.lang.String,java.lang.String>>",
       "sourceType": "controller.RabbitMq"
+    },
+    {
+      "name": "myapp.mail.smtp-servers",
+      "type": "java.util.List<java.util.Map<java.lang.String,java.lang.String>>",
+      "sourceType": "controller.MailModuleProperties"
     },
     {
       "name": "test.temp",

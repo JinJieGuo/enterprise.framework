@@ -14,42 +14,36 @@
  *       11.Others:
  * EditResume:
  *	   Author				Date			  version			   ChangeContent 
- *		gl				 2019-12-27		      1.00					新建
+ *		gl				 2019-12-28		      1.00					新建
  *******************************************************************************/
 
 package controller;
 
 import org.springframework.boot.context.properties.ConfigurationProperties;
-import org.springframework.boot.context.properties.EnableConfigurationProperties;
-import org.springframework.context.annotation.Configuration;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
 import java.util.Map;
 
-@Configuration
-//@Component
-//@EnableConfigurationProperties(RabbitMqInfo.class)
-@ConfigurationProperties(prefix = "mq", ignoreInvalidFields = true)
-public class RabbitMq {
+@Component
+//, ignoreInvalidFields = true
+@ConfigurationProperties(prefix = "myapp.mail")
+public class MailModuleProperties {
+//    private List<String> smtpServers;
+//
+//    public void setSmtpServers(List<String> smtpServers) {
+//        this.smtpServers = smtpServers;
+//    }
 
-    private List<Map<String, String>> infos;
 
-    public void setInfos(List<Map<String, String>> infos) {
-        this.infos = infos;
+
+    private List<Map<String, String>> smtpServers;
+
+    public void setSmtpServers(List<Map<String, String>> smtpServers) {
+        this.smtpServers = smtpServers;
     }
 
-    public List<Map<String, String>> getInfos() {
-        return infos;
+    public List<Map<String, String>> getSmtpServers() {
+        return smtpServers;
     }
-
-    //    private List<RabbitMqInfo> infos;
-//
-//    public void setInfos(List<RabbitMqInfo> infos) {
-//        this.infos = infos;
-//    }
-//
-//    public List<RabbitMqInfo> getInfos() {
-//        return infos;
-//    }
 }

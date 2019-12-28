@@ -14,27 +14,22 @@
  *       11.Others:
  * EditResume:
  *	   Author				Date			  version			   ChangeContent 
- *		gl				 2019-12-27		      1.00					新建
+ *		gl				 2019-12-28		      1.00					新建
  *******************************************************************************/
 
 package controller;
 
 import org.springframework.boot.context.properties.ConfigurationProperties;
-import org.springframework.context.annotation.Configuration;
 import org.springframework.stereotype.Component;
 
-/**
- * 队列配置信息
- */
 //@Component
-@Configuration
-@Component
 //@ConfigurationProperties(prefix = "mq.info", ignoreInvalidFields = true)
-
-public class RabbitMqInfo {
+public class Info {
     private String temp;
 
     private String mqName;
+
+    private String mqname;
 
     private String userName;
 
@@ -58,6 +53,14 @@ public class RabbitMqInfo {
 
     public String getMqName() {
         return mqName;
+    }
+
+    public void setMqname(String mqname) {
+        this.mqname = mqname;
+    }
+
+    public String getMqname() {
+        return mqname;
     }
 
     public void setUserName(String userName) {

@@ -41,6 +41,7 @@ import org.springframework.web.bind.annotation.RestController;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.util.Map;
 import java.util.concurrent.TimeoutException;
 
 @RestController
@@ -63,10 +64,16 @@ public class TestController {
     public RabbitMq rabbitMq;
 
     @Autowired
+    private MailModuleProperties mailModuleProperties;
+
+    @Autowired
     public RabbitMqInfo rabbitMqInfo;
 
     @Autowired
     private Test test;
+
+//    @Autowired
+//    private Info info;
 
     @Value("${test.temp}")
     private String temp;
@@ -74,21 +81,11 @@ public class TestController {
 
     @RequestMapping("test")
     public HttpResponse Test() throws IOException, TimeoutException {
+        Map<String, String> config = rabbitMq.getInfos().get(0);
 
-        //读取配置
-//        https://blog.csdn.net/qq_35337467/article/details/81508685
-//        RabbitMq rabbitMq = new RabbitMq();
+        String name = config.get("mqname");
+//        config.get("mqname")==""
 
-//        IMQManager imqManager = new MQManager();
-//        imqManager.instance().createConnection();
-        RedisHandler redisHandler = new RedisHandler(redisTemplate);
-        Handler handler = new Handler();
-        handler.HandlerTest();
-        File file = new File(ResourceUtils.getURL("classpath:").getPath());
-        String path1 = System.getProperty("user.dir");
-        String path = file.getAbsolutePath();
-        Object property = YmlPropUtils.getInstance().getProperty("spring.datasource.type");
-        System.out.println(property);
         return new HttpResponse();
 
     }
