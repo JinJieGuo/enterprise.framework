@@ -1,11 +1,6 @@
 {
   "groups": [
     {
-      "name": "mq",
-      "type": "controller.RabbitMq",
-      "sourceType": "controller.RabbitMq"
-    },
-    {
       "name": "myapp.mail",
       "type": "controller.MailModuleProperties",
       "sourceType": "controller.MailModuleProperties"
@@ -17,11 +12,6 @@
     }
   ],
   "properties": [
-    {
-      "name": "mq.infos",
-      "type": "java.util.List<java.util.Map<java.lang.String,java.lang.String>>",
-      "sourceType": "controller.RabbitMq"
-    },
     {
       "name": "myapp.mail.smtp-servers",
       "type": "java.util.List<java.util.Map<java.lang.String,java.lang.String>>",

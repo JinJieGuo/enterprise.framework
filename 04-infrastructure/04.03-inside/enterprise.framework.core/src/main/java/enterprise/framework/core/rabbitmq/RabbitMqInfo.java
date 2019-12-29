@@ -19,10 +19,14 @@
 
 package enterprise.framework.core.rabbitmq;
 
+import java.util.List;
+import java.util.Map;
+
 /**
  * 队列配置信息
  */
 public class RabbitMqInfo {
+
     private String mqName;
 
     private String userName;
@@ -31,7 +35,11 @@ public class RabbitMqInfo {
 
     private String hostName;
 
+    private Integer port;
+
     private String virtualHost;
+
+    private Map<String, Object> channelList;
 
     public void setMqName(String mqName) {
         this.mqName = mqName;
@@ -65,11 +73,27 @@ public class RabbitMqInfo {
         return hostName;
     }
 
+    public void setPort(Integer port) {
+        this.port = port;
+    }
+
+    public Integer getPort() {
+        return port;
+    }
+
     public void setVirtualHost(String virtualHost) {
         this.virtualHost = virtualHost;
     }
 
     public String getVirtualHost() {
         return virtualHost;
+    }
+
+    public void setChannelList(Map<String, Object> channelList) {
+        this.channelList = channelList;
+    }
+
+    public Map<String, Object> getChannelList() {
+        return channelList;
     }
 }

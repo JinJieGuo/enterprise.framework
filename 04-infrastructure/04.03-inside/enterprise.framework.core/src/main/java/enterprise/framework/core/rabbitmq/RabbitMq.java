@@ -23,18 +23,29 @@ import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.context.annotation.Configuration;
 
 import java.util.List;
+import java.util.Map;
 
 @Configuration
-@ConfigurationProperties("rabbitmq")
+@ConfigurationProperties(prefix = "rabbitmq", ignoreInvalidFields = true)
 public class RabbitMq {
 
-    private List<RabbitMqInfo> rabbitmqInfo;
+    private List<Map<String, Object>> rabbitMqInfo;
 
-    public void setRabbitMqInfoList(List<RabbitMqInfo> rabbitmqInfo) {
-        this.rabbitmqInfo = rabbitmqInfo;
+    public void setRabbitMqInfo(List<Map<String, Object>> rabbitMqInfo) {
+        this.rabbitMqInfo = rabbitMqInfo;
     }
 
-    public List<RabbitMqInfo> getRabbitMqInfoList() {
-        return rabbitmqInfo;
+    public List<Map<String, Object>> getRabbitMqInfo() {
+        return rabbitMqInfo;
     }
+
+    //    private List<RabbitMqInfo> rabbitmqInfo;
+//
+//    public void setRabbitMqInfoList(List<RabbitMqInfo> rabbitmqInfo) {
+//        this.rabbitmqInfo = rabbitmqInfo;
+//    }
+//
+//    public List<RabbitMqInfo> getRabbitMqInfoList() {
+//        return rabbitmqInfo;
+//    }
 }

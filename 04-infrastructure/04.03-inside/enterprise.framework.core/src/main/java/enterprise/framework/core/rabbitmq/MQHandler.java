@@ -22,23 +22,38 @@ package enterprise.framework.core.rabbitmq;
 import com.rabbitmq.client.ConnectionFactory;
 import com.rabbitmq.client.Connection;
 import com.rabbitmq.client.Channel;
+import enterprise.framework.utility.transform.MapHandler;
+import org.springframework.beans.factory.annotation.Autowired;
 
 import java.io.IOException;
+import java.util.List;
+import java.util.Map;
 import java.util.concurrent.TimeoutException;
 
 public class MQHandler {
 
+    private static Connection connection;
+
+    private static List<Connection> connectionList;
+
     private static ConnectionFactory connectionFactory;
 
-    public Connection createConnection() throws IOException, TimeoutException {
-        if (connectionFactory != null) {
-            return connectionFactory.newConnection();
-        }
+    public Connection createConnection(Map<String, Object> rabbitMqConfig) throws IOException, TimeoutException {
+//        if (connectionList.indexOf()) {
+//            return connection;
+//        }
+        RabbitMqInfo rabbitMqInfo = MapHandler.mapToObject(rabbitMqConfig, RabbitMqInfo.class);
 
-        RabbitMq rabbitMq = new RabbitMq();
-//        RabbitMqInfo rabbitMqInfo = new RabbitMqInfo();
+        ConnectionFactory connectionFactory = new ConnectionFactory();
+        connectionFactory.setHost(rabbitMqInfo.getHostName());
+        connectionFactory.setPort(rabbitMqInfo.getPort());
+        connectionFactory.setUsername(rabbitMqInfo.getUserName());
+        connectionFactory.setPassword(rabbitMqInfo.getPassword());
+        connectionFactory.setVirtualHost(rabbitMqInfo.getVirtualHost());
 
-        return connectionFactory.newConnection();
+        connection = connectionFactory.newConnection();
+        return connection;
     }
 
+//    public
 }

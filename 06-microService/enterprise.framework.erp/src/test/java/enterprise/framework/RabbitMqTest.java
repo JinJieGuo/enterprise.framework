@@ -37,6 +37,6 @@ public class RabbitMqTest {
     @Test
     public void ConnectionRabbitTest() throws IOException, TimeoutException {
         IMQManager imqManager = new MQManager();
-        imqManager.instance().createConnection();
+//        imqManager.instance().createConnection();
     }
 }
