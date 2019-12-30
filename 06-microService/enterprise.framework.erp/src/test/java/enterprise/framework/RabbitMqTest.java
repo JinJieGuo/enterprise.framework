@@ -39,4 +39,9 @@ public class RabbitMqTest {
         IMQManager imqManager = new MQManager();
 //        imqManager.instance().createConnection();
     }
+
+    @Test
+    public void receivedMsg(){
+
+    }
 }

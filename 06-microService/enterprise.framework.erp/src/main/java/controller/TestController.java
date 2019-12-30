@@ -49,9 +49,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
-import java.util.concurrent.TimeoutException;
+import java.util.concurrent.*;
 
 @RestController
 @RequestMapping("/erp/v1/test")
@@ -83,12 +81,10 @@ public class TestController {
         enterprise.framework.core.rabbitmq.RabbitMqInfo rabbitMqInfo = MapHandler.mapToObject(rabbitMq.getRabbitMqInfo().get(0), RabbitMqInfo.class);
 
         Connection rabbitMqConnection = imqManager.instance().createConnection(rabbitMq.getRabbitMqInfo().get(0));
-        Connection rabbitMqConnection1 = imqManager.instance().createConnection(rabbitMq.getRabbitMqInfo().get(1));
+//        Connection rabbitMqConnection1 = imqManager.instance().createConnection(rabbitMq.getRabbitMqInfo().get(1));
 
         List<Channel> channelList = new ArrayList<>();
         Map<String, Channel> channelMap = new HashMap<>();
-
-        ExecutorService executor = Executors.newFixedThreadPool(5);
         for (int i = 0; i < rabbitMqInfo.getChannelList().size(); i++) {
             Channel channel = rabbitMqConnection.createChannel();
             if (channelList.indexOf(channel) > 0) {
@@ -99,84 +95,109 @@ public class TestController {
 //            String queueName = rabbitMqInfo.getChannelList().get(index).toString();
 //            channelMap.put(queueName, rabbitMqConnection.createChannel());
         }
-
-        for (int i = 0; i < 10000; i++) {
-            String queueName = "";
-            Channel channel = channelList.get(0);
-            queueName = rabbitMqInfo.getChannelList().get("0").toString();
-            channel.queueDeclare(queueName, false, false, false, null);
-            String message = "Hello World!";
-            channel.basicPublish("", queueName, null, message.getBytes());
-        }
-
-        for (int i = 0; i < 1000000000; i++) {
+        ExecutorService executor = new ThreadPoolExecutor(5, 5,
+                0, TimeUnit.SECONDS,
+                new ArrayBlockingQueue<>(512), // 使用有界队列，避免OOM
+                new ThreadPoolExecutor.DiscardPolicy());
+        for (int i = 0; i < 100000000; i++) {
             count = i + 1;
             String index = String.valueOf(i + 1);
-//            String queueIndex = "";
-//            String queueName = rabbitMqInfo.getChannelList().get(index).toString();
-
-            executor.submit(() -> {
+            String queueIndex = index.substring(index.length() - 1);
+            String queueName = "";
+            if (queueIndex.contains("1") || queueIndex.contains("6")) {
+                Channel channel = channelList.get(0);
+                queueName = rabbitMqInfo.getChannelList().get("0").toString();
+                String message = "Hello World!";
+                Future future = SendMsg(executor, channel, queueName, message);
                 try {
-                    String queueIndex = queueIndex = index.substring(index.length() - 1);
-
-//                    Channel channel = rabbitMqConnection.createChannel();
-//                    channel.queueDeclare(queueName, false, false, false, null);
-//                    String message = "Hello World!";
-//                    channel.basicPublish("", queueName, null, message.getBytes());
-                    String queueName = "";
-                    if (queueIndex.contains("1") || queueIndex.contains("6")) {
-                        Channel channel = channelList.get(0);
-                        queueName = rabbitMqInfo.getChannelList().get("0").toString();
-                        channel.queueDeclare(queueName, false, false, false, null);
-                        String message = "Hello World!";
-                        channel.basicPublish("", queueName, null, message.getBytes());
-                        Thread.sleep(1000L);
-                    }
-                    if (queueIndex.contains("2") || queueIndex.contains("7")) {
-                        Channel channel = channelList.get(1);
-                        queueName = rabbitMqInfo.getChannelList().get("1").toString();
-                        channel.queueDeclare(queueName, false, false, false, null);
-                        String message = "Hello World!";
-                        channel.basicPublish("", queueName, null, message.getBytes());
-                        Thread.sleep(1000L);
-                    }
-                    if (queueIndex.contains("3") || queueIndex.contains("8")) {
-                        Channel channel = channelList.get(2);
-                        queueName = rabbitMqInfo.getChannelList().get("2").toString();
-                        channel.queueDeclare(queueName, false, false, false, null);
-                        String message = "Hello World!";
-                        channel.basicPublish("", queueName, null, message.getBytes());
-                        Thread.sleep(1000L);
-                    }
-                    if (queueIndex.contains("4") || queueIndex.contains("9")) {
-                        Channel channel = channelList.get(3);
-                        queueName = rabbitMqInfo.getChannelList().get("3").toString();
-                        channel.queueDeclare(queueName, false, false, false, null);
-                        String message = "Hello World!";
-                        channel.basicPublish("", queueName, null, message.getBytes());
-                        Thread.sleep(1000L);
-                    }
-                    if (queueIndex.contains("5") || queueIndex.contains("0")) {
-                        Channel channel = channelList.get(4);
-                        queueName = rabbitMqInfo.getChannelList().get("4").toString();
-                        channel.queueDeclare(queueName, false, false, false, null);
-                        String message = "Hello World!";
-                        channel.basicPublish("", queueName, null, message.getBytes());
-                        Thread.sleep(1000L);
-                    }
-
-                    Thread.sleep(1000L);
-                } catch (IOException | InterruptedException e) {
+                    future.get();//需要捕获两种异常
+                    continue;
+                }catch (InterruptedException e){
+                    e.printStackTrace();
+                }catch (ExecutionException e){
                     e.printStackTrace();
                 }
-            });
+            }
+            if (queueIndex.contains("2") || queueIndex.contains("7")) {
+                Channel channel = channelList.get(1);
+                queueName = rabbitMqInfo.getChannelList().get("1").toString();
+                String message = "Hello World!";
+                Future future = SendMsg(executor, channel, queueName, message);
+                try {
+                    future.get();//需要捕获两种异常
+                    continue;
+                }catch (InterruptedException e){
+                    e.printStackTrace();
+                }catch (ExecutionException e){
+                    e.printStackTrace();
+                }
+            }
+            if (queueIndex.contains("3") || queueIndex.contains("8")) {
+                Channel channel = channelList.get(2);
+                queueName = rabbitMqInfo.getChannelList().get("2").toString();
+                String message = "Hello World!";
+                Future future = SendMsg(executor, channel, queueName, message);
+                try {
+                    future.get();//需要捕获两种异常
+                    continue;
+                }catch (InterruptedException e){
+                    e.printStackTrace();
+                }catch (ExecutionException e){
+                    e.printStackTrace();
+                }
+            }
+            if (queueIndex.contains("4") || queueIndex.contains("9")) {
+                Channel channel = channelList.get(3);
+                queueName = rabbitMqInfo.getChannelList().get("3").toString();
+                String message = "Hello World!";
+                Future future = SendMsg(executor, channel, queueName, message);
+                try {
+                    future.get();//需要捕获两种异常
+                    continue;
+                }catch (InterruptedException e){
+                    e.printStackTrace();
+                }catch (ExecutionException e){
+                    e.printStackTrace();
+                }
+            }
+            if (queueIndex.contains("5") || queueIndex.contains("0")) {
+                Channel channel = channelList.get(4);
+                queueName = rabbitMqInfo.getChannelList().get("4").toString();
+                String message = "Hello World!";
+                Future future = SendMsg(executor, channel, queueName, message);
+                try {
+                    future.get();//需要捕获两种异常
+                    continue;
+                }catch (InterruptedException e){
+                    e.printStackTrace();
+                }catch (ExecutionException e){
+                    e.printStackTrace();
+                }
+            }
+
         }
 
+//        for ()
 //        if (rabbitMqConnection == rabbitMqConnection1) {
 //            HttpResponse httpResponse = new HttpResponse();
 //        }
+        do {
+            Thread.sleep(100000000L);
+        } while (true);
+//        return new HttpResponse();
 
-        return new HttpResponse();
+    }
 
+    public Future SendMsg(ExecutorService executor, Channel channel, String queueName, String message) throws InterruptedException {
+        return executor.submit(() -> {
+            try {
+//                System.out.println(Thread.currentThread().getId());
+                channel.queueDeclare(queueName, true, false, false, null);
+                channel.basicPublish("", queueName, null, message.getBytes());
+//                Thread.sleep(1000L);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        });
     }
 }
