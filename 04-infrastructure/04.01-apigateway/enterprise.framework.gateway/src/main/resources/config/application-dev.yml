@@ -1,6 +1,6 @@
 server:
   address: localhost
-  port: 8800
+  port: 10000
   connectionTimeout: 180000
 spring:
   application:
@@ -38,7 +38,7 @@ spring:
       routes:
         - id: gatewayRoute
           #          uri: http://localhost:8889
-          uri: http://localhost:8080
+          uri: http://localhost:10001
           #          uri: lb://com-gps-erp-permission
           predicates:
             - Path=/erp/sys/**
