@@ -28,7 +28,7 @@ import enterprise.framework.core.token.TokenInfo;
 import enterprise.framework.core.token.TokenManager;
 import enterprise.framework.domain.auth.SysAuthUser;
 import enterprise.framework.erp.ErpApplication;
-import enterprise.framework.pojo.auth.user.SignInModel;
+import enterprise.framework.pojo.auth.user.SignInVO;
 import enterprise.framework.service.auth.user.SysAuthUserService;
 import enterprise.framework.utility.security.Base64Utils;
 import enterprise.framework.utility.security.RSAUtils;
@@ -99,7 +99,7 @@ public class AuthTest {
         try {
             RedisHandler redisHandler = new RedisHandler(redisTemplate);
             StrHandler strHandler = new StrHandler();
-            SignInModel signInModel = new SignInModel();
+            SignInVO signInModel = new SignInVO();
             signInModel.setLoginName("admin");
 
             Map<String, Object> keyMap = RSAUtils.genKeyPair(1024);

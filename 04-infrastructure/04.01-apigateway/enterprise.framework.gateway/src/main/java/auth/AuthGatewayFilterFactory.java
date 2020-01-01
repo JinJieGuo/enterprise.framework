@@ -129,7 +129,7 @@ public class AuthGatewayFilterFactory extends AbstractGatewayFilterFactory<AuthG
                 StrHandler strHandler = new StrHandler();
                 //token不为空时,先获取redis中的token字节,转为json字符串,并反序列化
                 HttpResponse tokenInfoRedis = redisHandler.get("token_info:" + user_id);
-                if (tokenInfoRedis.status != enterprise.framework.core.http.HttpStatus.SUCCESS.value()) {
+                if (tokenInfoRedis.status != enterprise.framework.core.http.HttpStatus.SUCCESS.value() && tokenInfoRedis.content != null) {
                     //token不与缓存中的token相同,返回405
                     response.setStatusCode(HttpStatus.METHOD_NOT_ALLOWED);
                     return response.setComplete();

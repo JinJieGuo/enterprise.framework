@@ -14,14 +14,14 @@
  *       11.Others:
  * EditResume:
  *	   Author				Date			  version			   ChangeContent 
- *		gl				 2019-12-21		        1.00					新建
+ *		gl				 2020-01-01		        1.00					新建
  *******************************************************************************/
 
 package enterprise.framework.pojo.auth.user;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
-public class SignInModel {
+public class SignInVO {
     @JsonProperty(value = "user_id")
     private String user_id;
 

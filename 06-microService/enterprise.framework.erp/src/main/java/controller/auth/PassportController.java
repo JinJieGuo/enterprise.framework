@@ -24,7 +24,8 @@ import enterprise.framework.business.engine.IScheduler;
 import enterprise.framework.core.http.HttpResponse;
 import enterprise.framework.core.token.TokenInfo;
 import enterprise.framework.domain.auth.SysAuthUser;
-import enterprise.framework.pojo.auth.user.SignInModel;
+import enterprise.framework.pojo.auth.user.SignInVO;
+import enterprise.framework.pojo.auth.user.SignOutVO;
 import enterprise.framework.pojo.auth.user.SysAuthUserVO;
 import enterprise.framework.service.auth.user.SysAuthUserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -44,18 +45,19 @@ public class PassportController {
 
     IScheduler businessScheduler = new Components();
 
-    /**
-     * 用户注册
-     *
-     * @param sysAuthUserVO
-     * @return
-     */
-    @ResponseBody
-    @PostMapping(value = "register")
-    public HttpResponse register(@RequestBody SysAuthUserVO sysAuthUserVO) throws Exception {
-        SysAuthUser sysAuthUser = new SysAuthUser(sysAuthUserVO);
-        return businessScheduler.singleSignOnManager().instance().register(sysAuthUser);
-    }
+//    /**
+//     * 用户注册
+//     *
+//     * @param sysAuthUserVO
+//     * @return
+//     */
+//    @ResponseBody
+//    @PostMapping(value = "register")
+//    public HttpResponse register(@RequestBody SysAuthUserVO sysAuthUserVO) throws Exception {
+//
+////        SysAuthUser sysAuthUser = new SysAuthUser(sysAuthUserVO);
+//        return businessScheduler.singleSignOnManager().instance().register(sysAuthUserVO);
+//    }
 
     /**
      * 用户登录
@@ -65,9 +67,9 @@ public class PassportController {
      */
     @ResponseBody
     @RequestMapping(value = "signIn", method = RequestMethod.POST)
-    public ResponseEntity<HttpResponse> signIn(@RequestBody SignInModel signInModel) {
+    public ResponseEntity<HttpResponse> signIn(@RequestBody SignInVO signInModel) {
         HttpHeaders responseHeaders = new HttpHeaders();
-        Map<String, Object> map = businessScheduler.singleSignOnManager().instance().singleSignOn(signInModel);
+        Map<String, Object> map = businessScheduler.authManager().instance().singleSignOn(signInModel);
         HttpResponse httpResponse = (HttpResponse) map.get("response");
         if (httpResponse.status == enterprise.framework.core.http.HttpStatus.SUCCESS.value()) {
             TokenInfo tokenInfo = (TokenInfo) map.get("token_info");
@@ -84,7 +86,9 @@ public class PassportController {
      *
      * @return
      */
-    public HttpResponse signOut() {
-        return new HttpResponse();
+    @ResponseBody
+    @PostMapping("signOut")
+    public HttpResponse signOut(@RequestBody SignOutVO signOutModel) {
+        return businessScheduler.authManager().instance().signOut(signOutModel);
     }
 }

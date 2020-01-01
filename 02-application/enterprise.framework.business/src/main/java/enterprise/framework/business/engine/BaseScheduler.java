@@ -19,22 +19,24 @@
 
 package enterprise.framework.business.engine;
 
+import enterprise.framework.business.auth.AuthManager;
+import enterprise.framework.business.auth.IAuthManager;
 import enterprise.framework.business.auth.ISingleSignOnManager;
 import enterprise.framework.business.auth.SingleSignOnManager;
 
 public class BaseScheduler implements IScheduler {
 
 
-    private ISingleSignOnManager singleSignOnManager;
+    private IAuthManager iAuthManager;
 
     @Override
-    public ISingleSignOnManager singleSignOnManager() {
-        return singleSignOnManager;
+    public IAuthManager authManager() {
+        return iAuthManager;
     }
 
 
-    public void setSingleSignOnManager(ISingleSignOnManager singleSignOnManager) {
-        this.singleSignOnManager = singleSignOnManager;
+    public void setiAuthManager(IAuthManager iAuthManager) {
+        this.iAuthManager = iAuthManager;
     }
 
     private boolean init;
@@ -56,11 +58,12 @@ public class BaseScheduler implements IScheduler {
     }
 
     private void initComponents() {
-        if (!init && singleSignOnManager == null) {
-            singleSignOnManager = new SingleSignOnManager();
+        if (!init && iAuthManager == null) {
+            iAuthManager = new AuthManager();
         }
         init = true;
     }
+
 
 
 }
