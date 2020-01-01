@@ -21,8 +21,6 @@ package enterprise.framework.business.engine;
 
 import enterprise.framework.business.auth.AuthManager;
 import enterprise.framework.business.auth.IAuthManager;
-import enterprise.framework.business.auth.ISingleSignOnManager;
-import enterprise.framework.business.auth.SingleSignOnManager;
 
 public class BaseScheduler implements IScheduler {
 
