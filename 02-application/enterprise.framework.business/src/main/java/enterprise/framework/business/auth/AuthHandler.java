@@ -69,6 +69,44 @@ public class AuthHandler {
     }
 
     /**
+     * 用户注册
+     *
+     * @param userInfo
+     * @return
+     */
+    public HttpResponse register(SysAuthUser userInfo) throws Exception {
+        HttpResponse httpResponse = new HttpResponse();
+        try {
+            Map<String, Object> keyMap = RSAUtils.genKeyPair(1024);
+            userInfo.setPassword(Base64Utils.encode(RSAUtils.encryptByPublicKey(userInfo.getPassword().getBytes("utf-8"), RSAUtils.getPublicKey(keyMap))));
+            HttpResponse response = sysAuthUserService.saveUser(userInfo);
+            if (response.status == HttpStatus.SUCCESS.value()) {
+                //用户信息保存成功后,为用户颁发令牌并写入缓存
+                ITokenManager tokenManager = new TokenManager();
+                String userId = (String) response.content;
+                TokenInfo tokenInfo = tokenManager.createToken(userId, keyMap);
+                RedisHandler redisHandler = new RedisHandler(redisTemplate);
+                StrHandler strHandler = new StrHandler();
+                HttpResponse redisResponse = redisHandler.set("token_info:" + userId, strHandler.toBinary(JSON.toJSONString(tokenInfo)));
+                if (redisResponse.status != HttpStatus.SUCCESS.value()) {
+                    redisResponse.msg = "用户保存成功,但令牌写入缓存失败:" + redisResponse.msg;
+                    return redisResponse;
+                }
+                httpResponse.msg = "用户保存成功,且已颁发令牌并已写入缓存";
+                httpResponse.status = HttpStatus.SUCCESS.value();
+                return httpResponse;
+            }
+            httpResponse.msg = "用户保存失败";
+            httpResponse.status = HttpStatus.FAIL.value();
+            return httpResponse;
+        } catch (Exception error) {
+            httpResponse.status = HttpStatus.ERROR.value();
+            httpResponse.msg = error.getMessage();
+            return httpResponse;
+        }
+    }
+
+    /**
      * 单点登录
      *
      * @param signInModel
