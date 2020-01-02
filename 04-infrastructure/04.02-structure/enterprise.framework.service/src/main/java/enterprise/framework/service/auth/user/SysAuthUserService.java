@@ -21,6 +21,7 @@ package enterprise.framework.service.auth.user;
 
 import enterprise.framework.domain.auth.SysAuthUser;
 import enterprise.framework.core.http.HttpResponse;
+import enterprise.framework.pojo.auth.user.SysAuthUserVO;
 import org.springframework.stereotype.Component;
 
 @Component
@@ -29,10 +30,10 @@ public interface SysAuthUserService {
     /**
      * 保存用户信息
      *
-     * @param sysAuthUser 用户实体
+     * @param sysAuthUserVO 用户实体
      * @return
      */
-    HttpResponse saveUser(SysAuthUser sysAuthUser);
+    HttpResponse saveUser(SysAuthUserVO sysAuthUserVO);
 
     /**
      * 更新用户
@@ -41,6 +42,14 @@ public interface SysAuthUserService {
      * @return
      */
     HttpResponse updateUser(SysAuthUser sysAuthUser);
+
+    /**
+     * 根据用户主键获取用户信息
+     *
+     * @param sysAuthUserVO
+     * @return
+     */
+    HttpResponse getUserById(SysAuthUserVO sysAuthUserVO);
 
     /**
      * 获取所有用户

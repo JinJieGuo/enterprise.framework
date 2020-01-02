@@ -83,7 +83,7 @@ public class AuthTest {
         user.setLoginName("admin");
         user.setPassword(Base64Utils.encode(RSAUtils.decryptByPublicKey("123456".getBytes("utf-8"), RSAUtils.getPublicKey(keyMap))));
 //        HttpResponse response = sysAuthUserService.updateUser(user);
-        sysAuthUserService.saveUser(user);
+//        sysAuthUserService.saveUser(user);
 //        sysAuthUserService.createUser(user);
         //用户保存成功后,为用户生成完整token信息,并缓存token
         TokenInfo tokenInfo = tokenManager.createToken("33", keyMap);

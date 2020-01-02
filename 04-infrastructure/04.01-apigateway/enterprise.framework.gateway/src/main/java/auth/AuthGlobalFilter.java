@@ -102,7 +102,7 @@ public class AuthGlobalFilter implements GlobalFilter, Ordered {
                         String param = new Gson().toJson(map);
                         exchange.getAttributes().put(CACHE_REQUEST_BODY_OBJECT_KEY, param);
                     }
-                    return chain.filter(exchange);
+//                    return chain.filter(exchange);
                 case "POST":
                     String contentType = request.getHeaders().getFirst("Content-Type");
                     String upload = request.getHeaders().getFirst("upload");

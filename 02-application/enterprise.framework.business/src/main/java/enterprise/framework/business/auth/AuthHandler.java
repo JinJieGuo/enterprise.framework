@@ -29,6 +29,7 @@ import enterprise.framework.core.token.TokenManager;
 import enterprise.framework.domain.auth.SysAuthUser;
 import enterprise.framework.pojo.auth.user.SignInVO;
 import enterprise.framework.pojo.auth.user.SignOutVO;
+import enterprise.framework.pojo.auth.user.SysAuthUserVO;
 import enterprise.framework.service.auth.user.SysAuthUserService;
 import enterprise.framework.utility.security.Base64Utils;
 import enterprise.framework.utility.security.RSAUtils;
@@ -71,19 +72,21 @@ public class AuthHandler {
     /**
      * 用户注册
      *
-     * @param userInfo
+     * @param sysAuthUserVO
      * @return
      */
-    public HttpResponse register(SysAuthUser userInfo) throws Exception {
+    public HttpResponse register(SysAuthUserVO sysAuthUserVO) {
         HttpResponse httpResponse = new HttpResponse();
         try {
             Map<String, Object> keyMap = RSAUtils.genKeyPair(1024);
-            userInfo.setPassword(Base64Utils.encode(RSAUtils.encryptByPublicKey(userInfo.getPassword().getBytes("utf-8"), RSAUtils.getPublicKey(keyMap))));
-            HttpResponse response = sysAuthUserService.saveUser(userInfo);
+
+            sysAuthUserVO.setPassword(sysAuthUserVO.getIsDefaultPassword() == null || sysAuthUserVO.getIsDefaultPassword() == 1 ? "123456" : sysAuthUserVO.getPassword());
+            sysAuthUserVO.setPassword(Base64Utils.encode(RSAUtils.encryptByPublicKey(sysAuthUserVO.getPassword().getBytes("utf-8"), RSAUtils.getPublicKey(keyMap))));
+            HttpResponse response = sysAuthUserService.saveUser(sysAuthUserVO);
             if (response.status == HttpStatus.SUCCESS.value()) {
                 //用户信息保存成功后,为用户颁发令牌并写入缓存
                 ITokenManager tokenManager = new TokenManager();
-                String userId = (String) response.content;
+                String userId = ((SysAuthUserVO) response.content).getUserId().toString();
                 TokenInfo tokenInfo = tokenManager.createToken(userId, keyMap);
                 RedisHandler redisHandler = new RedisHandler(redisTemplate);
                 StrHandler strHandler = new StrHandler();

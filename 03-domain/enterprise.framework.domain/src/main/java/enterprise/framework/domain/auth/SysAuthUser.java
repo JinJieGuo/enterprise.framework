@@ -20,10 +20,14 @@
 package enterprise.framework.domain.auth;
 
 //import enterprise.framework.pojo.auth.user.SysAuthUserVO;
+
+import enterprise.framework.pojo.auth.user.SysAuthUserVO;
 import enterprise.framework.utility.database.DbBaseDO;
 import enterprise.framework.utility.database.PrimaryKey;
 import enterprise.framework.utility.database.Table;
 import org.springframework.stereotype.Component;
+import tk.mybatis.mapper.annotation.NameStyle;
+import tk.mybatis.mapper.code.Style;
 
 import java.util.Date;
 
@@ -34,6 +38,7 @@ import java.util.Date;
  * @date 2019年12月20日21:29:30
  */
 @Table("sys_auth_user")
+@NameStyle(Style.camelhumpAndLowercase)
 @Component
 public class SysAuthUser extends DbBaseDO {
 
@@ -41,19 +46,22 @@ public class SysAuthUser extends DbBaseDO {
 
     }
 
-//    public SysAuthUser(SysAuthUserVO sysAuthUserVO) {
-//        this.login_name = sysAuthUserVO.getLoginName();
-//        this.password = sysAuthUserVO.getIsDefaultPassword() == 1 ? "123456" : sysAuthUserVO.getPassword();
-//        this.nick_name = sysAuthUserVO.getNickName();
-//        this.real_name = sysAuthUserVO.getRealName();
-//        this.head_portrait = sysAuthUserVO.getHeadPortrait();
-//        this.major = sysAuthUserVO.getMajor();
-//        this.classes = sysAuthUserVO.getClasses();
-//        this.stu_number = sysAuthUserVO.getStuNumber();
-//        this.email = sysAuthUserVO.getEmail();
-//        this.phone = sysAuthUserVO.getPhone();
-//        this.job = sysAuthUserVO.getJob();
-//    }
+    public SysAuthUser(SysAuthUserVO sysAuthUserVO) {
+        this.user_id = sysAuthUserVO.getUserId();
+        this.login_name = sysAuthUserVO.getLoginName();
+        this.password = sysAuthUserVO.getPassword();
+        this.nick_name = sysAuthUserVO.getNickName();
+        this.real_name = sysAuthUserVO.getRealName();
+        this.head_portrait = sysAuthUserVO.getHeadPortrait();
+        this.major = sysAuthUserVO.getMajor();
+        this.classes = sysAuthUserVO.getClasses();
+        this.stu_number = sysAuthUserVO.getStuNumber();
+        this.email = sysAuthUserVO.getEmail();
+        this.phone = sysAuthUserVO.getPhone();
+        this.job = sysAuthUserVO.getJob();
+        this.audit_state = sysAuthUserVO.getAuditState();
+        this.is_enabled = sysAuthUserVO.getIsEnabled();
+    }
 
     @PrimaryKey("user_id")
     private Integer user_id;
@@ -72,11 +80,11 @@ public class SysAuthUser extends DbBaseDO {
 
     private String classes;
 
-    private Integer stu_number;
+    private Long stu_number;
 
     private String email;
 
-    private Integer phone;
+    private Long phone;
 
     private String job;
 
@@ -160,11 +168,11 @@ public class SysAuthUser extends DbBaseDO {
         return classes;
     }
 
-    public void setStuNumber(Integer stuNumber) {
+    public void setStuNumber(Long stuNumber) {
         this.stu_number = stuNumber;
     }
 
-    public Integer getStuNumber() {
+    public Long getStuNumber() {
         return stu_number;
     }
 
@@ -176,11 +184,11 @@ public class SysAuthUser extends DbBaseDO {
         return email;
     }
 
-    public void setPhone(Integer phone) {
+    public void setPhone(Long phone) {
         this.phone = phone;
     }
 
-    public Integer getPhone() {
+    public Long getPhone() {
         return phone;
     }
 

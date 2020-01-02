@@ -156,7 +156,12 @@ public class AuthGatewayFilterFactory extends AbstractGatewayFilterFactory<AuthG
                     return response.setComplete();
                 } else {
                     ParametersModel parametersModel = JSON.parseObject((String) requestBody, ParametersModel.class);
+                    if (exchange.getRequest().getMethod().name() == "GET") {
+//                        return chain.filter(exchange);
+                        parametersModel.setParameters(parametersModel.getParameters().replace(' ', '+'));
+                    }
                     String bodyStr = new String(RSAUtils.decryptByPrivateKey(Base64Utils.decode(parametersModel.getParameters()), tokenInfo.getPrivate_key()));
+
                     //获取requestBody
                     Mono<?> modifiedBody = serverRequest.bodyToMono(inClass).flatMap(o -> {
                         exchange.getAttributes().put(CACHE_REQUEST_BODY_OBJECT_KEY, bodyStr);

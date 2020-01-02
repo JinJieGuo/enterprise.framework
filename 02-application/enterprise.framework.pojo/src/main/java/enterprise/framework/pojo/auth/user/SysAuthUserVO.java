@@ -19,77 +19,94 @@
 
 package enterprise.framework.pojo.auth.user;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+import enterprise.framework.utility.database.DbBaseVO;
+import tk.mybatis.mapper.annotation.NameStyle;
+import tk.mybatis.mapper.code.Style;
+
 import java.util.Date;
 
 /**
  * 用户业务模型
  */
-public class SysAuthUserVO {
+//@NameStyle(Style.camelhumpAndLowercase)
+public class SysAuthUserVO extends DbBaseVO {
+
+    @JsonProperty("userId")
+    private Integer userId;
 
     private Integer user_id;
 
-    private String login_name;
+    public void setUser_id(Integer user_id) {
+        this.user_id = user_id;
+    }
+
+    public Integer getUser_id() {
+        return user_id;
+    }
+
+    private String loginName;
 
     private String password;
 
-    private Integer is_defaultPassword;
+    private Integer isDefaultPassword;
 
-    private String nick_name;
+    private String nickName;
 
-    private String real_name;
+    private String realName;
 
-    private String head_portrait;
+    private String headPortrait;
 
     private String major;
 
     private String classes;
 
-    private Integer stu_number;
+    private Long stuNumber;
 
     private String email;
 
-    private Integer phone;
+    private Long phone;
 
     private String job;
 
-    private Integer pwd_error_count;
+    private Integer pwdErrorCount;
 
-    private Integer login_count;
+    private Integer loginCount;
 
-    private Date register_time;
+    private Date registerTime;
 
-    private Date last_login_time;
+    private Date lastLoginTime;
 
     private Integer sort;
 
-    private Integer audit_state;
+    private Integer auditState;
 
-    private Integer is_enabled;
+    private Integer isEnabled;
 
-    private Integer is_deleted;
+    private Integer isDeleted;
 
     public void setUserId(Integer userId) {
-        this.user_id = userId;
+        this.userId = userId;
     }
 
     public Integer getUserId() {
-        return user_id;
+        return userId;
     }
 
     public void setLoginName(String loginName) {
-        this.login_name = loginName;
+        this.loginName = loginName;
     }
 
     public String getLoginName() {
-        return login_name;
+        return loginName;
     }
 
     public void setIsDefaultPassword(Integer isDefaultPassword) {
-        this.is_defaultPassword = isDefaultPassword;
+        this.isDefaultPassword = isDefaultPassword;
     }
 
     public Integer getIsDefaultPassword() {
-        return is_defaultPassword;
+        return isDefaultPassword;
     }
 
     public void setPassword(String password) {
@@ -101,27 +118,27 @@ public class SysAuthUserVO {
     }
 
     public void setNickName(String nickName) {
-        this.nick_name = nickName;
+        this.nickName = nickName;
     }
 
     public String getNickName() {
-        return nick_name;
+        return nickName;
     }
 
     public void setRealName(String realName) {
-        this.real_name = realName;
+        this.realName = realName;
     }
 
     public String getRealName() {
-        return real_name;
+        return realName;
     }
 
     public void setHeadPortrait(String headPortrait) {
-        this.head_portrait = headPortrait;
+        this.headPortrait = headPortrait;
     }
 
     public String getHeadPortrait() {
-        return head_portrait;
+        return headPortrait;
     }
 
     public void setMajor(String major) {
@@ -140,12 +157,12 @@ public class SysAuthUserVO {
         return classes;
     }
 
-    public void setStuNumber(Integer stuNumber) {
-        this.stu_number = stuNumber;
+    public void setStuNumber(Long stuNumber) {
+        this.stuNumber = stuNumber;
     }
 
-    public Integer getStuNumber() {
-        return stu_number;
+    public Long getStuNumber() {
+        return stuNumber;
     }
 
     public void setEmail(String email) {
@@ -156,11 +173,11 @@ public class SysAuthUserVO {
         return email;
     }
 
-    public void setPhone(Integer phone) {
+    public void setPhone(Long phone) {
         this.phone = phone;
     }
 
-    public Integer getPhone() {
+    public Long getPhone() {
         return phone;
     }
 
@@ -173,35 +190,35 @@ public class SysAuthUserVO {
     }
 
     public void setPwdErrorCount(Integer pwdErrorCount) {
-        this.pwd_error_count = pwdErrorCount;
+        this.pwdErrorCount = pwdErrorCount;
     }
 
     public Integer getPwdErrorCount() {
-        return pwd_error_count;
+        return pwdErrorCount;
     }
 
     public void setLoginCount(Integer loginCount) {
-        this.login_count = loginCount;
+        this.loginCount = loginCount;
     }
 
     public Integer getLoginCount() {
-        return login_count;
+        return loginCount;
     }
 
     public void setRegisterTime(Date registerTime) {
-        this.register_time = registerTime;
+        this.registerTime = registerTime;
     }
 
     public Date getRegisterTime() {
-        return register_time;
+        return registerTime;
     }
 
     public void setLastLoginTime(Date lastLoginTime) {
-        this.last_login_time = lastLoginTime;
+        this.lastLoginTime = lastLoginTime;
     }
 
     public Date getLastLoginTime() {
-        return last_login_time;
+        return lastLoginTime;
     }
 
     public void setSort(Integer sort) {
@@ -213,26 +230,26 @@ public class SysAuthUserVO {
     }
 
     public void setAuditState(Integer auditState) {
-        this.audit_state = auditState;
+        this.auditState = auditState;
     }
 
     public Integer getAuditState() {
-        return audit_state;
+        return auditState;
     }
 
     public void setIsEnabled(Integer isEnabled) {
-        this.is_enabled = isEnabled;
+        this.isEnabled = isEnabled;
     }
 
     public Integer getIsEnabled() {
-        return is_enabled;
+        return isEnabled;
     }
 
     public void setIsDeleted(Integer isDeleted) {
-        this.is_deleted = isDeleted;
+        this.isDeleted = isDeleted;
     }
 
     public Integer getIsDeleted() {
-        return is_deleted;
+        return isDeleted;
     }
 }

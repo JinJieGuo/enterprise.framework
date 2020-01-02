@@ -26,6 +26,8 @@ import java.util.Date;
 
 public class DbBaseDO {
 
+
+
     private Integer creator_id;
 
     private String creator_name;

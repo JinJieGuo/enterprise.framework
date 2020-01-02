@@ -23,6 +23,7 @@ import enterprise.framework.domain.auth.SysAuthUser;
 import enterprise.framework.core.http.HttpResponse;
 import enterprise.framework.core.http.HttpStatus;
 import enterprise.framework.mapper.auth.user.SysAuthUserMapper;
+import enterprise.framework.pojo.auth.user.SysAuthUserVO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
@@ -43,17 +44,19 @@ public class SysAuthUserServiceImpl implements SysAuthUserService {
     /**
      * 保存用户信息
      *
-     * @param sysAuthUser 用户实体
+     * @param sysAuthUserVO 用户实体
      * @return
      */
-    public HttpResponse saveUser(SysAuthUser sysAuthUser) {
+    public HttpResponse saveUser(SysAuthUserVO sysAuthUserVO) {
         HttpResponse httpResponse = new HttpResponse();
         try {
+            SysAuthUser sysAuthUser = new SysAuthUser(sysAuthUserVO);
             int response = sysAuthUserMapper.saveUser(sysAuthUser);
             if (response > 0) {
                 httpResponse.status = HttpStatus.SUCCESS.value();
                 httpResponse.msg = "保存成功";
-                httpResponse.content = sysAuthUser;
+                sysAuthUserVO.setUserId(sysAuthUser.getUserId());
+                httpResponse.content = sysAuthUserVO;
             } else {
                 httpResponse.status = HttpStatus.FAIL.value();
                 httpResponse.msg = "保存失败";
@@ -93,6 +96,32 @@ public class SysAuthUserServiceImpl implements SysAuthUserService {
     }
 
     /**
+     * 根据用户主键获取用户信息
+     *
+     * @param sysAuthUserVO
+     * @return
+     */
+    public HttpResponse getUserById(SysAuthUserVO sysAuthUserVO) {
+        HttpResponse httpResponse = new HttpResponse();
+        try {
+            SysAuthUser param = new SysAuthUser(sysAuthUserVO);
+            SysAuthUser dataSource = sysAuthUserMapper.selectOne(param);
+            if (dataSource != null) {
+                httpResponse.status = HttpStatus.SUCCESS.value();
+                httpResponse.content = dataSource;
+            } else {
+                httpResponse.status = HttpStatus.FAIL.value();
+            }
+            return httpResponse;
+        } catch (Exception error) {
+            httpResponse.status = HttpStatus.ERROR.value();
+            httpResponse.msg = "[类名:(" + this.getClass() + ")]" + "查询异常:" + error.getMessage();
+            return httpResponse;
+        }
+    }
+
+
+    /**
      * 获取所有用户
      *
      * @return
@@ -100,8 +129,7 @@ public class SysAuthUserServiceImpl implements SysAuthUserService {
     public HttpResponse listAllUser() {
         HttpResponse httpResponse = new HttpResponse();
         try {
-//            List<SysAuthUser> response = sysAuthUserMapper.listAllUser();
-            List<SysAuthUser> response = sysAuthUserMapper.selectAll();
+            List<SysAuthUserVO> response = sysAuthUserMapper.listAllUser();
             if (response.size() > 0) {
                 httpResponse.status = HttpStatus.SUCCESS.value();
                 httpResponse.msg = "查询成功";

@@ -20,6 +20,7 @@
 package enterprise.framework.mapper.auth.user;
 
 import enterprise.framework.domain.auth.SysAuthUser;
+import enterprise.framework.pojo.auth.user.SysAuthUserVO;
 import org.apache.ibatis.annotations.InsertProvider;
 import org.apache.ibatis.annotations.Options;
 import org.apache.ibatis.annotations.Select;
@@ -60,8 +61,14 @@ public interface SysAuthUserMapper extends Mapper<SysAuthUser> {
      *
      * @return
      */
-    @Select("SELECT * FROM sys_auth_user")
-    List<SysAuthUser> listAllUser();
+    @Select("SELECT a.*,@rank:=@rank + 1 AS `index` FROM\n" +
+            "(\n" +
+            "\tSELECT user_id, login_name, nick_name, real_name, head_portrait, major, classes, stu_number, email, phone, job, pwd_error_count, login_count,\n" +
+            "\tregister_time, last_login_time, sort\n" +
+            "\tFROM sys_auth_user\n" +
+            ")a, (SELECT @rank:= 0) b")
+    List<SysAuthUserVO> listAllUser();
+
 }
 
 

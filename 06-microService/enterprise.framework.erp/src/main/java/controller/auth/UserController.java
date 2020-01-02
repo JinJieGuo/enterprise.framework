@@ -19,7 +19,12 @@
 
 package controller.auth;
 
+import com.netflix.ribbon.proxy.annotation.Http;
+import enterprise.framework.business.engine.Components;
+import enterprise.framework.business.engine.IScheduler;
+import enterprise.framework.pojo.auth.user.SysAuthUserVO;
 import enterprise.framework.service.auth.user.SysAuthUserService;
+import org.springframework.http.HttpMethod;
 import org.springframework.web.bind.annotation.*;
 import enterprise.framework.core.http.HttpResponse;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -35,6 +40,18 @@ public class UserController {
     @RequestMapping("listAllUser")
     public HttpResponse listAllUser() {
         return sysAuthUserService.listAllUser();
+    }
+
+    @ResponseBody
+    @PostMapping("saveUser")
+    public HttpResponse saveUser(@RequestBody SysAuthUserVO sysAuthUserVO) {
+        IScheduler businessScheduler = new Components();
+        return businessScheduler.authManager().instance().register(sysAuthUserVO);
+    }
+
+    @RequestMapping(value = "getUserById", method = RequestMethod.GET)
+    public HttpResponse getUserById(SysAuthUserVO sysAuthUserVO) {
+        return sysAuthUserService.getUserById(sysAuthUserVO);
     }
 
 }
