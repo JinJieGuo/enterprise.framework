@@ -27,10 +27,10 @@ import org.springframework.web.bind.annotation.*;
 public class CategoryController {
 
 
-    @ResponseBody
-    @PostMapping("getCategoryList")
-//    @RequestMapping(value = "getCategoryList", method = RequestMethod.POST)
-    public HttpResponse getCategoryList(@RequestBody CategorySearchModel categorySearchModel) {
-        return new HttpResponse();
-    }
+//    @ResponseBody
+//    @PostMapping("getCategoryList")
+////    @RequestMapping(value = "getCategoryList", method = RequestMethod.POST)
+//    public HttpResponse getCategoryList(@RequestBody CategorySearchModel categorySearchModel) {
+//        return new HttpResponse();
+//    }
 }

@@ -188,7 +188,8 @@ public class AuthGatewayFilterFactory extends AbstractGatewayFilterFactory<AuthG
                         ServerWebExchange build = exchange.mutate().request(host).build();
                         return chain.filter(build);
                     }
-                    String bodyStr = new String(RSAUtils.decryptByPrivateKey(Base64Utils.decode(parametersModel.getParameters()), tokenInfo.getPrivate_key()));
+
+                    String bodyStr = parametersModel.getParameters() != null ? new String(RSAUtils.decryptByPrivateKey(Base64Utils.decode(parametersModel.getParameters()), tokenInfo.getPrivate_key())) : "";
 
                     //获取requestBody
                     Mono<?> modifiedBody = serverRequest.bodyToMono(inClass).flatMap(o -> {

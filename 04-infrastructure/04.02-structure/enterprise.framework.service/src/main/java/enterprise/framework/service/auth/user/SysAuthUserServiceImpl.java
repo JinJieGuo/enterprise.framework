@@ -166,7 +166,7 @@ public class SysAuthUserServiceImpl implements SysAuthUserService {
                 httpResponse.content = dataSource;
             } else {
                 httpResponse.msg = "查询成功无数据";
-                httpResponse.status = HttpStatus.FAIL.value();
+                httpResponse.status = HttpStatus.SUCCESS.value();
             }
             return httpResponse;
         } catch (Exception error) {
@@ -191,7 +191,7 @@ public class SysAuthUserServiceImpl implements SysAuthUserService {
                 httpResponse.msg = "查询成功";
                 httpResponse.content = response;
             } else {
-                httpResponse.status = HttpStatus.FAIL.value();
+                httpResponse.status = HttpStatus.SUCCESS.value();
                 httpResponse.msg = "查询成功,但无返回值";
             }
             return httpResponse;

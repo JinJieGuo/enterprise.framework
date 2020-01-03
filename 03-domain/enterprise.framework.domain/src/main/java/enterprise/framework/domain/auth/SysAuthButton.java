@@ -21,8 +21,15 @@ package enterprise.framework.domain.auth;
 
 import enterprise.framework.pojo.auth.button.SysAuthButtonVO;
 import enterprise.framework.utility.database.DbBaseDO;
+import enterprise.framework.utility.database.PrimaryKey;
+import enterprise.framework.utility.database.Table;
+import org.springframework.stereotype.Component;
 import sun.rmi.runtime.Log;
+import tk.mybatis.mapper.annotation.NameStyle;
+import tk.mybatis.mapper.code.Style;
 
+@Table("sys_auth_button")
+@NameStyle(Style.camelhumpAndLowercase)
 public class SysAuthButton extends DbBaseDO {
 
     public SysAuthButton() {
@@ -44,6 +51,7 @@ public class SysAuthButton extends DbBaseDO {
         this.is_deleted = sysAuthButtonVO.getIsDelete();
     }
 
+    @PrimaryKey("button_id")
     private Long button_id;
 
     private String button_name;

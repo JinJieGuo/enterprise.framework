@@ -25,12 +25,14 @@ import enterprise.framework.domain.auth.SysAuthButton;
 import enterprise.framework.mapper.auth.button.SysAuthButtonMapper;
 import enterprise.framework.pojo.auth.button.SysAuthButtonVO;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import java.util.List;
 
+@Service
 public class SysAuthButtonServiceImpl implements SysAuthButtonService {
 
-    @Autowired
+    @Autowired(required = false)
     private SysAuthButtonMapper sysAuthButtonMapper;
 
     /**
@@ -131,7 +133,7 @@ public class SysAuthButtonServiceImpl implements SysAuthButtonService {
                 httpResponse.status = HttpStatus.SUCCESS.value();
                 httpResponse.msg = "查询成功";
             } else {
-                httpResponse.status = HttpStatus.FAIL.value();
+                httpResponse.status = HttpStatus.SUCCESS.value();
                 httpResponse.msg = "查询成功,但无返回值";
             }
             return httpResponse;
@@ -156,7 +158,7 @@ public class SysAuthButtonServiceImpl implements SysAuthButtonService {
                 httpResponse.msg = "查询成功";
                 httpResponse.content = dataSource;
             } else {
-                httpResponse.status = HttpStatus.FAIL.value();
+                httpResponse.status = HttpStatus.SUCCESS.value();
                 httpResponse.msg = "查询成功,但无返回值";
             }
             return httpResponse;

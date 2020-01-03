@@ -42,7 +42,7 @@ public interface SysAuthButtonMapper extends Mapper<SysAuthButton> {
      * @return
      */
     @Options(useGeneratedKeys = true, keyProperty = "button_id", keyColumn = "button_id")
-    @InsertProvider(type = SysAuthUserGenerateSql.class, method = "generateSaveSql")
+    @InsertProvider(type = SysAuthButtonGenerateSql.class, method = "generateSaveSql")
     int saveButton(SysAuthButton sysAuthButton);
 
     /**
@@ -52,7 +52,7 @@ public interface SysAuthButtonMapper extends Mapper<SysAuthButton> {
      * @return
      */
     @Options(useGeneratedKeys = true, keyProperty = "button_id", keyColumn = "button_id")
-    @UpdateProvider(type = SysAuthUserGenerateSql.class, method = "generateUpdateSql")
+    @UpdateProvider(type = SysAuthButtonGenerateSql.class, method = "generateUpdateSql")
     int updateButton(SysAuthButton sysAuthButton);
 
     /**

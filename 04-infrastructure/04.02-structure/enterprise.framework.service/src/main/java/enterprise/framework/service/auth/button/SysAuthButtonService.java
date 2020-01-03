@@ -4,7 +4,7 @@ import enterprise.framework.core.http.HttpResponse;
 import enterprise.framework.pojo.auth.button.SysAuthButtonVO;
 import org.springframework.stereotype.Service;
 
-@Service
+
 public interface SysAuthButtonService {
 
     /**
