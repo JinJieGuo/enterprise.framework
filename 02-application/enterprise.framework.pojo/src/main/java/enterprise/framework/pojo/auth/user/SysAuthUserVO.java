@@ -35,14 +35,14 @@ public class SysAuthUserVO extends DbBaseVO {
     @JsonProperty("userId")
     private Integer userId;
 
-    private Integer user_id;
+    private String parameters;
 
-    public void setUser_id(Integer user_id) {
-        this.user_id = user_id;
+    public void setParameters(String parameters) {
+        this.parameters = parameters;
     }
 
-    public Integer getUser_id() {
-        return user_id;
+    public String getParameters() {
+        return parameters;
     }
 
     private String loginName;

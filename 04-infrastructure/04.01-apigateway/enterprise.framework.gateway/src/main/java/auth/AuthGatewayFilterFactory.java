@@ -34,11 +34,16 @@ import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.data.redis.serializer.RedisSerializer;
 import org.springframework.data.redis.serializer.StringRedisSerializer;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.server.reactive.ServerHttpRequest;
 import org.springframework.http.server.reactive.ServerHttpResponse;
 import org.springframework.stereotype.Component;
 import org.springframework.web.reactive.function.server.ServerRequest;
+import org.springframework.web.server.ServerWebExchange;
+import org.springframework.web.util.UriComponentsBuilder;
 import pojo.ParametersModel;
 import reactor.core.publisher.Mono;
+
+import java.net.URI;
 
 /**
  * 企业级框架 — 网关
@@ -159,6 +164,32 @@ public class AuthGatewayFilterFactory extends AbstractGatewayFilterFactory<AuthG
                     if (exchange.getRequest().getMethod().name() == "GET") {
 //                        return chain.filter(exchange);
                         parametersModel.setParameters(parametersModel.getParameters().replace(' ', '+'));
+                        String param = new String(RSAUtils.decryptByPrivateKey(Base64Utils.decode(parametersModel.getParameters()), tokenInfo.getPrivate_key()));
+
+                        String temp = param.replace('{', ' ').replace('}', ' ');
+
+                        String[] temp1 = temp.split("\\,");
+
+                        String paramStr = "";
+                        boolean flag = true;
+                        for (int i = 0; i < temp1.length; i++) {
+                            String[] tempObj = temp1[i].split("\\:");
+                            if (flag) {
+                                paramStr += tempObj[0] + "=" + tempObj[1];
+                                flag = false;
+                            } else {
+                                paramStr += "&" + tempObj[0] + "=" + tempObj[1];
+                            }
+                        }
+                        paramStr = paramStr.replace('"', ' ').replaceAll(" ", "");
+
+                        URI newUri = UriComponentsBuilder.fromUri(exchange.getRequest().getURI())
+                                .replaceQuery(paramStr)
+                                .build(true)
+                                .toUri();
+                        ServerHttpRequest host = exchange.getRequest().mutate().uri(newUri).build();
+                        ServerWebExchange build = exchange.mutate().request(host).build();
+                        return chain.filter(build);
                     }
                     String bodyStr = new String(RSAUtils.decryptByPrivateKey(Base64Utils.decode(parametersModel.getParameters()), tokenInfo.getPrivate_key()));
 
