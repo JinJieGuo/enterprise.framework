@@ -23,6 +23,12 @@ public class DbBaseVO {
 
     private Integer index;
 
+    private Integer auditState;
+
+    private Integer isEnable;
+
+    private Integer isDelete;
+
     public void setIndex(Integer index) {
         this.index = index;
     }
@@ -30,10 +36,6 @@ public class DbBaseVO {
     public Integer getIndex() {
         return index;
     }
-
-    private Integer auditState;
-
-    private Integer isEnable;
 
     public void setAuditState(Integer auditState) {
         this.auditState = auditState;
@@ -49,5 +51,13 @@ public class DbBaseVO {
 
     public Integer getIsEnable() {
         return isEnable;
+    }
+
+    public void setIsDelete(Integer isDelete) {
+        this.isDelete = isDelete;
+    }
+
+    public Integer getIsDelete() {
+        return isDelete;
     }
 }

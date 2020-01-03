@@ -52,6 +52,14 @@ public interface SysAuthUserService {
     HttpResponse updateUser(SysAuthUserVO sysAuthUserVO);
 
     /**
+     * 删除用户
+     *
+     * @param sysAuthUserVO
+     * @return
+     */
+    HttpResponse deleteUser(SysAuthUserVO sysAuthUserVO);
+
+    /**
      * 根据用户主键获取用户信息
      *
      * @param sysAuthUserVO

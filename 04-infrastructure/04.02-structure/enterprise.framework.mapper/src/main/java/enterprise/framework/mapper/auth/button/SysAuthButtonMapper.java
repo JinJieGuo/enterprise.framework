@@ -2,8 +2,8 @@
  * Copyright(c) 2019 Enterprise.Framework All rights reserved. / Confidential
  * ClassInformation:
  *		1.ProgramName:Enterprise.Framework.Core
- *		2.ClassName:SysAuthUserMapper.java
- *		3.FunctionDescription:权限管理 — 用户仓储
+ *		2.ClassName:HttpManager.cs
+ *		3.FunctionDescription:核心组件 — 模拟请求处理器
  *		4.Call:
  *		5.CalledBy:
  *		6.TableAccessed:
@@ -14,13 +14,15 @@
  *       11.Others:
  * EditResume:
  *	   Author				Date			  version			   ChangeContent 
- *		gl				 2019-12-21		        1.00					新建
+ *		gl				 2020-01-03		      1.00					新建
  *******************************************************************************/
 
-package enterprise.framework.mapper.auth.user;
+package enterprise.framework.mapper.auth.button;
 
+import enterprise.framework.domain.auth.SysAuthButton;
 import enterprise.framework.domain.auth.SysAuthUser;
-import enterprise.framework.pojo.auth.user.SysAuthUserVO;
+import enterprise.framework.mapper.auth.user.SysAuthUserGenerateSql;
+import enterprise.framework.pojo.auth.button.SysAuthButtonVO;
 import org.apache.ibatis.annotations.InsertProvider;
 import org.apache.ibatis.annotations.Options;
 import org.apache.ibatis.annotations.Select;
@@ -30,45 +32,38 @@ import tk.mybatis.mapper.common.Mapper;
 
 import java.util.List;
 
-//@Mapper
-/**
- * 权限管理 — 用户仓储
- */
 @Component
-public interface SysAuthUserMapper extends Mapper<SysAuthUser> {
+public interface SysAuthButtonMapper extends Mapper<SysAuthButton> {
 
     /**
-     * 保存单个用户
+     * 保存单个按钮
      *
-     * @param sysAuthUser
+     * @param sysAuthButton
      * @return
      */
-    @Options(useGeneratedKeys = true, keyProperty = "user_id", keyColumn = "user_id")
+    @Options(useGeneratedKeys = true, keyProperty = "button_id", keyColumn = "button_id")
     @InsertProvider(type = SysAuthUserGenerateSql.class, method = "generateSaveSql")
-    int saveUser(SysAuthUser sysAuthUser);
+    int saveButton(SysAuthButton sysAuthButton);
 
     /**
-     * 更新单个用户
+     * 更新单个按钮
      *
-     * @param sysAuthUser
+     * @param sysAuthButton
      * @return
      */
-    @Options(useGeneratedKeys = true, keyProperty = "user_id", keyColumn = "user_id")
+    @Options(useGeneratedKeys = true, keyProperty = "button_id", keyColumn = "button_id")
     @UpdateProvider(type = SysAuthUserGenerateSql.class, method = "generateUpdateSql")
-    int updateUser(SysAuthUser sysAuthUser);
+    int updateButton(SysAuthButton sysAuthButton);
 
     /**
-     * 获取所有用户
+     * 查询所有按钮
      *
      * @return
      */
-    @Select("SELECT a.*,@rank:=@rank + 1 AS `index` FROM\n" +
+    @Select("SELECT a.*, @rank:=@rank + 1 AS `index` FROM\n" +
             "(\n" +
-            "SELECT user_id, login_name, nick_name, real_name, head_portrait, major, classes, stu_number, email, phone, job, pwd_error_count, login_count, register_time, last_login_time, sort, is_enabled, audit_state\n" +
-            "FROM sys_auth_user WHERE is_deleted = 0\n" +
+            "SELECT button_id, button_name, button_code, button_class, tree_id, icon, description, sort, audit_state, is_enabled, is_deleted\n" +
+            "FROM sys_auth_button WHERE is_deleted = 0\n" +
             ")a, (SELECT @rank:= 0) b")
-    List<SysAuthUserVO> listAllUser();
-
+    List<SysAuthButtonVO> listAllButton();
 }
-
-

@@ -14,23 +14,10 @@
  *       11.Others:
  * EditResume:
  *	   Author				Date			  version			   ChangeContent 
- *		gl				 2019-12-19		        1.00					新建
+ *		gl				 2020-01-03		      1.00					新建
  *******************************************************************************/
 
-package controller.config;
+package enterprise.framework.pojo.config.tree;
 
-import enterprise.framework.core.http.HttpResponse;
-import org.springframework.web.bind.annotation.*;
-
-@RestController
-@RequestMapping("/v1/category/")
-public class CategoryController {
-
-
-    @ResponseBody
-    @PostMapping("getCategoryList")
-//    @RequestMapping(value = "getCategoryList", method = RequestMethod.POST)
-    public HttpResponse getCategoryList(@RequestBody CategorySearchModel categorySearchModel) {
-        return new HttpResponse();
-    }
+public class SysConfigTreeVO {
 }

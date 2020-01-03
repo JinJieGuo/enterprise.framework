@@ -14,22 +14,10 @@
  *       11.Others:
  * EditResume:
  *	   Author				Date			  version			   ChangeContent 
- *		gl				 2019-12-20		        1.00					新建
+ *		gl				 2020-01-03		      1.00					新建
  *******************************************************************************/
 
-package enterprise.framework.pojo.config;
+package enterprise.framework.pojo.config.dictionary;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
-
-public class CategorySearchModel {
-//    @JsonProperty("parent_id")
-    private int parent_id;
-
-    public void setParent_id(int parent_id) {
-        this.parent_id = parent_id;
-    }
-
-    public int getParent_id() {
-        return parent_id;
-    }
+public class DictionarySearchVO {
 }

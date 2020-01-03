@@ -36,17 +36,34 @@ public class UserController {
     @Autowired(required = false)
     private SysAuthUserService sysAuthUserService;
 
+    /**
+     * 获取用户集合
+     *
+     * @return
+     */
     @ResponseBody
     @RequestMapping("listAllUser")
     public HttpResponse listAllUser() {
         return sysAuthUserService.listAllUser();
     }
 
+    /**
+     * 获取单个用户
+     *
+     * @param sysAuthUserVO
+     * @return
+     */
     @RequestMapping(value = "getUserById", method = RequestMethod.GET)
     public HttpResponse getUserById(SysAuthUserVO sysAuthUserVO) {
         return sysAuthUserService.getUserById(sysAuthUserVO);
     }
 
+    /**
+     * 用户新增
+     *
+     * @param sysAuthUserVO
+     * @return
+     */
     @ResponseBody
     @PostMapping("saveUser")
     public HttpResponse saveUser(@RequestBody SysAuthUserVO sysAuthUserVO) {
@@ -54,10 +71,28 @@ public class UserController {
         return businessScheduler.authManager().instance().register(sysAuthUserVO);
     }
 
+    /**
+     * 用户更新
+     *
+     * @param sysAuthUserVO
+     * @return
+     */
     @ResponseBody
     @PostMapping("updateUser")
-    public HttpResponse updateUser(@RequestBody SysAuthUserVO sysAuthUserVO){
+    public HttpResponse updateUser(@RequestBody SysAuthUserVO sysAuthUserVO) {
         return sysAuthUserService.updateUser(sysAuthUserVO);
+    }
+
+    /**
+     * 用户删除
+     *
+     * @param sysAuthUserVO
+     * @return
+     */
+    @ResponseBody
+    @PostMapping("deleteUser")
+    public HttpResponse deleteUser(@RequestBody SysAuthUserVO sysAuthUserVO) {
+        return sysAuthUserService.deleteUser(sysAuthUserVO);
     }
 
 }

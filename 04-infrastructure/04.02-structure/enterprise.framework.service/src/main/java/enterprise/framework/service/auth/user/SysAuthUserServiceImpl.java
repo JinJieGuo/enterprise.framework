@@ -105,8 +105,6 @@ public class SysAuthUserServiceImpl implements SysAuthUserService {
         HttpResponse httpResponse = new HttpResponse();
         try {
             SysAuthUser sysAuthUser = new SysAuthUser(sysAuthUserVO);
-//            sysAuthUserMapper.saveUser(sysAuthUser);
-//            int response = sysAuthUserMapper.updateUser(sysAuthUser);
             int response = sysAuthUserMapper.updateUser(sysAuthUser);
             if (response > 0) {
                 httpResponse.status = HttpStatus.SUCCESS.value();
@@ -120,6 +118,33 @@ public class SysAuthUserServiceImpl implements SysAuthUserService {
         } catch (Exception error) {
             httpResponse.status = HttpStatus.ERROR.value();
             httpResponse.msg = "[类名:(" + this.getClass() + ")]" + "更新异常:" + error.getMessage();
+            return httpResponse;
+        }
+    }
+
+    /**
+     * 删除用户
+     *
+     * @param sysAuthUserVO
+     * @return
+     */
+    public HttpResponse deleteUser(SysAuthUserVO sysAuthUserVO) {
+        HttpResponse httpResponse = new HttpResponse();
+        try {
+            sysAuthUserVO.setIsDeleted(1);
+            SysAuthUser sysAuthUser = new SysAuthUser(sysAuthUserVO);
+            int response = sysAuthUserMapper.updateUser(sysAuthUser);
+            if (response > 0) {
+                httpResponse.status = HttpStatus.SUCCESS.value();
+                httpResponse.msg = "删除成功";
+            } else {
+                httpResponse.status = HttpStatus.FAIL.value();
+                httpResponse.msg = "删除失败";
+            }
+            return httpResponse;
+        } catch (Exception error) {
+            httpResponse.status = HttpStatus.ERROR.value();
+            httpResponse.msg = "[类名:(" + this.getClass() + ")]" + "删除异常:" + error.getMessage();
             return httpResponse;
         }
     }
@@ -167,7 +192,7 @@ public class SysAuthUserServiceImpl implements SysAuthUserService {
                 httpResponse.content = response;
             } else {
                 httpResponse.status = HttpStatus.FAIL.value();
-                httpResponse.msg = "查询失败";
+                httpResponse.msg = "查询成功,但无返回值";
             }
             return httpResponse;
         } catch (Exception error) {

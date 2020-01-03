@@ -59,6 +59,7 @@ public class SysAuthUser extends DbBaseDO {
         this.email = sysAuthUserVO.getEmail();
         this.phone = sysAuthUserVO.getPhone();
         this.job = sysAuthUserVO.getJob();
+        this.is_deleted = sysAuthUserVO.getIsDeleted();
         this.audit_state = sysAuthUserVO.getAuditState();
         this.is_enabled = sysAuthUserVO.getIsEnabled();
     }

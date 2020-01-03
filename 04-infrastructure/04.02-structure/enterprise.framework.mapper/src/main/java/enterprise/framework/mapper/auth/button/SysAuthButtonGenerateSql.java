@@ -14,23 +14,13 @@
  *       11.Others:
  * EditResume:
  *	   Author				Date			  version			   ChangeContent 
- *		gl				 2019-12-19		        1.00					新建
+ *		gl				 2020-01-03		      1.00					新建
  *******************************************************************************/
 
-package controller.config;
+package enterprise.framework.mapper.auth.button;
 
-import enterprise.framework.core.http.HttpResponse;
-import org.springframework.web.bind.annotation.*;
+import enterprise.framework.domain.auth.SysAuthButton;
+import enterprise.framework.utility.database.ReflectProvider;
 
-@RestController
-@RequestMapping("/v1/category/")
-public class CategoryController {
-
-
-    @ResponseBody
-    @PostMapping("getCategoryList")
-//    @RequestMapping(value = "getCategoryList", method = RequestMethod.POST)
-    public HttpResponse getCategoryList(@RequestBody CategorySearchModel categorySearchModel) {
-        return new HttpResponse();
-    }
+public class SysAuthButtonGenerateSql extends ReflectProvider<SysAuthButton> {
 }
