@@ -44,6 +44,14 @@ public interface SysAuthUserService {
     HttpResponse updateUser(SysAuthUser sysAuthUser);
 
     /**
+     * 更新用户
+     *
+     * @param sysAuthUserVO
+     * @return
+     */
+    HttpResponse updateUser(SysAuthUserVO sysAuthUserVO);
+
+    /**
      * 根据用户主键获取用户信息
      *
      * @param sysAuthUserVO

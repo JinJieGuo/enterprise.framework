@@ -162,14 +162,11 @@ public class AuthGatewayFilterFactory extends AbstractGatewayFilterFactory<AuthG
                 } else {
                     ParametersModel parametersModel = JSON.parseObject((String) requestBody, ParametersModel.class);
                     if (exchange.getRequest().getMethod().name() == "GET") {
-//                        return chain.filter(exchange);
                         parametersModel.setParameters(parametersModel.getParameters().replace(' ', '+'));
                         String param = new String(RSAUtils.decryptByPrivateKey(Base64Utils.decode(parametersModel.getParameters()), tokenInfo.getPrivate_key()));
-
+                        //去掉json字符串中的{},并根据逗号截取参数,为重新拼接querystring做准备
                         String temp = param.replace('{', ' ').replace('}', ' ');
-
                         String[] temp1 = temp.split("\\,");
-
                         String paramStr = "";
                         boolean flag = true;
                         for (int i = 0; i < temp1.length; i++) {
@@ -200,8 +197,6 @@ public class AuthGatewayFilterFactory extends AbstractGatewayFilterFactory<AuthG
                     });
                     return requestBodyHandler.overWriteRequestBody(exchange, chain, modifiedBody, inClass);
                 }
-
-//                return chain.filter(exchange);
             } catch (Exception error) {
                 ServerHttpResponse response = exchange.getResponse();
                 response.setStatusCode(HttpStatus.INTERNAL_SERVER_ERROR);

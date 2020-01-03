@@ -42,6 +42,11 @@ public class UserController {
         return sysAuthUserService.listAllUser();
     }
 
+    @RequestMapping(value = "getUserById", method = RequestMethod.GET)
+    public HttpResponse getUserById(SysAuthUserVO sysAuthUserVO) {
+        return sysAuthUserService.getUserById(sysAuthUserVO);
+    }
+
     @ResponseBody
     @PostMapping("saveUser")
     public HttpResponse saveUser(@RequestBody SysAuthUserVO sysAuthUserVO) {
@@ -49,9 +54,10 @@ public class UserController {
         return businessScheduler.authManager().instance().register(sysAuthUserVO);
     }
 
-    @RequestMapping(value = "getUserById", method = RequestMethod.GET)
-    public HttpResponse getUserById(SysAuthUserVO sysAuthUserVO) {
-        return sysAuthUserService.getUserById(sysAuthUserVO);
+    @ResponseBody
+    @PostMapping("updateUser")
+    public HttpResponse updateUser(@RequestBody SysAuthUserVO sysAuthUserVO){
+        return sysAuthUserService.updateUser(sysAuthUserVO);
     }
 
 }

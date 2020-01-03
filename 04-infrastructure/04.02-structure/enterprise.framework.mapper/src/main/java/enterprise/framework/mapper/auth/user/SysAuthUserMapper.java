@@ -24,6 +24,7 @@ import enterprise.framework.pojo.auth.user.SysAuthUserVO;
 import org.apache.ibatis.annotations.InsertProvider;
 import org.apache.ibatis.annotations.Options;
 import org.apache.ibatis.annotations.Select;
+import org.apache.ibatis.annotations.UpdateProvider;
 import org.springframework.stereotype.Component;
 import tk.mybatis.mapper.common.Mapper;
 
@@ -53,7 +54,7 @@ public interface SysAuthUserMapper extends Mapper<SysAuthUser> {
      * @return
      */
     @Options(useGeneratedKeys = true, keyProperty = "user_id", keyColumn = "user_id")
-    @InsertProvider(type = SysAuthUserGenerateSql.class, method = "generateUpdateSql")
+    @UpdateProvider(type = SysAuthUserGenerateSql.class, method = "generateUpdateSql")
     int updateUser(SysAuthUser sysAuthUser);
 
     /**

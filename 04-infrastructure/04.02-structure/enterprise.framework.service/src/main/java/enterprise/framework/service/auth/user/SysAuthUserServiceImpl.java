@@ -96,6 +96,35 @@ public class SysAuthUserServiceImpl implements SysAuthUserService {
     }
 
     /**
+     * 更新用户
+     *
+     * @param sysAuthUserVO
+     * @return
+     */
+    public HttpResponse updateUser(SysAuthUserVO sysAuthUserVO) {
+        HttpResponse httpResponse = new HttpResponse();
+        try {
+            SysAuthUser sysAuthUser = new SysAuthUser(sysAuthUserVO);
+//            sysAuthUserMapper.saveUser(sysAuthUser);
+//            int response = sysAuthUserMapper.updateUser(sysAuthUser);
+            int response = sysAuthUserMapper.updateUser(sysAuthUser);
+            if (response > 0) {
+                httpResponse.status = HttpStatus.SUCCESS.value();
+                httpResponse.msg = "更新成功";
+                httpResponse.content = sysAuthUser;
+            } else {
+                httpResponse.status = HttpStatus.FAIL.value();
+                httpResponse.msg = "更新失败";
+            }
+            return httpResponse;
+        } catch (Exception error) {
+            httpResponse.status = HttpStatus.ERROR.value();
+            httpResponse.msg = "[类名:(" + this.getClass() + ")]" + "更新异常:" + error.getMessage();
+            return httpResponse;
+        }
+    }
+
+    /**
      * 根据用户主键获取用户信息
      *
      * @param sysAuthUserVO
@@ -108,8 +137,10 @@ public class SysAuthUserServiceImpl implements SysAuthUserService {
             SysAuthUser dataSource = sysAuthUserMapper.selectOne(param);
             if (dataSource != null) {
                 httpResponse.status = HttpStatus.SUCCESS.value();
+                httpResponse.msg = "查询成功";
                 httpResponse.content = dataSource;
             } else {
+                httpResponse.msg = "查询成功无数据";
                 httpResponse.status = HttpStatus.FAIL.value();
             }
             return httpResponse;
