@@ -132,6 +132,7 @@ public class SysAuthButtonServiceImpl implements SysAuthButtonService {
             if (response != null) {
                 httpResponse.status = HttpStatus.SUCCESS.value();
                 httpResponse.msg = "查询成功";
+                httpResponse.content = response;
             } else {
                 httpResponse.status = HttpStatus.SUCCESS.value();
                 httpResponse.msg = "查询成功,但无返回值";
