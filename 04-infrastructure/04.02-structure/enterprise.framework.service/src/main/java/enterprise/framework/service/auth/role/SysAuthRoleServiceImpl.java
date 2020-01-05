@@ -22,14 +22,11 @@ package enterprise.framework.service.auth.role;
 import enterprise.framework.core.http.HttpResponse;
 import enterprise.framework.core.http.HttpStatus;
 import enterprise.framework.domain.auth.SysAuthRole;
-import enterprise.framework.domain.auth.SysAuthUser;
 import enterprise.framework.mapper.auth.role.SysAuthRoleMapper;
 import enterprise.framework.pojo.auth.role.SysAuthRoleVO;
-import enterprise.framework.pojo.auth.user.SysAuthUserVO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 

@@ -26,22 +26,16 @@ import java.util.Date;
 
 public class DbBaseDO {
 
-
-
     private Long creator_id;
 
     private String creator_name;
 
-//    @DateTimeFormat( pattern = "yyyy-MM-dd HH:mm:ss" )
-//    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone="GMT+8")
     private Date create_time;
 
     private Long modifier_id;
 
     private String modifier_name;
 
-//    @DateTimeFormat( pattern = "yyyy-MM-dd HH:mm:ss" )
-//    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone="GMT+8")
     private Date modify_time;
 
     public void setCreatorId(Long creatorId) {

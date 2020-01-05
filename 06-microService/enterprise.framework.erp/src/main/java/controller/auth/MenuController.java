@@ -14,23 +14,24 @@
  *       11.Others:
  * EditResume:
  *	   Author				Date			  version			   ChangeContent 
- *		gl				 2020-01-03		      1.00					新建
+ *		gl				 2020-01-05		        1.00					新建
  *******************************************************************************/
 
 package controller.auth;
 
 import enterprise.framework.core.http.HttpResponse;
 import enterprise.framework.pojo.auth.button.SysAuthButtonVO;
-import enterprise.framework.service.auth.button.SysAuthButtonService;
+import enterprise.framework.pojo.auth.menu.SysAuthMenuVO;
+import enterprise.framework.service.auth.menu.SysAuthMenuService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-@RequestMapping("/v1/auth/button/")
-public class ButtonController {
+@RequestMapping("/v1/auth/menu/")
+public class MenuController {
 
     @Autowired
-    private SysAuthButtonService sysAuthButtonService;
+    private SysAuthMenuService sysAuthMenuService;
 
     /**
      * 保存按钮
@@ -38,9 +39,9 @@ public class ButtonController {
      * @return
      */
     @ResponseBody
-    @PostMapping("saveButton")
-    public HttpResponse saveButton(@RequestBody SysAuthButtonVO sysAuthButtonVO) {
-        return sysAuthButtonService.saveButton(sysAuthButtonVO);
+    @PostMapping("saveMenu")
+    public HttpResponse saveMenu(@RequestBody SysAuthMenuVO sysAuthMenuVO) {
+        return sysAuthMenuService.saveMenu(sysAuthMenuVO);
     }
 
     /**
@@ -49,9 +50,9 @@ public class ButtonController {
      * @return
      */
     @ResponseBody
-    @PostMapping("updateButton")
-    public HttpResponse updateButton(@RequestBody SysAuthButtonVO sysAuthButtonVO) {
-        return sysAuthButtonService.updateButton(sysAuthButtonVO);
+    @PostMapping("updateMenu")
+    public HttpResponse updateMenu(@RequestBody SysAuthMenuVO sysAuthMenuVO) {
+        return sysAuthMenuService.updateMenu(sysAuthMenuVO);
     }
 
     /**
@@ -60,15 +61,15 @@ public class ButtonController {
      * @return
      */
     @ResponseBody
-    @PostMapping("deleteButton")
-    public HttpResponse deleteButton(@RequestBody SysAuthButtonVO sysAuthButtonVO) {
-        return sysAuthButtonService.deleteButton(sysAuthButtonVO);
+    @PostMapping("deleteMenu")
+    public HttpResponse deleteMenu(@RequestBody SysAuthMenuVO sysAuthMenuVO) {
+        return sysAuthMenuService.deleteMenu(sysAuthMenuVO);
     }
 
     @ResponseBody
-    @GetMapping("getButtonById")
-    public HttpResponse getButtonById(SysAuthButtonVO sysAuthButtonVO) {
-        return sysAuthButtonService.getButtonById(sysAuthButtonVO);
+    @GetMapping("getMenuById")
+    public HttpResponse getMenuById(SysAuthMenuVO sysAuthMenuVO) {
+        return sysAuthMenuService.getMenuById(sysAuthMenuVO);
     }
 
     /**
@@ -77,8 +78,8 @@ public class ButtonController {
      * @return
      */
     @ResponseBody
-    @GetMapping("listAllButton")
-    public HttpResponse listAllButton(SysAuthButtonVO sysAuthButtonVO) {
-        return sysAuthButtonService.listAllButton();
+    @GetMapping("listAllMenu")
+    public HttpResponse listAllMenu(SysAuthButtonVO sysAuthButtonVO) {
+        return sysAuthMenuService.listAllMenu();
     }
 }
