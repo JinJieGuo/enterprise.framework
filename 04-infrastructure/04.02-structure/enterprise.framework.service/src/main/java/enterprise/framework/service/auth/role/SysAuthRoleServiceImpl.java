@@ -14,43 +14,47 @@
  *       11.Others:
  * EditResume:
  *	   Author				Date			  version			   ChangeContent 
- *		gl				 2020-01-03		      1.00					新建
+ *		gl				 2020-01-04		        1.00					新建
  *******************************************************************************/
 
-package enterprise.framework.service.auth.button;
+package enterprise.framework.service.auth.role;
 
 import enterprise.framework.core.http.HttpResponse;
 import enterprise.framework.core.http.HttpStatus;
-import enterprise.framework.domain.auth.SysAuthButton;
-import enterprise.framework.mapper.auth.button.SysAuthButtonMapper;
-import enterprise.framework.pojo.auth.button.SysAuthButtonVO;
+import enterprise.framework.domain.auth.SysAuthRole;
+import enterprise.framework.domain.auth.SysAuthUser;
+import enterprise.framework.mapper.auth.role.SysAuthRoleMapper;
+import enterprise.framework.pojo.auth.role.SysAuthRoleVO;
+import enterprise.framework.pojo.auth.user.SysAuthUserVO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 
 @Service
-public class SysAuthButtonServiceImpl implements SysAuthButtonService {
+public class SysAuthRoleServiceImpl implements SysAuthRoleService {
 
     @Autowired(required = false)
-    private SysAuthButtonMapper sysAuthButtonMapper;
+    private SysAuthRoleMapper sysAuthRoleMapper;
 
     /**
-     * 保存按钮
+     * 保存角色
      *
-     * @param sysAuthButtonVO
+     * @param sysAuthRoleVO
      * @return
      */
-    public HttpResponse saveButton(SysAuthButtonVO sysAuthButtonVO) {
+    public HttpResponse saveRole(SysAuthRoleVO sysAuthRoleVO) {
         HttpResponse httpResponse = new HttpResponse();
         try {
-            SysAuthButton sysAuthButton = new SysAuthButton(sysAuthButtonVO);
-            int response = sysAuthButtonMapper.saveButton(sysAuthButton);
+            SysAuthRole sysAuthRole = new SysAuthRole(sysAuthRoleVO);
+            int response = sysAuthRoleMapper.saveRole(sysAuthRole);
             if (response > 0) {
                 httpResponse.status = HttpStatus.SUCCESS.value();
                 httpResponse.msg = "保存成功";
-                sysAuthButtonVO.setButtonId(sysAuthButton.getButtonId());
-                httpResponse.content = sysAuthButtonVO;
+                sysAuthRoleVO.setRoleId(sysAuthRole.getRoleId());
+                httpResponse.content = sysAuthRoleVO;
             } else {
                 httpResponse.status = HttpStatus.FAIL.value();
                 httpResponse.msg = "保存失败";
@@ -58,84 +62,82 @@ public class SysAuthButtonServiceImpl implements SysAuthButtonService {
             return httpResponse;
         } catch (Exception error) {
             httpResponse.status = HttpStatus.ERROR.value();
-            httpResponse.msg = "[类名:(" + this.getClass() + ")]" + "保存按钮异常:" + error.getMessage();
+            httpResponse.msg = "[类名:(" + this.getClass() + ")]" + "保存异常:" + error.getMessage();
             return httpResponse;
         }
     }
 
     /**
-     * 更新按钮
+     * 更新角色
      *
-     * @param sysAuthButtonVO
+     * @param sysAuthRoleVO
      * @return
      */
-    public HttpResponse updateButton(SysAuthButtonVO sysAuthButtonVO) {
+    public HttpResponse updateRole(SysAuthRoleVO sysAuthRoleVO) {
         HttpResponse httpResponse = new HttpResponse();
         try {
-            SysAuthButton sysAuthButton = new SysAuthButton(sysAuthButtonVO);
-            int response = sysAuthButtonMapper.updateButton(sysAuthButton);
+            SysAuthRole sysAuthRole = new SysAuthRole(sysAuthRoleVO);
+//            SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+//            sysAuthRole.setModifyTime(formatter.format(new Date()));
+            sysAuthRole.setModifyTime(new Date());
+            int response = sysAuthRoleMapper.updateRole(sysAuthRole);
             if (response > 0) {
                 httpResponse.status = HttpStatus.SUCCESS.value();
                 httpResponse.msg = "更新成功";
-                httpResponse.content = sysAuthButton;
+                httpResponse.content = sysAuthRole;
             } else {
                 httpResponse.status = HttpStatus.FAIL.value();
                 httpResponse.msg = "更新失败";
             }
             return httpResponse;
         } catch (Exception error) {
-            httpResponse.status = HttpStatus.ERROR.value();
-            httpResponse.msg = "[类名:(" + this.getClass() + ")]" + "更新按钮异常:" + error.getMessage();
             return httpResponse;
         }
     }
 
     /**
-     * 删除按钮
+     * 删除角色
      *
-     * @param sysAuthButtonVO
+     * @param sysAuthRoleVO
      * @return
      */
-    public HttpResponse deleteButton(SysAuthButtonVO sysAuthButtonVO) {
+    public HttpResponse deleteRole(SysAuthRoleVO sysAuthRoleVO) {
         HttpResponse httpResponse = new HttpResponse();
         try {
-            sysAuthButtonVO.setIsDeleted(1);
-            SysAuthButton sysAuthButton = new SysAuthButton(sysAuthButtonVO);
-            int response = sysAuthButtonMapper.updateButton(sysAuthButton);
+            sysAuthRoleVO.setIsDeleted(1);
+            SysAuthRole sysAuthRole = new SysAuthRole(sysAuthRoleVO);
+            int response = sysAuthRoleMapper.updateRole(sysAuthRole);
             if (response > 0) {
                 httpResponse.status = HttpStatus.SUCCESS.value();
                 httpResponse.msg = "删除成功";
-                httpResponse.content = sysAuthButton;
             } else {
                 httpResponse.status = HttpStatus.FAIL.value();
                 httpResponse.msg = "删除失败";
             }
             return httpResponse;
         } catch (Exception error) {
-            httpResponse.status = HttpStatus.ERROR.value();
-            httpResponse.msg = "[类名:(" + this.getClass() + ")]" + "更新按钮异常:" + error.getMessage();
             return httpResponse;
         }
     }
 
     /**
-     * 根据id获取按钮
+     * 根据角色主键获取角色信息
      *
-     * @param sysAuthButtonVO
+     * @param sysAuthRoleVO
      * @return
      */
-    public HttpResponse getButtonById(SysAuthButtonVO sysAuthButtonVO) {
+    public HttpResponse getRoleById(SysAuthRoleVO sysAuthRoleVO) {
         HttpResponse httpResponse = new HttpResponse();
         try {
-            SysAuthButton sysAuthButton = new SysAuthButton(sysAuthButtonVO);
-            SysAuthButton response = sysAuthButtonMapper.selectOne(sysAuthButton);
-            if (response != null) {
+            SysAuthRole param = new SysAuthRole(sysAuthRoleVO);
+            SysAuthRole dataSource = sysAuthRoleMapper.selectOne(param);
+            if (dataSource != null) {
                 httpResponse.status = HttpStatus.SUCCESS.value();
                 httpResponse.msg = "查询成功";
-                httpResponse.content = response;
+                httpResponse.content = dataSource;
             } else {
+                httpResponse.msg = "查询成功无数据";
                 httpResponse.status = HttpStatus.SUCCESS.value();
-                httpResponse.msg = "查询成功,但无返回值";
             }
             return httpResponse;
         } catch (Exception error) {
@@ -145,19 +147,20 @@ public class SysAuthButtonServiceImpl implements SysAuthButtonService {
         }
     }
 
+
     /**
-     * 获取所有按钮
+     * 获取所有角色
      *
      * @return
      */
-    public HttpResponse listAllButton() {
+    public HttpResponse listAllRole() {
         HttpResponse httpResponse = new HttpResponse();
         try {
-            List<SysAuthButtonVO> dataSource = sysAuthButtonMapper.listAllButton();
-            if (dataSource.size() > 0) {
+            List<SysAuthRoleVO> response = sysAuthRoleMapper.listAllRole();
+            if (response.size() > 0) {
                 httpResponse.status = HttpStatus.SUCCESS.value();
                 httpResponse.msg = "查询成功";
-                httpResponse.content = dataSource;
+                httpResponse.content = response;
             } else {
                 httpResponse.status = HttpStatus.SUCCESS.value();
                 httpResponse.msg = "查询成功,但无返回值";

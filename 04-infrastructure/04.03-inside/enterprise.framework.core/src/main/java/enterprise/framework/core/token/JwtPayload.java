@@ -19,20 +19,45 @@
 
 package enterprise.framework.core.token;
 
+
+/**
+ * JWT 令牌体
+ */
 public class JwtPayload {
 
+    /**
+     * JWT ID jwt的唯一身份标识，主要用来作为一次性token,从而回避重放攻击。
+     */
     private String jti;
 
+    /**
+     * subject jwt所面向的用户
+     */
     private HttpSourceEnum sub;
 
+    /**
+     * audience 接收jwt的一方
+     */
     private String aud;
 
+    /**
+     * issuer jwt签发者
+     */
     private HttpSourceEnum iss;
 
+    /**
+     * Issued At jwt的签发时间
+     */
     private long iat;
 
+    /**
+     * expiration jwt的过期时间，这个过期时间必须要大于签发时间
+     */
     private long exp;
 
+    /**
+     * Not Before 义在什么时间之前，该jwt都是不可用的.
+     */
     private long nbf;
 
     public void setJti(String jti) {

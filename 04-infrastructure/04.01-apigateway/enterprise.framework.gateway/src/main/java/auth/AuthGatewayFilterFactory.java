@@ -22,7 +22,10 @@ package auth;
 import com.alibaba.fastjson.JSON;
 import enterprise.framework.core.http.HttpResponse;
 import enterprise.framework.core.redis.RedisHandler;
+import enterprise.framework.core.token.ITokenManager;
 import enterprise.framework.core.token.TokenInfo;
+import enterprise.framework.core.token.TokenManager;
+import enterprise.framework.utility.generaltools.TimeTypeEnum;
 import enterprise.framework.utility.security.Base64Utils;
 import enterprise.framework.utility.security.RSAUtils;
 import enterprise.framework.utility.transform.StrHandler;
@@ -94,20 +97,10 @@ public class AuthGatewayFilterFactory extends AbstractGatewayFilterFactory<AuthG
 
 
                 Object requestBody = exchange.getAttribute("cachedRequestBodyObject");
-                if (requestBody == null) {
-                    return chain.filter(exchange);
-                }
+
 
                 String uri = exchange.getRequest().getURI().toString().toLowerCase();
                 if (uri.contains("register") || uri.contains("login") || uri.contains("signin")) {
-//                    ParametersModel parametersModel = JSON.parseObject((String) requestBody, ParametersModel.class);
-//                    String bodyStr = new String(RSAUtils.decryptByPrivateKey(Base64Utils.decode(parametersModel.getParameters()), tokenInfo.getPrivate_key()));
-//                    //获取requestBody
-//                    Mono<?> modifiedBody = serverRequest.bodyToMono(inClass).flatMap(o -> {
-//                        exchange.getAttributes().put(CACHE_REQUEST_BODY_OBJECT_KEY, bodyStr);
-//                        return Mono.justOrEmpty(bodyStr);
-//                    });
-//                    return requestBodyHandler.overWriteRequestBody(exchange, chain, modifiedBody, inClass);
                     return chain.filter(exchange);
                 }
 
@@ -135,12 +128,20 @@ public class AuthGatewayFilterFactory extends AbstractGatewayFilterFactory<AuthG
                 //token不为空时,先获取redis中的token字节,转为json字符串,并反序列化
                 HttpResponse tokenInfoRedis = redisHandler.get("token_info:" + user_id);
                 if (tokenInfoRedis.status != enterprise.framework.core.http.HttpStatus.SUCCESS.value() && tokenInfoRedis.content != null) {
-                    //token不与缓存中的token相同,返回405
-                    response.setStatusCode(HttpStatus.METHOD_NOT_ALLOWED);
+                    //token不存在返回401
+                    response.setStatusCode(HttpStatus.UNAUTHORIZED);
                     return response.setComplete();
                 }
                 String tokenInfoByteStr = (String) tokenInfoRedis.content;
                 TokenInfo tokenInfo = JSON.parseObject(strHandler.binaryToStr(tokenInfoByteStr), TokenInfo.class);
+
+                ITokenManager tokenManager = new TokenManager();
+                if (tokenManager.tokenInfoIsInvalid(tokenInfo)) {
+                    //用户令牌已失效,返回客户端,重新登录
+                    HttpResponse removeUserInfoResponse = redisHandler.del("user_info:" + tokenInfo.getJwtInfo().getJwtPayload().getAud());
+                    response.setStatusCode(HttpStatus.NOT_ACCEPTABLE);
+                    return response.setComplete();
+                }
 
                 if (!token.equals(tokenInfo.getToken_str())) {
                     //token不与缓存中的token相同,返回405
@@ -160,6 +161,10 @@ public class AuthGatewayFilterFactory extends AbstractGatewayFilterFactory<AuthG
                     response.setStatusCode(HttpStatus.SERVICE_UNAVAILABLE);
                     return response.setComplete();
                 } else {
+                    if (requestBody == null) {
+                        //不论任何请求,只要参数为空,便直接返回控制器
+                        return chain.filter(exchange);
+                    }
                     ParametersModel parametersModel = JSON.parseObject((String) requestBody, ParametersModel.class);
                     if (exchange.getRequest().getMethod().name() == "GET") {
                         parametersModel.setParameters(parametersModel.getParameters().replace(' ', '+'));

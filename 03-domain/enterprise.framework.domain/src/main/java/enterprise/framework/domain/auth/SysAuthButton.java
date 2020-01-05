@@ -47,8 +47,8 @@ public class SysAuthButton extends DbBaseDO {
         this.description = sysAuthButtonVO.getDescription();
         this.sort = sysAuthButtonVO.getSort();
         this.audit_state = sysAuthButtonVO.getAuditState();
-        this.is_enabled = sysAuthButtonVO.getIsEnable();
-        this.is_deleted = sysAuthButtonVO.getIsDelete();
+        this.is_enabled = sysAuthButtonVO.getIsEnabled();
+        this.is_deleted = sysAuthButtonVO.getIsDeleted();
     }
 
     @PrimaryKey("button_id")

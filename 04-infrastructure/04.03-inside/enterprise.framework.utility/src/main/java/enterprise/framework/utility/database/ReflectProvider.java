@@ -37,7 +37,12 @@ public class ReflectProvider<T> {
     public String generateSaveSql(T modelDO) throws NoSuchMethodException, InvocationTargetException, IllegalAccessException {
 
         try {
-            Field[] fields = modelDO.getClass().getDeclaredFields();
+            Field[] childFields = modelDO.getClass().getDeclaredFields();
+            Field[] parentFields = modelDO.getClass().getSuperclass().getDeclaredFields();
+            Field[] allFields = new Field[childFields.length + parentFields.length];
+            System.arraycopy(childFields, 0, allFields, 0, childFields.length);
+            System.arraycopy(parentFields, 0, allFields, childFields.length, parentFields.length);
+
             Type type = this.getClass().getGenericSuperclass();
             String tableName = getTableName(modelDO, type);
 
@@ -45,12 +50,12 @@ public class ReflectProvider<T> {
             StringBuilder paramFields = new StringBuilder(" (");
             StringBuilder paramFieldsValue = new StringBuilder("(");
             boolean flag = true;
-            for (int index = 0; index < fields.length; index++) {
-                if (fields[index].isAnnotationPresent(PrimaryKey.class)) {
+            for (int index = 0; index < allFields.length; index++) {
+                if (allFields[index].isAnnotationPresent(PrimaryKey.class)) {
                     continue;
                 }
 
-                String propertyName = fields[index].getName();
+                String propertyName = allFields[index].getName();
                 String tempName = strHandler.strCapitals(propertyName, "_");
                 Method m = modelDO.getClass().getMethod("get" + tempName); // 构造get方法
                 Object propertyValue = m.invoke(modelDO); // 调用get方法获取属性值
@@ -89,7 +94,12 @@ public class ReflectProvider<T> {
      */
     public String generateUpdateSql(T modelDO) {
         try {
-            Field[] fields = modelDO.getClass().getDeclaredFields();
+            Field[] childFields = modelDO.getClass().getDeclaredFields();
+            Field[] parentFields = modelDO.getClass().getSuperclass().getDeclaredFields();
+            Field[] allFields = new Field[childFields.length + parentFields.length];
+            System.arraycopy(childFields, 0, allFields, 0, childFields.length);
+            System.arraycopy(parentFields, 0, allFields, childFields.length, parentFields.length);
+
             Type type = this.getClass().getGenericSuperclass();
             String tableName = getTableName(modelDO, type);
 
@@ -97,14 +107,14 @@ public class ReflectProvider<T> {
             StringBuilder paramFields = new StringBuilder("");
             StringBuilder conditions = new StringBuilder();
             boolean flag = true;
-            for (int index = 0; index < fields.length; index++) {
-                String propertyName = fields[index].getName();
+            for (int index = 0; index < allFields.length; index++) {
+                String propertyName = allFields[index].getName();
                 String tempName = strHandler.strCapitals(propertyName, "_");
                 Method m = modelDO.getClass().getMethod("get" + tempName); // 构造get方法
                 Object propertyValue = m.invoke(modelDO); // 调用get方法获取属性值
 
-                if (fields[index].isAnnotationPresent(PrimaryKey.class)) {
-                    PrimaryKey bananaAnnotation = fields[index].getAnnotation(PrimaryKey.class);
+                if (allFields[index].isAnnotationPresent(PrimaryKey.class)) {
+                    PrimaryKey bananaAnnotation = allFields[index].getAnnotation(PrimaryKey.class);
                     String primaryKey = bananaAnnotation.value();
                     conditions.append(" WHERE " + primaryKey + " = " + "#{" + primaryKey + "} ");
                 }

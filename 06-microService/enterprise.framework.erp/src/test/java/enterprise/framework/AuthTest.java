@@ -30,6 +30,7 @@ import enterprise.framework.domain.auth.SysAuthUser;
 import enterprise.framework.erp.ErpApplication;
 import enterprise.framework.pojo.auth.user.SignInVO;
 import enterprise.framework.service.auth.user.SysAuthUserService;
+import enterprise.framework.utility.generaltools.TimeTypeEnum;
 import enterprise.framework.utility.security.Base64Utils;
 import enterprise.framework.utility.security.RSAUtils;
 import enterprise.framework.utility.transform.StrHandler;
@@ -86,7 +87,7 @@ public class AuthTest {
 //        sysAuthUserService.saveUser(user);
 //        sysAuthUserService.createUser(user);
         //用户保存成功后,为用户生成完整token信息,并缓存token
-        TokenInfo tokenInfo = tokenManager.createToken("33", keyMap);
+        TokenInfo tokenInfo = tokenManager.createToken("33", keyMap, 30, TimeTypeEnum.MINUTE);
         redisHandler.set("token_info:33", strHandler.toBinary(JSON.toJSONString(tokenInfo)));
     }
 
@@ -113,7 +114,7 @@ public class AuthTest {
             HttpResponse result = sysAuthUserService.updateUser(user);
             if (result.status == HttpStatus.SUCCESS.value()) {
                 ITokenManager tokenManager = new TokenManager();
-                TokenInfo tokenInfo = tokenManager.createToken(user.getUserId().toString(), keyMap);
+                TokenInfo tokenInfo = tokenManager.createToken(user.getUserId().toString(), keyMap, 30, TimeTypeEnum.MINUTE);
                 HttpResponse tokenRedisResult = redisHandler.set("token_info:" + user.getUserId(), strHandler.toBinary(JSON.toJSONString(tokenInfo)));
             }
         } catch (Exception error) {
@@ -123,9 +124,52 @@ public class AuthTest {
     }
 
     @Test
-    public void DateTest(){
+    public void DateTest() {
         Date date = new Date();
         System.out.println(date);
+    }
+
+    @Test
+    public void verifyToken() {
+        HttpResponse tokenInfoResponse = getTokenInfo("token_info:1");
+        if (tokenInfoResponse.status == HttpStatus.SUCCESS.value()) {
+            TokenInfo tokenInfo = (TokenInfo) tokenInfoResponse.content;
+            ITokenManager tokenManager = new TokenManager();
+            if (tokenManager.tokenInfoIsInvalid(tokenInfo)) {
+                //用户令牌已失效
+                boolean res = tokenManager.extendTokenTime(tokenInfo, 30, TimeTypeEnum.MINUTE);
+            }
+        }
+    }
+
+    /**
+     * 根据用户id获取token
+     *
+     * @param key
+     * @return
+     */
+    private HttpResponse getTokenInfo(String key) {
+        HttpResponse httpResponse = new HttpResponse();
+        try {
+            RedisHandler redisHandler = new RedisHandler(redisTemplate);
+            HttpResponse tokenInfoResponse = redisHandler.get(key);
+            if (tokenInfoResponse.status != HttpStatus.SUCCESS.value() || tokenInfoResponse.content == null) {
+                httpResponse.msg = "该用户令牌丢失或用户不存在,请尝试重试账号密码!";
+                httpResponse.status = HttpStatus.FAIL.value();
+                return httpResponse;
+            }
+            StrHandler strHandler = new StrHandler();
+            String tokenInfoJson = strHandler.binaryToStr((String) tokenInfoResponse.content);
+            TokenInfo tokenInfo = JSON.parseObject(tokenInfoJson, TokenInfo.class);
+            httpResponse.msg = "用户token获取成功";
+            httpResponse.status = HttpStatus.SUCCESS.value();
+            httpResponse.content = tokenInfo;
+            return httpResponse;
+        } catch (Exception error) {
+            httpResponse.msg = "用户token获取异常:" + error.getMessage();
+            httpResponse.status = HttpStatus.ERROR.value();
+            return httpResponse;
+        }
     }
 
 }

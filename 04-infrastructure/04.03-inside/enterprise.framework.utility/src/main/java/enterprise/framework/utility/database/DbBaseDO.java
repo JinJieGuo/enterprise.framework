@@ -28,7 +28,7 @@ public class DbBaseDO {
 
 
 
-    private Integer creator_id;
+    private Long creator_id;
 
     private String creator_name;
 
@@ -36,7 +36,7 @@ public class DbBaseDO {
 //    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone="GMT+8")
     private Date create_time;
 
-    private Integer modifier_id;
+    private Long modifier_id;
 
     private String modifier_name;
 
@@ -44,11 +44,11 @@ public class DbBaseDO {
 //    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone="GMT+8")
     private Date modify_time;
 
-    public void setCreatorId(Integer creatorId) {
+    public void setCreatorId(Long creatorId) {
         this.creator_id = creatorId;
     }
 
-    public Integer getCreatorId() {
+    public Long getCreatorId() {
         return creator_id;
     }
 
@@ -68,11 +68,11 @@ public class DbBaseDO {
         return create_time;
     }
 
-    public void setModifierId(Integer modifierId) {
+    public void setModifierId(Long modifierId) {
         this.modifier_id = modifierId;
     }
 
-    public Integer getModifierId() {
+    public Long getModifierId() {
         return modifier_id;
     }
 

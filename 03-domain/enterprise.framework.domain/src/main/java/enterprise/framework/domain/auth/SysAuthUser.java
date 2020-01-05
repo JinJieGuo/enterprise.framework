@@ -19,8 +19,6 @@
 
 package enterprise.framework.domain.auth;
 
-//import enterprise.framework.pojo.auth.user.SysAuthUserVO;
-
 import enterprise.framework.pojo.auth.user.SysAuthUserVO;
 import enterprise.framework.utility.database.DbBaseDO;
 import enterprise.framework.utility.database.PrimaryKey;

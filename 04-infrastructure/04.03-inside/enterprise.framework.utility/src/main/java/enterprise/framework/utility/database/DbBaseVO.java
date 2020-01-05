@@ -25,9 +25,15 @@ public class DbBaseVO {
 
     private Integer auditState;
 
-    private Integer isEnable;
+    private String auditStateText;
 
-    private Integer isDelete;
+    private String isEnabledText;
+
+    private String IsDeletedText;
+
+    private Integer isEnabled;
+
+    private Integer isDeleted;
 
     public void setIndex(Integer index) {
         this.index = index;
@@ -45,19 +51,43 @@ public class DbBaseVO {
         return auditState;
     }
 
-    public void setIsEnable(Integer isEnable) {
-        this.isEnable = isEnable;
+    public void setIsEnabled(Integer isEnabled) {
+        this.isEnabled = isEnabled;
     }
 
-    public Integer getIsEnable() {
-        return isEnable;
+    public Integer getIsEnabled() {
+        return isEnabled;
     }
 
-    public void setIsDelete(Integer isDelete) {
-        this.isDelete = isDelete;
+    public void setIsDeleted(Integer isDeleted) {
+        this.isDeleted = isDeleted;
     }
 
-    public Integer getIsDelete() {
-        return isDelete;
+    public Integer getIsDeleted() {
+        return isDeleted;
+    }
+
+    public void setAuditStateText(String auditStateText) {
+        this.auditStateText = auditStateText;
+    }
+
+    public String getAuditStateText() {
+        return auditStateText;
+    }
+
+    public void setIsEnabledText(String isEnabledText) {
+        this.isEnabledText = isEnabledText;
+    }
+
+    public String getIsEnabledText() {
+        return isEnabledText;
+    }
+
+    public void setIsDeletedText(String isDeletedText) {
+        IsDeletedText = isDeletedText;
+    }
+
+    public String getIsDeletedText() {
+        return IsDeletedText;
     }
 }

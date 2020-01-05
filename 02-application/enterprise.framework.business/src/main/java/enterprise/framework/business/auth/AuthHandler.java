@@ -31,6 +31,7 @@ import enterprise.framework.pojo.auth.user.SignInVO;
 import enterprise.framework.pojo.auth.user.SignOutVO;
 import enterprise.framework.pojo.auth.user.SysAuthUserVO;
 import enterprise.framework.service.auth.user.SysAuthUserService;
+import enterprise.framework.utility.generaltools.TimeTypeEnum;
 import enterprise.framework.utility.security.Base64Utils;
 import enterprise.framework.utility.security.RSAUtils;
 import enterprise.framework.utility.transform.StrHandler;
@@ -87,7 +88,7 @@ public class AuthHandler {
                 //用户信息保存成功后,为用户颁发令牌并写入缓存
                 ITokenManager tokenManager = new TokenManager();
                 String userId = ((SysAuthUserVO) response.content).getUserId().toString();
-                TokenInfo tokenInfo = tokenManager.createToken(userId, keyMap);
+                TokenInfo tokenInfo = tokenManager.createToken(userId, keyMap, 30, TimeTypeEnum.MINUTE);
                 RedisHandler redisHandler = new RedisHandler(redisTemplate);
                 StrHandler strHandler = new StrHandler();
                 HttpResponse redisResponse = redisHandler.set("token_info:" + userId, strHandler.toBinary(JSON.toJSONString(tokenInfo)));
@@ -152,6 +153,11 @@ public class AuthHandler {
                 return map;
             }
             TokenInfo tokenInfo = (TokenInfo) tokenInfoResponse.content;
+            ITokenManager tokenManager = new TokenManager();
+            if (tokenManager.tokenInfoIsInvalid(tokenInfo)) {
+                //用户令牌已失效,延长令牌有效时间
+                boolean res = tokenManager.extendTokenTime(tokenInfo, 30, TimeTypeEnum.MINUTE);
+            }
             SysAuthUser userInfo = tempUser;
 
             HttpResponse userRedisResponse = redisHandler.get("user_info:" + tempUser.getUserId() + "");
@@ -238,7 +244,7 @@ public class AuthHandler {
             // 根据用户主键重新生成token并保存至redis
             Map<String, Object> keyMap = RSAUtils.genKeyPair(1024);
             ITokenManager tokenManager = new TokenManager();
-            TokenInfo tokenInfo = tokenManager.createToken(signOutVO.getUserId(), keyMap);
+            TokenInfo tokenInfo = tokenManager.createToken(signOutVO.getUserId(), keyMap, 30, TimeTypeEnum.MINUTE);
             HttpResponse tokenRedisResult = redisHandler.set("token_info:" + signOutVO.getUserId(), strHandler.toBinary(JSON.toJSONString(tokenInfo)));
 
             if (tokenRedisResult.status != HttpStatus.SUCCESS.value()) {

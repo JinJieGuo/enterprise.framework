@@ -14,39 +14,13 @@
  *       11.Others:
  * EditResume:
  *	   Author				Date			  version			   ChangeContent 
- *		gl				 2019-12-07		      1.00					新建
+ *		gl				 2020-01-04		        1.00					新建
  *******************************************************************************/
 
-package enterprise.framework.core.token;
+package enterprise.framework.mapper.auth.role;
 
-/**
- * JWT头
- */
-public class JwtHeader {
+import enterprise.framework.domain.auth.SysAuthRole;
+import enterprise.framework.utility.database.ReflectProvider;
 
-    /**
-     * algorithm 签名的算法
-     */
-    private String alg;
-
-    /**
-     * type 令牌类型 JWT
-     */
-    private String typ;
-
-    public void setAlg(String alg) {
-        this.alg = alg;
-    }
-
-    public String getAlg() {
-        return alg;
-    }
-
-    public void setTyp(String typ) {
-        this.typ = typ;
-    }
-
-    public String getTyp() {
-        return typ;
-    }
+public class SysAuthRoleGenerateSql extends ReflectProvider<SysAuthRole> {
 }
