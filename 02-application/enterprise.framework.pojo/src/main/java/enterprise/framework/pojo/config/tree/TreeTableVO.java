@@ -38,7 +38,9 @@ public class TreeTableVO {
 
     private boolean expand;
 
-    private boolean is_parent;
+    private Integer isMenu;
+
+    private boolean isParent;
 
     private List<TreeTableVO> children;
 
@@ -98,12 +100,20 @@ public class TreeTableVO {
         return level;
     }
 
-    public void setIs_parent(boolean is_parent) {
-        this.is_parent = is_parent;
+    public void setIsParent(boolean isParent) {
+        this.isParent = isParent;
     }
 
-    public boolean getIs_parent() {
-        return is_parent;
+    public boolean getIsParent() {
+        return isParent;
+    }
+
+    public void setIsMenu(Integer isMenu) {
+        this.isMenu = isMenu;
+    }
+
+    public Integer getIsMenu() {
+        return isMenu;
     }
 
     public void setExpand(boolean expand) {

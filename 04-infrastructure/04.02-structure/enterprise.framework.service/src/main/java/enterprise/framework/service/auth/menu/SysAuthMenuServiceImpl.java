@@ -169,6 +169,7 @@ public class SysAuthMenuServiceImpl implements SysAuthMenuService {
                         treeTableVO.setLevel(1);
                         treeTableVO.setParentId(sysAuthMenuVO.getParentId() == null ? 0 : sysAuthMenuVO.getParentId());
                         treeTableVO.setParentName(sysAuthMenuVO.getParentName());
+                        treeTableVO.setIsMenu(sysAuthMenuVO.getIsMenu());
                         treeTableVO.setIcon(sysAuthMenuVO.getIcon());
                         treeTableVO.setExpand(true);
                         treeTableVOList.add(treeTableVO);
@@ -177,6 +178,7 @@ public class SysAuthMenuServiceImpl implements SysAuthMenuService {
                         treeSelectVO.setTitle(sysAuthMenuVO.getMenuName());
                         treeSelectVO.setKey(String.valueOf(sysAuthMenuVO.getMenuId()));
                         treeSelectVO.setValue(sysAuthMenuVO.getMenuId());
+                        treeSelectVO.setIcon(sysAuthMenuVO.getIcon());
                         treeSelectVO.setLeaf(true);
                         treeSelectVOList.add(treeSelectVO);
                     }
@@ -226,6 +228,7 @@ public class SysAuthMenuServiceImpl implements SysAuthMenuService {
                 treeTableVO.setParentId(sysAuthMenuVO.getParentId());
                 treeTableVO.setParentName(sysAuthMenuVO.getParentName());
                 treeTableVO.setIcon(sysAuthMenuVO.getIcon());
+                treeTableVO.setIsMenu(sysAuthMenuVO.getIsMenu());
                 treeTableVO.setExpand(true);
                 childrenList.add(treeTableVO);
             }
@@ -253,6 +256,7 @@ public class SysAuthMenuServiceImpl implements SysAuthMenuService {
                 treeSelectVO.setTitle(sysAuthMenuVO.getMenuName());
                 treeSelectVO.setKey(String.valueOf(sysAuthMenuVO.getMenuId()));
                 treeSelectVO.setValue(sysAuthMenuVO.getMenuId());
+                treeSelectVO.setIcon(sysAuthMenuVO.getIcon());
                 treeSelectVO.setLeaf(true);
                 treeSelectVOList.add(treeSelectVO);
             }

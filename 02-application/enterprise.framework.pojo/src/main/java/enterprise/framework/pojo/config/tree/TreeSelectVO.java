@@ -30,6 +30,8 @@ public class TreeSelectVO {
 
     private boolean isLeaf;
 
+    private String icon;
+
     private List<TreeSelectVO> children;
 
     public void setTitle(String title) {
@@ -62,6 +64,14 @@ public class TreeSelectVO {
 
     public boolean isLeaf() {
         return isLeaf;
+    }
+
+    public void setIcon(String icon) {
+        this.icon = icon;
+    }
+
+    public String getIcon() {
+        return icon;
     }
 
     public void setChildren(List<TreeSelectVO> children) {

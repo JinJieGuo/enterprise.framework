@@ -117,13 +117,13 @@ public class TokenManager implements ITokenManager {
             int compare = invalidDate.compareTo(currentDate);
             boolean response = true;
             switch (compare) {
-                case -1://invalidDate小于currentDate
+                case -1://invalidDate小于currentDate,令牌失效
                     response = true;
                     break;
-                case 0://相等
+                case 0://相等,令牌失效
                     response = true;
                     break;
-                case 1://invalidDate大于currentDate
+                case 1://invalidDate大于currentDate,令牌有效
                     response = false;
                     break;
             }
