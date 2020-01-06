@@ -165,6 +165,7 @@ public class SysAuthMenuServiceImpl implements SysAuthMenuService {
                         treeTableVO.setId(sysAuthMenuVO.getMenuId());
                         treeTableVO.setTreeName(sysAuthMenuVO.getMenuName());
                         treeTableVO.setTreeCode(sysAuthMenuVO.getMenuCode());
+                        treeTableVO.setIsMenu(sysAuthMenuVO.getIsMenu());
 //                        treeTableVO.setIs_parent(sysAuthMenuVO.getIs_parent());
                         treeTableVO.setLevel(1);
                         treeTableVO.setParentId(sysAuthMenuVO.getParentId() == null ? 0 : sysAuthMenuVO.getParentId());
@@ -222,6 +223,7 @@ public class SysAuthMenuServiceImpl implements SysAuthMenuService {
                 treeTableVO.setTreeName(sysAuthMenuVO.getMenuName());
                 treeTableVO.setTreeCode(sysAuthMenuVO.getMenuCode());
                 treeTableVO.setLevel(rootNode.getLevel() + 1);
+                treeTableVO.setIsMenu(sysAuthMenuVO.getIsMenu());
 //                treeTableVO.setIs_parent(sysAuthMenuVO.getIs_parent());
                 treeTableVO.setParentId(sysAuthMenuVO.getParentId());
                 treeTableVO.setParentName(sysAuthMenuVO.getParentName());

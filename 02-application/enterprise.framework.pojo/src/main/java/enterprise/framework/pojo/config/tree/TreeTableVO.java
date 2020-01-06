@@ -38,6 +38,8 @@ public class TreeTableVO {
 
     private boolean expand;
 
+    private Integer isMenu;
+
     private boolean is_parent;
 
     private List<TreeTableVO> children;
@@ -112,6 +114,14 @@ public class TreeTableVO {
 
     public boolean isExpand() {
         return expand;
+    }
+
+    public void setIsMenu(Integer isMenu) {
+        this.isMenu = isMenu;
+    }
+
+    public Integer getIsMenu() {
+        return isMenu;
     }
 
     public void setChildren(List<TreeTableVO> children) {
