@@ -5,7 +5,7 @@ package common.datasource;
  * @Date 2019/12/5
  */
 public enum DataSourceType {
-    CbsBase("cbsBase"),
+    ERPDATABASE("enterprise-erp"),
     Mysql2("mysql2"),
     Mysql3("mysql3");
     private String name;

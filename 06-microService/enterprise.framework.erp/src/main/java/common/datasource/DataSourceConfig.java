@@ -11,6 +11,7 @@ import org.springframework.boot.web.servlet.ServletRegistrationBean;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Primary;
+
 import javax.sql.DataSource;
 import java.sql.SQLException;
 import java.util.HashMap;
@@ -26,24 +27,24 @@ public class DataSourceConfig {
 
     // -----------------------------------------CbsBase config-------------------------------------
 
-    @Value("${spring.datasource.cbsBase.url}")
+    @Value("${spring.datasource.enterprise-erp.url}")
     private String dbUrl;
 
-    @Value("${spring.datasource.cbsBase.username}")
+    @Value("${spring.datasource.enterprise-erp.username}")
     private String username;
 
-    @Value("${spring.datasource.cbsBase.password}")
+    @Value("${spring.datasource.enterprise-erp.password}")
     private String password;
 
-    @Value("${spring.datasource.cbsBase.driverClassName}")
+    @Value("${spring.datasource.enterprise-erp.driverClassName}")
     private String driverClassName;
 
-    @Value("${spring.datasource.cbsBase.validationQuery}")
+    @Value("${spring.datasource.enterprise-erp.validationQuery}")
     private String validationQuery;
 
-    @Bean(name="dataSourceMysql")
-    public DataSource dataSourceCbsBase(){
-        System.out.println("----------------cbsBase:" + dbUrl);
+    @Bean(name = "dataSourceMysql")
+    public DataSource dataSourceCbsBase() {
+        System.out.println("----------------enterprise-erp:" + dbUrl);
         return getDataSource(dbUrl, username, password, driverClassName, validationQuery);
     }
 
@@ -75,8 +76,8 @@ public class DataSourceConfig {
     @Value("${spring.datasource.mysql2.validationQuery}")
     private String mysql2ValidationQuery;
 
-    @Bean(name="dataSourceMysql2")
-    public DataSource dataSourceMysql2(){
+    @Bean(name = "dataSourceMysql2")
+    public DataSource dataSourceMysql2() {
         System.out.println("----------------mysql2:" + mysql2Url);
 
         return getDataSource(mysql2Url, mysql2Username, mysql2Password, mysql2DriverClassName, mysql2ValidationQuery);
@@ -99,8 +100,8 @@ public class DataSourceConfig {
     @Value("${spring.datasource.mysql3.validationQuery}")
     private String mysql3ValidationQuery;
 
-    @Bean(name="dataSourceMysql3")
-    public DataSource dataSourceMysql3(){
+    @Bean(name = "dataSourceMysql3")
+    public DataSource dataSourceMysql3() {
         System.out.println("----------------mysql3:" + mysql3Url);
 
         return getDataSource(
@@ -152,7 +153,7 @@ public class DataSourceConfig {
     @Value("{spring.datasource.druid.connectionProperties}")
     private String connectionProperties;
 
-    private void setDruidOptions(DruidDataSource datasource){
+    private void setDruidOptions(DruidDataSource datasource) {
         datasource.setInitialSize(initialSize);
         datasource.setMinIdle(minIdle);
         datasource.setMaxActive(maxActive);
@@ -173,7 +174,7 @@ public class DataSourceConfig {
 
     @Bean(name = "dynamicDataSource")
     @Primary  // 优先使用，多数据源
-    public DataSource dataSource(){
+    public DataSource dataSource() {
 
         DynamicDataSource dynamicDataSource = new DynamicDataSource();
         DataSource cbsBase = dataSourceCbsBase();
@@ -184,10 +185,10 @@ public class DataSourceConfig {
         dynamicDataSource.setDefaultTargetDataSource(cbsBase);
 
         //配置多个数据源
-        Map<Object,Object> map = new HashMap<>();
-        map.put(DataSourceType.CbsBase.getName(),cbsBase);
-        map.put(DataSourceType.Mysql2.getName(),mysql2);
-        map.put(DataSourceType.Mysql3.getName(),mysql3);
+        Map<Object, Object> map = new HashMap<>();
+        map.put(DataSourceType.ERPDATABASE.getName(), cbsBase);
+        map.put(DataSourceType.Mysql2.getName(), mysql2);
+        map.put(DataSourceType.Mysql3.getName(), mysql3);
         dynamicDataSource.setTargetDataSources(map);
 
         return dynamicDataSource;

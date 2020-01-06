@@ -12,5 +12,5 @@ import java.lang.annotation.*;
 @Target(ElementType.METHOD)
 public @interface TargetDataSource {
 
-    DataSourceType value() default DataSourceType.CbsBase;
+    DataSourceType value() default DataSourceType.ERPDATABASE;
 }
