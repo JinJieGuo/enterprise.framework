@@ -124,6 +124,14 @@ public class TreeTableVO {
         return expand;
     }
 
+    public void setIsMenu(Integer isMenu) {
+        this.isMenu = isMenu;
+    }
+
+    public Integer getIsMenu() {
+        return isMenu;
+    }
+
     public void setChildren(List<TreeTableVO> children) {
         this.children = children;
     }
