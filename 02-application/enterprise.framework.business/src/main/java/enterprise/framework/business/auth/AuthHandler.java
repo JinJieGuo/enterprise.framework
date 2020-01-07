@@ -164,6 +164,7 @@ public class AuthHandler {
             if (userRedisResponse.content != null && userRedisResponse.status == HttpStatus.SUCCESS.value()) {
                 httpResponse.msg = "用户已登录,请勿重复登录!";
                 httpResponse.status = HttpStatus.SUCCESS.value();
+                httpResponse.content = userInfo;
                 map.put("response", httpResponse);
                 map.put("token_info", tokenInfo);
                 return map;
