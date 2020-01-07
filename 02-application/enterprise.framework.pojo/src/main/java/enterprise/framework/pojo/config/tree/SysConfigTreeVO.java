@@ -19,5 +19,106 @@
 
 package enterprise.framework.pojo.config.tree;
 
-public class SysConfigTreeVO {
+import enterprise.framework.utility.database.DbBaseVO;
+
+public class SysConfigTreeVO extends DbBaseVO {
+    private Long treeId;
+
+    private String treeCode;
+
+    private String treeName;
+
+    private Long parentId;
+
+    private String parentName;
+
+    private String icon;
+
+    private String description;
+
+    private String sort;
+
+    private Integer isDeleted;
+
+    private Integer isEnabled;
+
+    public void setTreeId(Long treeId) {
+        this.treeId = treeId;
+    }
+
+    public Long getTreeId() {
+        return treeId;
+    }
+
+    public void setTreeCode(String treeCode) {
+        this.treeCode = treeCode;
+    }
+
+    public String getTreeCode() {
+        return treeCode;
+    }
+
+    public void setTreeName(String treeName) {
+        this.treeName = treeName;
+    }
+
+    public String getTreeName() {
+        return treeName;
+    }
+
+    public void setParentId(Long parentId) {
+        this.parentId = parentId;
+    }
+
+    public Long getParentId() {
+        return parentId;
+    }
+
+    public void setParentName(String parentName) {
+        this.parentName = parentName;
+    }
+
+    public String getParentName() {
+        return parentName;
+    }
+
+    public void setIcon(String icon) {
+        this.icon = icon;
+    }
+
+    public String getIcon() {
+        return icon;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setSort(String sort) {
+        this.sort = sort;
+    }
+
+    public String getSort() {
+        return sort;
+    }
+
+    public void setIs_enabled(Integer isEnabled) {
+        this.isEnabled = isEnabled;
+    }
+
+    public Integer getIs_enabled() {
+        return isEnabled;
+    }
+
+    public void setIsDeleted(Integer isDeleted) {
+        this.isDeleted = isDeleted;
+    }
+
+    public Integer getIsDeleted() {
+        return isDeleted;
+    }
 }
