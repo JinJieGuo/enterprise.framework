@@ -94,7 +94,6 @@ public class AuthGlobalFilter implements GlobalFilter, Ordered {
                 return chain.filter(exchange);
             }
 
-
             switch (request.getMethod().name()) {
                 case "GET":
                     if (!request.getQueryParams().isEmpty()) {
@@ -125,10 +124,15 @@ public class AuthGlobalFilter implements GlobalFilter, Ordered {
                     RequestBodyHandler requestBodyHandler = new RequestBodyHandler();
                     return requestBodyHandler.overWriteRequestBody(exchange, chain, modifiedBody, inClass);
             }
+            return exchange.getSession().flatMap(webSession -> {
+                String userId = exchange.getRequest().getHeaders().getFirst("id");
+                String sessionId = webSession.getId();
+//                request.addCookie(new Cookie("JSSESIONID",request.getSession().getId()));
+                webSession.getAttributes().put(webSession.getId(), "aaaa");
+                return chain.filter(exchange);
+            }).then(Mono.fromRunnable(() -> {
 
-
-            return chain.filter(exchange);
-
+            }));
         } catch (Exception error) {
             ServerHttpResponse response = exchange.getResponse();
             response.setStatusCode(HttpStatus.INTERNAL_SERVER_ERROR);

@@ -19,6 +19,10 @@
 
 package cors;
 
+import org.springframework.web.cors.CorsConfiguration;
+import org.springframework.web.cors.reactive.CorsWebFilter;
+import org.springframework.web.cors.reactive.UrlBasedCorsConfigurationSource;
+import org.springframework.web.util.pattern.PathPatternParser;
 import reactor.core.publisher.Mono;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.HttpStatus;
@@ -34,6 +38,7 @@ import org.springframework.http.server.reactive.ServerHttpRequest;
 import org.springframework.http.server.reactive.ServerHttpResponse;
 import org.springframework.http.codec.support.DefaultServerCodecConfigurer;
 
+import java.util.ArrayList;
 
 
 @Configuration
@@ -49,7 +54,11 @@ public class CorsConfig {
                 ServerHttpResponse response = ctx.getResponse();
                 HttpMethod requestMethod = requestHeaders.getAccessControlRequestMethod();
                 HttpHeaders headers = response.getHeaders();
+
+//                http://localhost:4201/
+                String temp = requestHeaders.getOrigin();
                 headers.add(HttpHeaders.ACCESS_CONTROL_ALLOW_ORIGIN, requestHeaders.getOrigin());
+//                headers.add(HttpHeaders.ACCESS_CONTROL_ALLOW_ORIGIN, "http://localhost:4201/");
                 headers.addAll(HttpHeaders.ACCESS_CONTROL_ALLOW_HEADERS, requestHeaders.getAccessControlRequestHeaders());
                 if (requestMethod != null) {
 //                    headers.add(HttpHeaders.ACCESS_CONTROL_ALLOW_METHODS, requestMethod.name());
@@ -68,6 +77,29 @@ public class CorsConfig {
             return chain.filter(ctx);
         };
     }
+
+//    /**
+//     * 配置跨域
+//     *
+//     * @return
+//     */
+//    @Bean
+//    public CorsWebFilter corsFilter() {
+//        CorsConfiguration config = new CorsConfiguration();
+//        // cookie跨域
+//        config.setAllowCredentials(Boolean.TRUE);
+//        config.addAllowedMethod("*");
+//        config.addAllowedOrigin("*");
+//        config.addAllowedHeader("*");
+//        // 配置前端js允许访问的自定义响应头
+//        config.addExposedHeader("id");
+//        config.addExposedHeader("token_info");
+//
+//        UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource(new PathPatternParser());
+//        source.registerCorsConfiguration("/**", config);
+//
+//        return new CorsWebFilter(source);
+//    }
 
     @Bean
     public ServerCodecConfigurer serverCodecConfigurer() {

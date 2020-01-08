@@ -27,6 +27,7 @@ import org.springframework.boot.autoconfigure.jdbc.DataSourceAutoConfiguration;
 import org.springframework.boot.web.servlet.FilterRegistrationBean;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
+import org.springframework.session.data.redis.config.annotation.web.http.EnableRedisHttpSession;
 
 @tk.mybatis.spring.annotation.MapperScan("enterprise.framework.mapper")
 @ComponentScan(basePackages = {"controller", "enterprise.framework.business", "enterprise.framework.service", "enterprise.framework.core", "common.datasource"})

@@ -46,6 +46,7 @@ import org.springframework.web.util.UriComponentsBuilder;
 import pojo.ParametersModel;
 import reactor.core.publisher.Mono;
 
+import javax.servlet.http.HttpSession;
 import java.net.URI;
 
 /**
@@ -104,14 +105,14 @@ public class AuthGatewayFilterFactory extends AbstractGatewayFilterFactory<AuthG
                     return chain.filter(exchange);
                 }
 
-                String user_id = exchange.getRequest().getHeaders().getFirst("id");
+                String userId = exchange.getRequest().getHeaders().getFirst("id");
                 String token = exchange.getRequest().getHeaders().getFirst("token_info");
                 ServerHttpResponse response = exchange.getResponse();
                 if (token.equals("-. --- - .. --. -. --- .-. .")) {
                     return chain.filter(exchange);
                 }
 
-                if (user_id.equals("")) {
+                if (userId.equals("")) {
                     //用户id为空,返回203
                     response.setStatusCode(HttpStatus.NON_AUTHORITATIVE_INFORMATION);
                     return response.setComplete();
@@ -126,7 +127,7 @@ public class AuthGatewayFilterFactory extends AbstractGatewayFilterFactory<AuthG
                 RedisHandler redisHandler = new RedisHandler(redisTemplate);
                 StrHandler strHandler = new StrHandler();
                 //token不为空时,先获取redis中的token字节,转为json字符串,并反序列化
-                HttpResponse tokenInfoRedis = redisHandler.get("token_info:" + user_id);
+                HttpResponse tokenInfoRedis = redisHandler.get("token_info:" + userId);
                 if (tokenInfoRedis.status != enterprise.framework.core.http.HttpStatus.SUCCESS.value() && tokenInfoRedis.content != null) {
                     //token不存在返回401
                     response.setStatusCode(HttpStatus.UNAUTHORIZED);
@@ -142,7 +143,7 @@ public class AuthGatewayFilterFactory extends AbstractGatewayFilterFactory<AuthG
                     response.setStatusCode(HttpStatus.NOT_ACCEPTABLE);
                     return response.setComplete();
                 }
-
+                Object temp3 = response.getCookies();
                 if (!token.equals(tokenInfo.getToken_str())) {
                     //token不与缓存中的token相同,返回405
                     response.setStatusCode(HttpStatus.METHOD_NOT_ALLOWED);

@@ -62,7 +62,15 @@ public class RequestBodyHandler {
                             return outputMessage.getBody();
                         }
                     };
-                    return chain.filter(exchange.mutate().request(decorator).build());
+                    return exchange.getSession().flatMap(webSession -> {
+                        String userId = exchange.getRequest().getHeaders().getFirst("id");
+                        String sessionId = webSession.getId();
+                        String res = webSession.getAttribute(sessionId);
+                        webSession.getAttributes().put(webSession.getId(), userId);
+                        return chain.filter(exchange.mutate().request(decorator).build());
+                    }).then(Mono.fromRunnable(() -> {
+
+                    }));
                 }));
     }
 }
