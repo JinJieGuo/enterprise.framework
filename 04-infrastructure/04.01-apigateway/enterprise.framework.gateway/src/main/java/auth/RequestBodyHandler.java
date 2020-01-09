@@ -68,7 +68,7 @@ public class RequestBodyHandler {
                         String userId = exchange.getRequest().getHeaders().getFirst("id");
                         String sessionId = webSession.getId();
                         String existSessionId = webSession.getAttribute(userId);
-                        if (userId != null && existSessionId != null && existSessionId != sessionId) {
+                        if (userId != null && existSessionId != null && !existSessionId.equals(sessionId)) {
                             ServerHttpResponse response = exchange.getResponse();
                             //用户异地登录,511错误码
                             response.setStatusCode(HttpStatus.NETWORK_AUTHENTICATION_REQUIRED);
