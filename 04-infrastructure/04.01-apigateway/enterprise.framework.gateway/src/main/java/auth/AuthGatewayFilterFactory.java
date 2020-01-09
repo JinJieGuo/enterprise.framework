@@ -108,20 +108,21 @@ public class AuthGatewayFilterFactory extends AbstractGatewayFilterFactory<AuthG
                 String userId = exchange.getRequest().getHeaders().getFirst("id");
                 String token = exchange.getRequest().getHeaders().getFirst("token_info");
                 ServerHttpResponse response = exchange.getResponse();
-                if (token.equals("-. --- - .. --. -. --- .-. .")) {
-                    return chain.filter(exchange);
-                }
 
-                if (userId.equals("")) {
+                if (userId != null && userId.equals("")) {
                     //用户id为空,返回203
                     response.setStatusCode(HttpStatus.NON_AUTHORITATIVE_INFORMATION);
                     return response.setComplete();
                 }
 
-                if (token.equals("")) {
+                if (token != null && token.equals("")) {
                     //token为空,返回401
                     response.setStatusCode(HttpStatus.UNAUTHORIZED);
                     return response.setComplete();
+                }
+
+                if (token.equals("-. --- - .. --. -. --- .-. .")) {
+                    return chain.filter(exchange);
                 }
 
                 RedisHandler redisHandler = new RedisHandler(redisTemplate);

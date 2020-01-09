@@ -127,8 +127,13 @@ public class AuthGlobalFilter implements GlobalFilter, Ordered {
             return exchange.getSession().flatMap(webSession -> {
                 String userId = exchange.getRequest().getHeaders().getFirst("id");
                 String sessionId = webSession.getId();
-//                request.addCookie(new Cookie("JSSESIONID",request.getSession().getId()));
-                webSession.getAttributes().put(webSession.getId(), "aaaa");
+                String existSessionId = webSession.getAttribute(userId);
+                if (userId != null && existSessionId != null && existSessionId != sessionId) {
+                    ServerHttpResponse response = exchange.getResponse();
+                    //用户异地登录,511错误码
+                    response.setStatusCode(HttpStatus.NETWORK_AUTHENTICATION_REQUIRED);
+                    return response.setComplete();
+                }
                 return chain.filter(exchange);
             }).then(Mono.fromRunnable(() -> {
 

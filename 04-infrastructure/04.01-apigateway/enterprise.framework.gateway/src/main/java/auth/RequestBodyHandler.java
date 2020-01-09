@@ -24,7 +24,9 @@ import org.springframework.cloud.gateway.support.BodyInserterContext;
 import org.springframework.cloud.gateway.support.CachedBodyOutputMessage;
 import org.springframework.core.io.buffer.DataBuffer;
 import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.server.reactive.ServerHttpRequestDecorator;
+import org.springframework.http.server.reactive.ServerHttpResponse;
 import org.springframework.web.reactive.function.BodyInserter;
 import org.springframework.web.reactive.function.BodyInserters;
 import org.springframework.web.server.ServerWebExchange;
@@ -65,8 +67,14 @@ public class RequestBodyHandler {
                     return exchange.getSession().flatMap(webSession -> {
                         String userId = exchange.getRequest().getHeaders().getFirst("id");
                         String sessionId = webSession.getId();
-                        String res = webSession.getAttribute(sessionId);
-                        webSession.getAttributes().put(webSession.getId(), userId);
+                        String existSessionId = webSession.getAttribute(userId);
+                        if (userId != null && existSessionId != null && existSessionId != sessionId) {
+                            ServerHttpResponse response = exchange.getResponse();
+                            //用户异地登录,511错误码
+                            response.setStatusCode(HttpStatus.NETWORK_AUTHENTICATION_REQUIRED);
+                            return response.setComplete();
+                        }
+                        webSession.getAttributes().put(userId, sessionId);
                         return chain.filter(exchange.mutate().request(decorator).build());
                     }).then(Mono.fromRunnable(() -> {
 
