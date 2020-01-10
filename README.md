@@ -8,8 +8,8 @@
 ## 01.目录结构  
 ├── 01- presentation  
 ├── 02- application  
-│    ├── enterprise.framework.business  
-│    └── enterprise.framework.pojo  
+ │　　├── enterprise.framework.business  
+ │　　└── enterprise.framework.pojo  
 ├── 03- domain  
 │　　└── enterprise.framework.domain  
 ├── 04- infrastructure  
