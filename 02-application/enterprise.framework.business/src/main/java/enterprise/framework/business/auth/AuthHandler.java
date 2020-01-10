@@ -146,6 +146,7 @@ public class AuthHandler {
                 return map;
             }
             SysAuthUser tempUser = userList.get(0);
+            SysAuthUser userInfo = tempUser;
 
             HttpResponse tokenInfoResponse = getTokenInfo("token_info:" + tempUser.getUserId());
             if (tokenInfoResponse.status != HttpStatus.SUCCESS.value() || tokenInfoResponse.content == null) {
@@ -157,17 +158,16 @@ public class AuthHandler {
             if (tokenManager.tokenInfoIsInvalid(tokenInfo)) {
                 //用户令牌已失效,延长令牌有效时间
                 boolean res = tokenManager.extendTokenTime(tokenInfo, 30, TimeTypeEnum.MINUTE);
-            }
-            SysAuthUser userInfo = tempUser;
-
-            HttpResponse userRedisResponse = redisHandler.get("user_info:" + tempUser.getUserId() + "");
-            if (userRedisResponse.content != null && userRedisResponse.status == HttpStatus.SUCCESS.value()) {
-                httpResponse.msg = "用户已登录,请勿重复登录!";
-                httpResponse.status = HttpStatus.SUCCESS.value();
-                httpResponse.content = userInfo;
-                map.put("response", httpResponse);
-                map.put("token_info", tokenInfo);
-                return map;
+            } else {//#1 BUG => 令牌有效期内验证用户redis
+                HttpResponse userRedisResponse = redisHandler.get("user_info:" + tempUser.getUserId() + "");
+                if (userRedisResponse.content != null && userRedisResponse.status == HttpStatus.SUCCESS.value()) {
+                    httpResponse.msg = "用户已登录,请勿重复登录!";
+                    httpResponse.status = HttpStatus.SUCCESS.value();
+                    httpResponse.content = userInfo;
+                    map.put("response", httpResponse);
+                    map.put("token_info", tokenInfo);
+                    return map;
+                }
             }
 
             if (userInfo != null) {
