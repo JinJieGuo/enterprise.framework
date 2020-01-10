@@ -6,24 +6,24 @@
 第三版:前后端分离 ASP.NET/java 微服务架构 + angular 8  
 
 ## 01.目录结构  
-#####├── 01- presentation  
-#####├── 02- application  
-#####│　　├── enterprise.framework.business  
-#####│　　└── enterprise.framework.pojo  
-#####├── 03- domain  
-#####│　　└── enterprise.framework.domain  
-#####├── 04- infrastructure  
-#####│　　├── 04.01-apigateway  
-#####│　　│　　└── enterprise.framework.gateway  
-#####│　　├── 04.02-structure  
-#####│　　│　　├── enterprise.framework.mapper  
-#####│　　│　　└── enterprise.framework.service  
-#####│　　├── 04.03-inside  
-#####│　　│　　├── enterprise.framework.core  
-#####│　　│　　└── enterprise.framework.utility  
-#####├── 05-communication  
-#####├── 06-microService  
-#####└── └──　└── enterprise.framework.erp      
+├── 01- presentation  
+├── 02- application  
+│　　├── enterprise.framework.business  
+│　　└── enterprise.framework.pojo  
+├── 03- domain  
+│　　└── enterprise.framework.domain  
+├── 04- infrastructure  
+│　　├── 04.01-apigateway  
+│　　│　　└── enterprise.framework.gateway  
+│　　├── 04.02-structure  
+│　　│　　├── enterprise.framework.mapper  
+│　　│　　└── enterprise.framework.service  
+│　　├── 04.03-inside  
+│　　│　　├── enterprise.framework.core  
+│　　│　　└── enterprise.framework.utility  
+├── 05-communication  
+├── 06-microService  
+└── └──　└── enterprise.framework.erp      
 
 #####├── 01- 展示层  
 #####├── 02- 全局  
