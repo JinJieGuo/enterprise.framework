@@ -68,28 +68,28 @@ public class AuthTest {
     }
 
 
-    /**
-     * 初始化用户信息,并赋值token
-     *
-     * @throws Exception
-     */
-    @Test
-    public void initAdminData() throws Exception {
-        RedisHandler redisHandler = new RedisHandler(redisTemplate);
-        StrHandler strHandler = new StrHandler();
-        //初始化管理员令牌信息
-        ITokenManager tokenManager = new TokenManager();
-        Map<String, Object> keyMap = RSAUtils.genKeyPair(1024);
-        SysAuthUser user = new SysAuthUser();
-        user.setLoginName("admin");
-        user.setPassword(Base64Utils.encode(RSAUtils.decryptByPublicKey("123456".getBytes("utf-8"), RSAUtils.getPublicKey(keyMap))));
-//        HttpResponse response = sysAuthUserService.updateUser(user);
-//        sysAuthUserService.saveUser(user);
-//        sysAuthUserService.createUser(user);
-        //用户保存成功后,为用户生成完整token信息,并缓存token
-        TokenInfo tokenInfo = tokenManager.createToken("33", keyMap, 30, TimeTypeEnum.MINUTE);
-        redisHandler.set("token_info:33", strHandler.toBinary(JSON.toJSONString(tokenInfo)));
-    }
+//    /**
+//     * 初始化用户信息,并赋值token
+//     *
+//     * @throws Exception
+//     */
+//    @Test
+//    public void initAdminData() throws Exception {
+//        RedisHandler redisHandler = new RedisHandler(redisTemplate);
+//        StrHandler strHandler = new StrHandler();
+//        //初始化管理员令牌信息
+//        ITokenManager tokenManager = new TokenManager();
+//        Map<String, Object> keyMap = RSAUtils.genKeyPair(1024);
+//        SysAuthUser user = new SysAuthUser();
+//        user.setLoginName("admin");
+//        user.setPassword(Base64Utils.encode(RSAUtils.decryptByPublicKey("123456".getBytes("utf-8"), RSAUtils.getPublicKey(keyMap))));
+////        HttpResponse response = sysAuthUserService.updateUser(user);
+////        sysAuthUserService.saveUser(user);
+////        sysAuthUserService.createUser(user);
+//        //用户保存成功后,为用户生成完整token信息,并缓存token
+//        TokenInfo tokenInfo = tokenManager.createToken("33", keyMap, 30, TimeTypeEnum.MINUTE);
+//        redisHandler.set("token_info:33", strHandler.toBinary(JSON.toJSONString(tokenInfo)));
+//    }
 
 
     /**

@@ -2,11 +2,12 @@
 
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
-<!--    <parent>-->
-<!--        <artifactId>enterprise.framework</artifactId>-->
-<!--        <groupId>enterprise.framework</groupId>-->
-<!--        <version>1.0.0.191223-ALPHA</version>-->
-<!--    </parent>-->
+    <!--    <parent>-->
+    <!--        <artifactId>enterprise.framework</artifactId>-->
+    <!--        <groupId>enterprise.framework</groupId>-->
+    <!--        <version>1.0.0.191223-ALPHA</version>-->
+    <!--        <relativePath>../../pom.xml</relativePath>-->
+    <!--    </parent>-->
     <parent>
         <groupId>org.springframework.boot</groupId>
         <artifactId>spring-boot-starter-parent</artifactId>
@@ -16,7 +17,7 @@
     <modelVersion>4.0.0</modelVersion>
     <packaging>jar</packaging>
     <artifactId>enterprise.framework.erp</artifactId>
-
+    <version>1.0.0.191223-ALPHA</version>
     <name>enterprise.framework.erp</name>
 
     <properties>
@@ -49,12 +50,6 @@
         <dependency>
             <groupId>enterprise.framework</groupId>
             <artifactId>enterprise.framework.service</artifactId>
-            <version>1.0.0.191223-ALPHA</version>
-            <scope>compile</scope>
-        </dependency>
-        <dependency>
-            <groupId>enterprise.framework</groupId>
-            <artifactId>enterprise.framework.pojo</artifactId>
             <version>1.0.0.191223-ALPHA</version>
             <scope>compile</scope>
         </dependency>
@@ -180,4 +175,37 @@
             </dependency>
         </dependencies>
     </dependencyManagement>
+
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-maven-plugin</artifactId>
+                <!--配置程序启动类-->
+                <configuration>
+                    <mainClass>enterprise.framework.erp.ErpApplication</mainClass>
+                </configuration>
+                <!--配置程序启动类-->
+            </plugin>
+        </plugins>
+    </build>
+
+    <!--    <build>-->
+    <!--        <plugins>-->
+    <!--            <plugin>-->
+    <!--                <groupId>org.apache.maven.plugins</groupId>-->
+    <!--                <artifactId>maven-compiler-plugin</artifactId>-->
+    <!--                <version>3.1</version>-->
+    <!--                <configuration>-->
+    <!--                    <source>1.8</source>-->
+    <!--                    <target>1.8</target>-->
+    <!--                </configuration>-->
+    <!--            </plugin>-->
+
+    <!--            <plugin>-->
+    <!--                <groupId>org.springframework.boot</groupId>-->
+    <!--                <artifactId>spring-boot-maven-plugin</artifactId>-->
+    <!--            </plugin>-->
+    <!--        </plugins>-->
+    <!--    </build>-->
 </project>

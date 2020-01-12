@@ -42,13 +42,13 @@ public class SystemTest {
     @Test
     public void ConfigTest() throws FileNotFoundException {
 
-        File file = new File(ResourceUtils.getURL("classpath:").getPath());
-
-//        String path =  ClassUtils.getDefaultClassLoader().getResource("").getPath();
-//        String path = ResourceUtils.getURL("classpath:").getPath();
-        String path1 = System.getProperty("user.dir");
-        String path = file.getAbsolutePath();
-        Object property = YmlPropUtils.getInstance().getProperty("spring.datasource.type");
-        System.out.println(property);
+//        File file = new File(ResourceUtils.getURL("classpath:").getPath());
+//
+////        String path =  ClassUtils.getDefaultClassLoader().getResource("").getPath();
+////        String path = ResourceUtils.getURL("classpath:").getPath();
+//        String path1 = System.getProperty("user.dir");
+//        String path = file.getAbsolutePath();
+//        Object property = YmlPropUtils.getInstance().getProperty("spring.datasource.type");
+//        System.out.println(property);
     }
 }

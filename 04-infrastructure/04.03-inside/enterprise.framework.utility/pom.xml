@@ -19,7 +19,7 @@
             <!--ID可以随便写，但是要与maven的setting文件中一致-->
             <id>releases</id>
             <!--指向仓库类型为hosted(宿主仓库）的储存类型为Release的仓库-->
-            <url>http://172.17.202.122:8081/repository/enterprise.framework/</url>
+            <url>http://192.168.2.110:8081/repository/enterprise.framework/</url>
         </repository>
     </distributionManagement>
     <dependencies>

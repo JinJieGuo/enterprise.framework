@@ -20,7 +20,6 @@
 package controller.auth;
 
 import enterprise.framework.core.http.HttpResponse;
-import enterprise.framework.pojo.auth.button.SysAuthButtonVO;
 import enterprise.framework.pojo.auth.role.SysAuthRoleVO;
 import enterprise.framework.service.auth.role.SysAuthRoleService;
 import org.springframework.beans.factory.annotation.Autowired;

@@ -49,30 +49,30 @@ public class RabbitMqTest {
 //        imqManager.instance().createConnection();
     }
 
-    @Test
-    public void receivedMsg() throws IOException, TimeoutException, InterruptedException {
-        IMQManager imqManager = new MQManager();
-        enterprise.framework.core.rabbitmq.RabbitMqInfo rabbitMqInfo = MapHandler.mapToObject(rabbitMq.getRabbitMqInfo().get(0), RabbitMqInfo.class);
-        Connection rabbitMqConnection = imqManager.instance().createConnection(rabbitMq.getRabbitMqInfo().get(0));
-        Channel channel = rabbitMqConnection.createChannel();
-//        channel.basicQos(0, 1, false);
+//    @Test
+//    public void receivedMsg() throws IOException, TimeoutException, InterruptedException {
+//        IMQManager imqManager = new MQManager();
+//        enterprise.framework.core.rabbitmq.RabbitMqInfo rabbitMqInfo = MapHandler.mapToObject(rabbitMq.getRabbitMqInfo().get(0), RabbitMqInfo.class);
+//        Connection rabbitMqConnection = imqManager.instance().createConnection(rabbitMq.getRabbitMqInfo().get(0));
+//        Channel channel = rabbitMqConnection.createChannel();
+////        channel.basicQos(0, 1, false);
+////        DeliverCallback deliverCallback = (consumerTag, delivery) -> {
+////            String message = new String(delivery.getBody(), "UTF-8");
+////            System.out.println(" [x] Received '" + message + "'");
+////        };
+////        channel.basicConsume("msg-server-alpha-01", true, deliverCallback, consumerTag -> {
+////        });
+//
 //        DeliverCallback deliverCallback = (consumerTag, delivery) -> {
 //            String message = new String(delivery.getBody(), "UTF-8");
 //            System.out.println(" [x] Received '" + message + "'");
+//            channel.basicAck(delivery.getEnvelope().getDeliveryTag(), false);
 //        };
-//        channel.basicConsume("msg-server-alpha-01", true, deliverCallback, consumerTag -> {
+//        channel.basicConsume("msg-server-alpha-01", false, deliverCallback, consumerTag -> {
 //        });
-
-        DeliverCallback deliverCallback = (consumerTag, delivery) -> {
-            String message = new String(delivery.getBody(), "UTF-8");
-            System.out.println(" [x] Received '" + message + "'");
-            channel.basicAck(delivery.getEnvelope().getDeliveryTag(), false);
-        };
-        channel.basicConsume("msg-server-alpha-01", false, deliverCallback, consumerTag -> {
-        });
-        do {
-            Thread.sleep(100000000L);
-        } while (true);
-
-    }
+//        do {
+//            Thread.sleep(100000000L);
+//        } while (true);
+//
+//    }
 }

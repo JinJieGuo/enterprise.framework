@@ -19,12 +19,10 @@
 
 package controller.auth;
 
-import com.netflix.ribbon.proxy.annotation.Http;
 import enterprise.framework.business.engine.Components;
 import enterprise.framework.business.engine.IScheduler;
 import enterprise.framework.pojo.auth.user.SysAuthUserVO;
 import enterprise.framework.service.auth.user.SysAuthUserService;
-import org.springframework.http.HttpMethod;
 import org.springframework.web.bind.annotation.*;
 import enterprise.framework.core.http.HttpResponse;
 import org.springframework.beans.factory.annotation.Autowired;
