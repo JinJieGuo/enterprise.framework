@@ -1,0 +1,17 @@
+enterprise\framework\pojo\auth\button\SysAuthButtonVO.class
+enterprise\framework\pojo\auth\user\SysAuthUserRoleVO.class
+enterprise\framework\pojo\auth\user\SignOutVO.class
+enterprise\framework\pojo\auth\user\SysAuthUserVO.class
+enterprise\framework\pojo\auth\user\UserSearchModel.class
+enterprise\framework\pojo\config\tree\SysConfigTreeVO.class
+enterprise\framework\pojo\auth\role\SysAuthRoleMenuButtonVO.class
+enterprise\framework\pojo\config\tree\TreeSelectVO.class
+enterprise\framework\pojo\auth\menu\SysAuthMenuVO.class
+enterprise\framework\pojo\auth\menu\SysAuthMenuButtonVO.class
+enterprise\framework\pojo\auth\user\SignInVO.class
+enterprise\framework\pojo\auth\role\SysAuthRoleVO.class
+enterprise\framework\pojo\auth\user\UserModel.class
+enterprise\framework\pojo\config\tree\TreeTableVO.class
+enterprise\framework\pojo\communication\ParametersModel.class
+enterprise\framework\pojo\config\dictionary\SysConfigDictionaryVO.class
+enterprise\framework\pojo\config\dictionary\DictionarySearchVO.class

@@ -16,7 +16,7 @@ import org.springframework.session.web.http.HttpSessionIdResolver;
 
 @EnableDiscoveryClient// => 网关
 @SpringBootApplication
-@ComponentScan(basePackages = {"auth", "cors"})
+@ComponentScan(basePackages = {"auth", "cors", "controller"})
 public class GatewayApplication {
 
     public static void main(String[] args) {
@@ -36,10 +36,11 @@ public class GatewayApplication {
 
     /**
      * 用于spring session，防止每次创建一个线程
+     *
      * @return
      */
     @Bean
-    public ThreadPoolTaskExecutor springSessionRedisTaskExecutor(){
+    public ThreadPoolTaskExecutor springSessionRedisTaskExecutor() {
         ThreadPoolTaskExecutor springSessionRedisTaskExecutor = new ThreadPoolTaskExecutor();
         springSessionRedisTaskExecutor.setCorePoolSize(8);
         springSessionRedisTaskExecutor.setMaxPoolSize(16);

@@ -1,0 +1,6 @@
+enterprise\framework\business\engine\BaseScheduler.class
+enterprise\framework\business\engine\IScheduler.class
+enterprise\framework\business\auth\AuthHandler.class
+enterprise\framework\business\auth\AuthManager.class
+enterprise\framework\business\engine\Components.class
+enterprise\framework\business\auth\IAuthManager.class

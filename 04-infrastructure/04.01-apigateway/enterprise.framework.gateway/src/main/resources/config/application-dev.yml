@@ -40,8 +40,8 @@ spring:
       routes:
         - id: gatewayRoute
           #          uri: http://localhost:8889
-          uri: http://localhost:8080
-          #          uri: lb://com-gps-erp-permission
+#          uri: http://localhost:8080
+          uri: lb://enterprise-framework-erp-auth
           predicates:
             - Path=/erp/sys/**
           #转发等级
