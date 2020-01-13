@@ -45,4 +45,11 @@ public interface SysAuthButtonService {
      * @return
      */
     HttpResponse listAllButton();
+
+    /**
+     * 获取所有未删除的按钮用于为菜单分配按钮
+     *
+     * @return
+     */
+    HttpResponse listAllButtonInfo();
 }

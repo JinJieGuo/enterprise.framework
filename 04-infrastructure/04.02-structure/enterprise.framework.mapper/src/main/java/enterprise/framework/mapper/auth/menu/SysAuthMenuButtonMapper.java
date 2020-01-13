@@ -20,10 +20,11 @@
 package enterprise.framework.mapper.auth.menu;
 
 import enterprise.framework.domain.auth.SysAuthMenuButton;
-import org.apache.ibatis.annotations.InsertProvider;
-import org.apache.ibatis.annotations.Options;
-import org.apache.ibatis.annotations.UpdateProvider;
+import enterprise.framework.pojo.auth.menu.SysAuthMenuButtonVO;
+import org.apache.ibatis.annotations.*;
 import org.springframework.stereotype.Component;
+
+import java.util.List;
 
 @Component
 public interface SysAuthMenuButtonMapper {
@@ -37,6 +38,14 @@ public interface SysAuthMenuButtonMapper {
     @Options(useGeneratedKeys = true, keyProperty = "menu_button_id", keyColumn = "menu_button_id")
     @InsertProvider(type = SysAuthMenuButtonGenerateSql.class, method = "generateSaveSql")
     int saveMenu(SysAuthMenuButton sysAuthMenu);
+
+    @Insert("<script>" +
+            "INSERT INTO sys_auth_menu_button (menu_id, button_id) VALUES" +
+            "<foreach collection='sysAuthMenuButtonVOList' item='item' index='index' separator=','>" +
+            "(#{item.menuId}, #{item.buttonId})" +
+            "</foreach>" +
+            "</script>")
+    int saveMenuButtonList(@Param(value = "sysAuthMenuButtonVOList") List<SysAuthMenuButtonVO> sysAuthMenuButtonVOList);
 
     /**
      * 更新单个角色

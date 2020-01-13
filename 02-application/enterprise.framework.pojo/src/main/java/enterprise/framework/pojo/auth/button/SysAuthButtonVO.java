@@ -41,6 +41,8 @@ public class SysAuthButtonVO extends DbBaseVO {
 
     private Long sort;
 
+    private boolean isChecked;
+
     public void setButtonId(Long buttonId) {
         this.buttonId = buttonId;
     }
@@ -113,4 +115,11 @@ public class SysAuthButtonVO extends DbBaseVO {
         return sort;
     }
 
+    public void setIsChecked(boolean isChecked) {
+        this.isChecked = isChecked;
+    }
+
+    public boolean getIsChecked() {
+        return isChecked;
+    }
 }

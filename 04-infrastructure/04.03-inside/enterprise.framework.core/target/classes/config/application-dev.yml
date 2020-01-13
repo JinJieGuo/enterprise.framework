@@ -1,7 +1,0 @@
-#rabbitmq:
-#  rabbitmq-info:
-#    - mqName: ""
-#      userName: ""
-#      password: ""
-#      hostName: ""
-#      virtualHost: ""

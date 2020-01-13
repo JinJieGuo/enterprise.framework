@@ -66,4 +66,12 @@ public interface SysAuthButtonMapper extends Mapper<SysAuthButton> {
             "FROM sys_auth_button WHERE is_deleted = 0\n" +
             ")a, (SELECT @rank:= 0) b")
     List<SysAuthButtonVO> listAllButton();
+
+    /**
+     * 获取所有未删除的按钮用于为菜单分配按钮
+     *
+     * @return
+     */
+    @Select("SELECT button_id, button_name, button_code, icon FROM sys_auth_button WHERE is_deleted = 0")
+    List<SysAuthButtonVO> listAllButtonInfo();
 }

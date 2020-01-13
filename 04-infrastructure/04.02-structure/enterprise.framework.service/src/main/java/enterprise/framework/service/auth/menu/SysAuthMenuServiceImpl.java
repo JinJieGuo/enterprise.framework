@@ -22,7 +22,10 @@ package enterprise.framework.service.auth.menu;
 import enterprise.framework.core.http.HttpResponse;
 import enterprise.framework.core.http.HttpStatus;
 import enterprise.framework.domain.auth.SysAuthMenu;
+import enterprise.framework.mapper.auth.button.SysAuthButtonMapper;
+import enterprise.framework.mapper.auth.menu.SysAuthMenuButtonMapper;
 import enterprise.framework.mapper.auth.menu.SysAuthMenuMapper;
+import enterprise.framework.pojo.auth.menu.SysAuthMenuButtonVO;
 import enterprise.framework.pojo.auth.menu.SysAuthMenuVO;
 import enterprise.framework.pojo.config.tree.TreeSelectVO;
 import enterprise.framework.pojo.config.tree.TreeTableVO;
@@ -36,6 +39,12 @@ public class SysAuthMenuServiceImpl implements SysAuthMenuService {
 
     @Autowired(required = false)
     private SysAuthMenuMapper sysAuthMenuMapper;
+
+    @Autowired(required = false)
+    private SysAuthButtonMapper sysAuthButtonMapper;
+
+    @Autowired(required = false)
+    private SysAuthMenuButtonMapper sysAuthMenuButtonMapper;
 
     /**
      * 保存菜单
@@ -66,6 +75,31 @@ public class SysAuthMenuServiceImpl implements SysAuthMenuService {
     }
 
     /**
+     * 保存菜单下的按钮
+     *
+     * @param sysAuthMenuButtonVOList
+     * @return
+     */
+    public HttpResponse saveMenuButton(List<SysAuthMenuButtonVO> sysAuthMenuButtonVOList) {
+        HttpResponse httpResponse = new HttpResponse();
+        try {
+            int response = sysAuthMenuButtonMapper.saveMenuButtonList(sysAuthMenuButtonVOList);
+            if (response > 0) {
+                httpResponse.status = HttpStatus.SUCCESS.value();
+                httpResponse.msg = "保存成功";
+            } else {
+                httpResponse.status = HttpStatus.FAIL.value();
+                httpResponse.msg = "保存失败";
+            }
+            return httpResponse;
+        } catch (Exception error) {
+            httpResponse.status = HttpStatus.ERROR.value();
+            httpResponse.msg = "[类名:(" + this.getClass() + ")]" + "查询异常:" + error.getMessage();
+            return httpResponse;
+        }
+    }
+
+    /**
      * 更新菜单
      *
      * @param sysAuthMenuVO
@@ -89,6 +123,8 @@ public class SysAuthMenuServiceImpl implements SysAuthMenuService {
             }
             return httpResponse;
         } catch (Exception error) {
+            httpResponse.status = HttpStatus.ERROR.value();
+            httpResponse.msg = "[类名:(" + this.getClass() + ")]" + "查询异常:" + error.getMessage();
             return httpResponse;
         }
     }
@@ -115,6 +151,8 @@ public class SysAuthMenuServiceImpl implements SysAuthMenuService {
             }
             return httpResponse;
         } catch (Exception error) {
+            httpResponse.status = HttpStatus.ERROR.value();
+            httpResponse.msg = "[类名:(" + this.getClass() + ")]" + "查询异常:" + error.getMessage();
             return httpResponse;
         }
     }
@@ -195,6 +233,7 @@ public class SysAuthMenuServiceImpl implements SysAuthMenuService {
                 Map<String, Object> map = new HashMap<>();
                 map.put("TreeTableVOList", treeTableVOList);
                 map.put("TreeSelectVOList", treeSelectVOList);
+                map.put("ButtonList", sysAuthButtonMapper.listAllButtonInfo());
                 httpResponse.status = HttpStatus.SUCCESS.value();
                 httpResponse.msg = "查询成功";
                 httpResponse.content = map;

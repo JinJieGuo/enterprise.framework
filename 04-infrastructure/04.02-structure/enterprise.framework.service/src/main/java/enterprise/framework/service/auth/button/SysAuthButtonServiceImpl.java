@@ -169,4 +169,29 @@ public class SysAuthButtonServiceImpl implements SysAuthButtonService {
             return httpResponse;
         }
     }
+
+    /**
+     * 获取所有未删除的按钮用于为菜单分配按钮
+     *
+     * @return
+     */
+    public HttpResponse listAllButtonInfo() {
+        HttpResponse httpResponse = new HttpResponse();
+        try {
+            List<SysAuthButtonVO> dataSource = sysAuthButtonMapper.listAllButtonInfo();
+            if (dataSource.size() > 0) {
+                httpResponse.status = HttpStatus.SUCCESS.value();
+                httpResponse.msg = "查询成功";
+                httpResponse.content = dataSource;
+            } else {
+                httpResponse.status = HttpStatus.SUCCESS.value();
+                httpResponse.msg = "查询成功,但无返回值";
+            }
+            return httpResponse;
+        } catch (Exception error) {
+            httpResponse.status = HttpStatus.ERROR.value();
+            httpResponse.msg = "[类名:(" + this.getClass() + ")]" + "查询异常:" + error.getMessage();
+            return httpResponse;
+        }
+    }
 }

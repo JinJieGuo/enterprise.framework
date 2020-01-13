@@ -21,10 +21,13 @@ package controller.auth;
 
 import enterprise.framework.core.http.HttpResponse;
 import enterprise.framework.pojo.auth.button.SysAuthButtonVO;
+import enterprise.framework.pojo.auth.menu.SysAuthMenuButtonVO;
 import enterprise.framework.pojo.auth.menu.SysAuthMenuVO;
 import enterprise.framework.service.auth.menu.SysAuthMenuService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @RestController
 @RequestMapping("/v1/auth/menu/")
@@ -32,6 +35,7 @@ public class MenuController {
 
     @Autowired
     private SysAuthMenuService sysAuthMenuService;
+
 
     /**
      * 保存按钮
@@ -43,6 +47,13 @@ public class MenuController {
     public HttpResponse saveMenu(@RequestBody SysAuthMenuVO sysAuthMenuVO) {
         return sysAuthMenuService.saveMenu(sysAuthMenuVO);
     }
+
+    @ResponseBody
+    @PostMapping("saveMenuButton")
+    public HttpResponse saveMenuButton(@RequestBody List<SysAuthMenuButtonVO> sysAuthMenuButtonVOList) {
+        return sysAuthMenuService.saveMenuButton(sysAuthMenuButtonVOList);
+    }
+
 
     /**
      * 更新按钮
