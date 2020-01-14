@@ -22,9 +22,11 @@ package enterprise.framework.service.auth.menu;
 import enterprise.framework.core.http.HttpResponse;
 import enterprise.framework.core.http.HttpStatus;
 import enterprise.framework.domain.auth.SysAuthMenu;
+import enterprise.framework.domain.auth.SysAuthMenuButton;
 import enterprise.framework.mapper.auth.button.SysAuthButtonMapper;
 import enterprise.framework.mapper.auth.menu.SysAuthMenuButtonMapper;
 import enterprise.framework.mapper.auth.menu.SysAuthMenuMapper;
+import enterprise.framework.pojo.auth.menu.ChoosedButtonDTO;
 import enterprise.framework.pojo.auth.menu.ChoosedButtonVO;
 import enterprise.framework.pojo.auth.menu.SysAuthMenuButtonVO;
 import enterprise.framework.pojo.auth.menu.SysAuthMenuVO;
@@ -78,13 +80,30 @@ public class SysAuthMenuServiceImpl implements SysAuthMenuService {
     /**
      * 保存菜单下的按钮
      *
-     * @param sysAuthMenuButtonVOList
+     * @param choosedButtonDTO
      * @return
      */
-    public HttpResponse saveMenuButton(List<SysAuthMenuButtonVO> sysAuthMenuButtonVOList) {
+    public HttpResponse saveMenuButton(ChoosedButtonDTO choosedButtonDTO) {
         HttpResponse httpResponse = new HttpResponse();
         try {
-            int response = sysAuthMenuButtonMapper.saveMenuButtonList(sysAuthMenuButtonVOList);
+            SysAuthMenuButton sysAuthMenuButton = new SysAuthMenuButton();
+            sysAuthMenuButton.setMenuId(choosedButtonDTO.getMenuId());
+            if (choosedButtonDTO.getSysAuthMenuButtonVOList().size() == 0) {
+                int deleteMenuButton = sysAuthMenuButtonMapper.deleteMenuButton(sysAuthMenuButton.getMenuId());
+            }
+
+            // 菜单下的按钮个数
+            int count = sysAuthMenuButtonMapper.selectCount(sysAuthMenuButton);
+            int response = 0;
+            if (count > 0) { // 菜单下存在按钮时,先移除所有再新增,如果移除失败,则不添加
+                int deleteMenuButton = sysAuthMenuButtonMapper.deleteMenuButton(sysAuthMenuButton.getMenuId());
+                if (deleteMenuButton > 0) {
+                    response = sysAuthMenuButtonMapper.saveMenuButtonList(choosedButtonDTO.getSysAuthMenuButtonVOList());
+                }
+            } else {
+                response = sysAuthMenuButtonMapper.saveMenuButtonList(choosedButtonDTO.getSysAuthMenuButtonVOList());
+            }
+
             if (response > 0) {
                 httpResponse.status = HttpStatus.SUCCESS.value();
                 httpResponse.msg = "保存成功";

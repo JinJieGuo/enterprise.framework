@@ -21,6 +21,7 @@ package controller.auth;
 
 import enterprise.framework.core.http.HttpResponse;
 import enterprise.framework.pojo.auth.button.SysAuthButtonVO;
+import enterprise.framework.pojo.auth.menu.ChoosedButtonDTO;
 import enterprise.framework.pojo.auth.menu.SysAuthMenuButtonVO;
 import enterprise.framework.pojo.auth.menu.SysAuthMenuVO;
 import enterprise.framework.service.auth.menu.SysAuthMenuService;
@@ -50,8 +51,9 @@ public class MenuController {
 
     @ResponseBody
     @PostMapping("saveMenuButton")
-    public HttpResponse saveMenuButton(@RequestBody List<SysAuthMenuButtonVO> sysAuthMenuButtonVOList) {
-        return sysAuthMenuService.saveMenuButton(sysAuthMenuButtonVOList);
+    public HttpResponse saveMenuButton(@RequestBody ChoosedButtonDTO choosedButtonDTO) {
+        return sysAuthMenuService.saveMenuButton(choosedButtonDTO);
+//        return new HttpResponse();
     }
 
     /**

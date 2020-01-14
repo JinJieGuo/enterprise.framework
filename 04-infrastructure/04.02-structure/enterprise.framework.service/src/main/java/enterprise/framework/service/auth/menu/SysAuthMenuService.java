@@ -1,6 +1,7 @@
 package enterprise.framework.service.auth.menu;
 
 import enterprise.framework.core.http.HttpResponse;
+import enterprise.framework.pojo.auth.menu.ChoosedButtonDTO;
 import enterprise.framework.pojo.auth.menu.SysAuthMenuButtonVO;
 import enterprise.framework.pojo.auth.menu.SysAuthMenuVO;
 import enterprise.framework.pojo.auth.role.SysAuthRoleVO;
@@ -19,10 +20,10 @@ public interface SysAuthMenuService {
     /**
      * 保存菜单下的按钮
      *
-     * @param sysAuthMenuButtonVOList
+     * @param choosedButtonDTO
      * @return
      */
-    HttpResponse saveMenuButton(List<SysAuthMenuButtonVO> sysAuthMenuButtonVOList);
+    HttpResponse saveMenuButton(ChoosedButtonDTO choosedButtonDTO);
 
     /**
      * 更新菜单

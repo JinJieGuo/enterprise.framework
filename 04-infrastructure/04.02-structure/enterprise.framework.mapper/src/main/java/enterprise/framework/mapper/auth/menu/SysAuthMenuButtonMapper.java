@@ -19,16 +19,18 @@
 
 package enterprise.framework.mapper.auth.menu;
 
+import enterprise.framework.domain.auth.SysAuthMenu;
 import enterprise.framework.domain.auth.SysAuthMenuButton;
 import enterprise.framework.pojo.auth.menu.ChoosedButtonVO;
 import enterprise.framework.pojo.auth.menu.SysAuthMenuButtonVO;
 import org.apache.ibatis.annotations.*;
 import org.springframework.stereotype.Component;
+import tk.mybatis.mapper.common.Mapper;
 
 import java.util.List;
 
 @Component
-public interface SysAuthMenuButtonMapper {
+public interface SysAuthMenuButtonMapper extends Mapper<SysAuthMenuButton> {
 
     /**
      * 保存单个菜单
@@ -58,6 +60,15 @@ public interface SysAuthMenuButtonMapper {
     @UpdateProvider(type = SysAuthMenuButtonGenerateSql.class, method = "generateUpdateSql")
     int updateMenu(SysAuthMenuButton sysAuthMenu);
 
+    /**
+     * 逻辑删除菜单下的按钮
+     *
+     * @param menuId
+     * @return
+     */
+    @Update("\tUPDATE sys_auth_menu_button SET is_deleted = 1 WHERE menu_id = #{menuId}")
+    int deleteMenuButton(long menuId);
+
     @Select("SELECT  t3.button_id AS chooseButtonId\n" +
             "\t\t\t, t3.button_name AS chooseButtonName\n" +
             "\t\t\t, t4.button_id, t4.button_name, t4.icon\n" +
@@ -66,7 +77,7 @@ public interface SysAuthMenuButtonMapper {
             "(\n" +
             "\tSELECT t1.button_id, t2.button_name FROM sys_auth_menu_button t1\n" +
             "\tLEFT JOIN sys_auth_button t2 ON t2.button_id = t1.button_id\n" +
-            "\tWHERE t1.menu_id = #{menuId}\n" +
+            "\tWHERE t1.menu_id = #{menuId} AND t1.is_deleted = 0\n" +
             ")t3\n" +
             "RIGHT JOIN sys_auth_button t4 ON t4.button_id = t3.button_id")
     List<ChoosedButtonVO> listMenuButton(int menuId);
