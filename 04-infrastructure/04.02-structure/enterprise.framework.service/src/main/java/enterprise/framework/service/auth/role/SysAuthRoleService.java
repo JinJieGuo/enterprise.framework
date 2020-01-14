@@ -62,4 +62,12 @@ public interface SysAuthRoleService {
      * @return
      */
     HttpResponse listAllRole();
+
+    /**
+     * 为角色分配用户 — 获取所有用户及该角色下已包含的用户
+     *
+     * @param roleId 角色主键
+     * @return
+     */
+    HttpResponse listRoleUser(long roleId);
 }

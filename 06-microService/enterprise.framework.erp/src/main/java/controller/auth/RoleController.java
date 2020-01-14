@@ -82,4 +82,16 @@ public class RoleController {
         return sysAuthRoleService.listAllRole();
     }
 
+    /**
+     * 为角色分配用户 — 获取所有用户及该角色下已包含的用户
+     *
+     * @param roleId 角色主键
+     * @return
+     */
+    @ResponseBody
+    @GetMapping("listRoleUser")
+    public HttpResponse listRoleUser(long roleId) {
+        return sysAuthRoleService.listRoleUser(roleId);
+    }
+
 }

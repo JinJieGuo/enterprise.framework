@@ -23,6 +23,7 @@ import enterprise.framework.core.http.HttpResponse;
 import enterprise.framework.core.http.HttpStatus;
 import enterprise.framework.domain.auth.SysAuthRole;
 import enterprise.framework.mapper.auth.role.SysAuthRoleMapper;
+import enterprise.framework.pojo.auth.role.RoleUserDTO;
 import enterprise.framework.pojo.auth.role.SysAuthRoleVO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -154,6 +155,32 @@ public class SysAuthRoleServiceImpl implements SysAuthRoleService {
         HttpResponse httpResponse = new HttpResponse();
         try {
             List<SysAuthRoleVO> response = sysAuthRoleMapper.listAllRole();
+            if (response.size() > 0) {
+                httpResponse.status = HttpStatus.SUCCESS.value();
+                httpResponse.msg = "查询成功";
+                httpResponse.content = response;
+            } else {
+                httpResponse.status = HttpStatus.SUCCESS.value();
+                httpResponse.msg = "查询成功,但无返回值";
+            }
+            return httpResponse;
+        } catch (Exception error) {
+            httpResponse.status = HttpStatus.ERROR.value();
+            httpResponse.msg = "[类名:(" + this.getClass() + ")]" + "查询异常:" + error.getMessage();
+            return httpResponse;
+        }
+    }
+
+    /**
+     * 为角色分配用户 — 获取所有用户及该角色下已包含的用户
+     *
+     * @param roleId 角色主键
+     * @return
+     */
+    public HttpResponse listRoleUser(long roleId) {
+        HttpResponse httpResponse = new HttpResponse();
+        try {
+            List<RoleUserDTO> response = sysAuthRoleMapper.listRoleUser(roleId);
             if (response.size() > 0) {
                 httpResponse.status = HttpStatus.SUCCESS.value();
                 httpResponse.msg = "查询成功";

@@ -20,6 +20,7 @@
 package enterprise.framework.mapper.auth.role;
 
 import enterprise.framework.domain.auth.SysAuthRole;
+import enterprise.framework.pojo.auth.role.RoleUserDTO;
 import enterprise.framework.pojo.auth.role.SysAuthRoleVO;
 import org.apache.ibatis.annotations.InsertProvider;
 import org.apache.ibatis.annotations.Options;
@@ -69,4 +70,20 @@ public interface SysAuthRoleMapper extends Mapper<SysAuthRole> {
             "FROM sys_auth_role WHERE is_deleted = 0\n" +
             ")a, (SELECT @rank:= 0) b")
     List<SysAuthRoleVO> listAllRole();
+
+    /**
+     * 为角色分配用户 — 获取所有用户及该角色下已包含的用户
+     *
+     * @param roleId 角色主键
+     * @return
+     */
+    @Select("SELECT  t1.user_id\n" +
+            "\t\t\t, t1.login_name\n" +
+            "\t\t\t, t1.real_name\n" +
+            "\t\t\t, t1.nick_name\n" +
+            "\t\t\t, (CASE WHEN t1.gender = 1 THEN 'man' WHEN t1.gender = 2 THEN 'woman' END) AS genderIcon\n" +
+            "\t\t\t, (CASE WHEN t2.user_role_id IS NOT NULL THEN 1 ELSE 0 END)AS isExist\n" +
+            "FROM sys_auth_user t1 \n" +
+            "LEFT JOIN sys_auth_user_role t2 ON t2.user_id = t1.user_id AND t2.role_id = #{roleId}")
+    List<RoleUserDTO> listRoleUser(long roleId);
 }

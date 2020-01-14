@@ -51,6 +51,7 @@ public class SysAuthUser extends DbBaseDO {
         this.nick_name = sysAuthUserVO.getNickName();
         this.real_name = sysAuthUserVO.getRealName();
         this.head_portrait = sysAuthUserVO.getHeadPortrait();
+        this.gender = sysAuthUserVO.getGender();
         this.major = sysAuthUserVO.getMajor();
         this.classes = sysAuthUserVO.getClasses();
         this.stu_number = sysAuthUserVO.getStuNumber();
@@ -74,6 +75,8 @@ public class SysAuthUser extends DbBaseDO {
     private String real_name;
 
     private String head_portrait;
+
+    private Integer gender;
 
     private String major;
 
@@ -149,6 +152,14 @@ public class SysAuthUser extends DbBaseDO {
 
     public String getHeadPortrait() {
         return head_portrait;
+    }
+
+    public void setGender(Integer gender) {
+        this.gender = gender;
+    }
+
+    public Integer getGender() {
+        return gender;
     }
 
     public void setMajor(String major) {

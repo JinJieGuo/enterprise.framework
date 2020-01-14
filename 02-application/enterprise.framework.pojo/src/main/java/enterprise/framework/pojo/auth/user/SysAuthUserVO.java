@@ -57,6 +57,8 @@ public class SysAuthUserVO extends DbBaseVO {
 
     private String headPortrait;
 
+    private Integer gender;
+
     private String major;
 
     private String classes;
@@ -139,6 +141,14 @@ public class SysAuthUserVO extends DbBaseVO {
 
     public String getHeadPortrait() {
         return headPortrait;
+    }
+
+    public void setGender(Integer gender) {
+        this.gender = gender;
+    }
+
+    public Integer getGender() {
+        return gender;
     }
 
     public void setMajor(String major) {
