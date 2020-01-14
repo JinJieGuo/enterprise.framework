@@ -25,6 +25,7 @@ import enterprise.framework.domain.auth.SysAuthMenu;
 import enterprise.framework.mapper.auth.button.SysAuthButtonMapper;
 import enterprise.framework.mapper.auth.menu.SysAuthMenuButtonMapper;
 import enterprise.framework.mapper.auth.menu.SysAuthMenuMapper;
+import enterprise.framework.pojo.auth.menu.ChoosedButtonVO;
 import enterprise.framework.pojo.auth.menu.SysAuthMenuButtonVO;
 import enterprise.framework.pojo.auth.menu.SysAuthMenuVO;
 import enterprise.framework.pojo.config.tree.TreeSelectVO;
@@ -237,6 +238,32 @@ public class SysAuthMenuServiceImpl implements SysAuthMenuService {
                 httpResponse.status = HttpStatus.SUCCESS.value();
                 httpResponse.msg = "查询成功";
                 httpResponse.content = map;
+            } else {
+                httpResponse.status = HttpStatus.SUCCESS.value();
+                httpResponse.msg = "查询成功,但无返回值";
+            }
+            return httpResponse;
+        } catch (Exception error) {
+            httpResponse.status = HttpStatus.ERROR.value();
+            httpResponse.msg = "[类名:(" + this.getClass() + ")]" + "查询异常:" + error.getMessage();
+            return httpResponse;
+        }
+    }
+
+    /**
+     * 根据菜单id获取按钮及所有按钮
+     *
+     * @param menuId
+     * @return
+     */
+    public HttpResponse listMenuButton(int menuId) {
+        HttpResponse httpResponse = new HttpResponse();
+        try {
+            List<ChoosedButtonVO> dataSource = sysAuthMenuButtonMapper.listMenuButton(menuId);
+            if (dataSource.size() > 0) {
+                httpResponse.status = HttpStatus.SUCCESS.value();
+                httpResponse.msg = "查询成功";
+                httpResponse.content = dataSource;
             } else {
                 httpResponse.status = HttpStatus.SUCCESS.value();
                 httpResponse.msg = "查询成功,但无返回值";

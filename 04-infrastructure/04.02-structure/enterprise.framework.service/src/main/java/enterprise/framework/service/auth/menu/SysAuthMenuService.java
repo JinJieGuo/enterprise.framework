@@ -54,4 +54,12 @@ public interface SysAuthMenuService {
      * @return
      */
     HttpResponse listAllMenu();
+
+    /**
+     * 根据菜单id获取按钮及所有按钮
+     *
+     * @param menuId
+     * @return
+     */
+    HttpResponse listMenuButton(int menuId);
 }

@@ -54,7 +54,6 @@ public class MenuController {
         return sysAuthMenuService.saveMenuButton(sysAuthMenuButtonVOList);
     }
 
-
     /**
      * 更新按钮
      *
@@ -92,5 +91,11 @@ public class MenuController {
     @GetMapping("listAllMenu")
     public HttpResponse listAllMenu(SysAuthButtonVO sysAuthButtonVO) {
         return sysAuthMenuService.listAllMenu();
+    }
+
+    @ResponseBody
+    @GetMapping("listMenuButton")
+    public HttpResponse listMenuButton(int menuId) {
+        return sysAuthMenuService.listMenuButton(menuId);
     }
 }
