@@ -57,6 +57,13 @@ public interface SysAuthMenuService {
     HttpResponse listAllMenu();
 
     /**
+     * 获取菜单树
+     *
+     * @return
+     */
+    HttpResponse listMenuTree();
+
+    /**
      * 根据菜单id获取按钮及所有按钮
      *
      * @param menuId

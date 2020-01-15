@@ -33,6 +33,8 @@ public class RoleUserDTO {
 
     private boolean isExist;
 
+    private boolean isChoosed;
+
     public void setUserId(Long userId) {
         this.userId = userId;
     }
@@ -74,10 +76,18 @@ public class RoleUserDTO {
     }
 
     public void setIsExist(boolean isExist) {
-        isExist = isExist;
+        this.isExist = isExist;
     }
 
     public boolean getIsExist() {
         return isExist;
+    }
+
+    public void setIsChoosed(boolean isChoosed) {
+        this.isChoosed = isChoosed;
+    }
+
+    public boolean getIsChoosed() {
+        return isChoosed;
     }
 }

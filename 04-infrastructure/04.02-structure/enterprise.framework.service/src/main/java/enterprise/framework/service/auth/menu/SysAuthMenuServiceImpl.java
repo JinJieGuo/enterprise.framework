@@ -270,6 +270,49 @@ public class SysAuthMenuServiceImpl implements SysAuthMenuService {
     }
 
     /**
+     * 获取菜单树
+     *
+     * @return
+     */
+    public HttpResponse listMenuTree() {
+        HttpResponse httpResponse = new HttpResponse();
+        try {
+            List<SysAuthMenuVO> response = sysAuthMenuMapper.listAllMenu();
+            List<TreeTableVO> treeTableVOList = new ArrayList<>();
+            List<TreeSelectVO> treeSelectVOList = new ArrayList<>();
+            if (response.size() > 0) {
+                for (SysAuthMenuVO sysAuthMenuVO : response) {
+                    if (sysAuthMenuVO.getParentId() == null || sysAuthMenuVO.getParentId() == 0) {
+                        TreeSelectVO treeSelectVO = new TreeSelectVO();
+                        treeSelectVO.setTitle(sysAuthMenuVO.getMenuName());
+                        treeSelectVO.setKey(String.valueOf(sysAuthMenuVO.getMenuId()));
+                        treeSelectVO.setValue(sysAuthMenuVO.getMenuId());
+                        treeSelectVO.setIcon(sysAuthMenuVO.getIcon());
+                        treeSelectVO.setLeaf(true);
+                        treeSelectVOList.add(treeSelectVO);
+                    }
+                }
+
+                for (TreeSelectVO treeSelectVO : treeSelectVOList) {
+                    recursiveTreeSelect(treeSelectVO, response);
+                }
+
+                httpResponse.status = HttpStatus.SUCCESS.value();
+                httpResponse.msg = "查询成功";
+                httpResponse.content = treeSelectVOList;
+            } else {
+                httpResponse.status = HttpStatus.SUCCESS.value();
+                httpResponse.msg = "查询成功,但无返回值";
+            }
+            return httpResponse;
+        } catch (Exception error) {
+            httpResponse.status = HttpStatus.ERROR.value();
+            httpResponse.msg = "[类名:(" + this.getClass() + ")]" + "查询异常:" + error.getMessage();
+            return httpResponse;
+        }
+    }
+
+    /**
      * 根据菜单id获取按钮及所有按钮
      *
      * @param menuId

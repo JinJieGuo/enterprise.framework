@@ -95,6 +95,16 @@ public class MenuController {
         return sysAuthMenuService.listAllMenu();
     }
 
+    /**
+     * @param sysAuthButtonVO
+     * @return
+     */
+    @ResponseBody
+    @GetMapping("listMenuTree")
+    public HttpResponse listMenuTree(SysAuthButtonVO sysAuthButtonVO) {
+        return sysAuthMenuService.listMenuTree();
+    }
+
     @ResponseBody
     @GetMapping("listMenuButton")
     public HttpResponse listMenuButton(int menuId) {

@@ -20,6 +20,7 @@
 package enterprise.framework.mapper.auth.role;
 
 import enterprise.framework.domain.auth.SysAuthRole;
+import enterprise.framework.pojo.auth.role.RoleMenuDTO;
 import enterprise.framework.pojo.auth.role.RoleUserDTO;
 import enterprise.framework.pojo.auth.role.SysAuthRoleVO;
 import org.apache.ibatis.annotations.InsertProvider;
@@ -82,8 +83,24 @@ public interface SysAuthRoleMapper extends Mapper<SysAuthRole> {
             "\t\t\t, t1.real_name\n" +
             "\t\t\t, t1.nick_name\n" +
             "\t\t\t, (CASE WHEN t1.gender = 1 THEN 'man' WHEN t1.gender = 2 THEN 'woman' END) AS genderIcon\n" +
-            "\t\t\t, (CASE WHEN t2.user_role_id IS NOT NULL THEN 1 ELSE 0 END)AS isExist\n" +
+            "\t\t\t, (CASE WHEN t2.user_role_id IS NOT NULL THEN 1 ELSE 0 END)AS isChoosed\n" +
             "FROM sys_auth_user t1 \n" +
             "LEFT JOIN sys_auth_user_role t2 ON t2.user_id = t1.user_id AND t2.role_id = #{roleId}")
     List<RoleUserDTO> listRoleUser(long roleId);
+
+    @Select("SELECT  t1.menu_id\n" +
+            "\t\t\t, t1.menu_name\n" +
+            "\t\t\t, t1.menu_code\n" +
+            "\t\t\t, t1.navigate_url\n" +
+            "\t\t\t, t1.icon\n" +
+            "\t\t\t, t1.description\n" +
+            "\t\t\t, t1.is_menu\n" +
+            "\t\t\t, t1.sort\n" +
+            "\t\t\t, t1.is_deleted\n" +
+            "\t\t\t, (CASE WHEN t2.role_menu_button_id IS NOT NULL THEN 1 ELSE 0 END) AS menuIsChecked\n" +
+            "FROM sys_auth_menu t1\n" +
+            "LEFT JOIN sys_auth_role_menu_button t2 ON t2.menu_id = t1.menu_id AND t2.role_id = 1 AND t2.button_id IS NOT NULL\n" +
+            "WHERE t1.is_deleted = 0\n" +
+            "ORDER BY t1.sort")
+    List<RoleMenuDTO> listRoleMenu(long roleId);
 }
