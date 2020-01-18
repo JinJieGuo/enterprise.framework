@@ -19,21 +19,44 @@
 
 package auth;
 
+import com.alibaba.fastjson.JSON;
+import enterprise.framework.core.http.HttpResponse;
+import enterprise.framework.core.redis.RedisHandler;
+import enterprise.framework.utility.transform.StrHandler;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cloud.gateway.filter.GatewayFilterChain;
 import org.springframework.cloud.gateway.support.BodyInserterContext;
 import org.springframework.cloud.gateway.support.CachedBodyOutputMessage;
 import org.springframework.core.io.buffer.DataBuffer;
+import org.springframework.data.redis.core.RedisTemplate;
+import org.springframework.data.redis.serializer.RedisSerializer;
+import org.springframework.data.redis.serializer.StringRedisSerializer;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.server.reactive.ServerHttpRequestDecorator;
 import org.springframework.http.server.reactive.ServerHttpResponse;
+import org.springframework.stereotype.Component;
 import org.springframework.web.reactive.function.BodyInserter;
 import org.springframework.web.reactive.function.BodyInserters;
 import org.springframework.web.server.ServerWebExchange;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
+@Component
 public class RequestBodyHandler {
+    @Autowired(required = false)
+    private static RedisTemplate redisTemplate;
+
+    @Autowired(required = false)
+    public void setRedisTemplate(RedisTemplate redisTemplate) {
+        RedisSerializer stringSerializer = new StringRedisSerializer();
+        redisTemplate.setKeySerializer(stringSerializer);
+        redisTemplate.setValueSerializer(stringSerializer);
+        redisTemplate.setHashKeySerializer(stringSerializer);
+        redisTemplate.setHashValueSerializer(stringSerializer);
+        this.redisTemplate = redisTemplate;
+    }
+
     public Mono<Void> overWriteRequestBody(ServerWebExchange exchange, GatewayFilterChain chain, Mono<?> modifiedBody, Class inClass) {
         BodyInserter bodyInserter = BodyInserters.fromPublisher(modifiedBody, inClass);
         HttpHeaders headers = new HttpHeaders();
@@ -68,13 +91,22 @@ public class RequestBodyHandler {
                         String userId = exchange.getRequest().getHeaders().getFirst("id");
                         String sessionId = webSession.getId();
                         String existSessionId = webSession.getAttribute(userId);
-                        if (userId != null && existSessionId != null && !existSessionId.equals(sessionId)) {
-                            ServerHttpResponse response = exchange.getResponse();
-                            //用户异地登录,511错误码
-                            response.setStatusCode(HttpStatus.NETWORK_AUTHENTICATION_REQUIRED);
-                            return response.setComplete();
+                        RedisHandler redisHandler = new RedisHandler(redisTemplate);
+                        if (userId != null) {
+                            webSession.getAttributes().put(userId, sessionId);
+                            HttpResponse userRedis = redisHandler.get("user_info:" + userId);
+                            if (userRedis.status == enterprise.framework.core.http.HttpStatus.SUCCESS.value() && userRedis.content != null) {
+                                StrHandler strHandler = new StrHandler();
+                                strHandler.toBinary(JSON.toJSONString(userRedis.content));
+                                webSession.getAttributes().put("currentUser", strHandler.binaryToStr(userRedis.content.toString()));
+                            }
+                            if (existSessionId != null && !existSessionId.equals(sessionId)) {
+                                ServerHttpResponse response = exchange.getResponse();
+                                //用户异地登录,511错误码
+                                response.setStatusCode(HttpStatus.NETWORK_AUTHENTICATION_REQUIRED);
+                                return response.setComplete();
+                            }
                         }
-                        webSession.getAttributes().put(userId, sessionId);
                         return chain.filter(exchange.mutate().request(decorator).build());
                     }).then(Mono.fromRunnable(() -> {
 

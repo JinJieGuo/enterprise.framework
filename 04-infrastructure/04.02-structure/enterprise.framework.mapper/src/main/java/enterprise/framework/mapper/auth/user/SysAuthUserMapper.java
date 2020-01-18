@@ -31,6 +31,7 @@ import tk.mybatis.mapper.common.Mapper;
 import java.util.List;
 
 //@Mapper
+
 /**
  * 权限管理 — 用户仓储
  */
@@ -69,6 +70,17 @@ public interface SysAuthUserMapper extends Mapper<SysAuthUser> {
             ")a, (SELECT @rank:= 0) b")
     List<SysAuthUserVO> listAllUser();
 
+    /**
+     * 根据登录名获取用户
+     *
+     * @param loginName
+     * @return
+     */
+    @Select("SELECT user_id, login_name, password, nick_name, real_name, head_portrait, gender, major, classes, stu_number, email, phone, job, pwd_error_count, login_count\n" +
+            "\t\t , register_time, last_login_time, sort, audit_state, is_enabled, is_deleted, creator_id, creator_name, create_time\n" +
+            "FROM sys_auth_user\n" +
+            "WHERE is_deleted = 0 AND login_name = #{loginName}")
+    List<SysAuthUserVO> getUserByLoginName(String loginName);
 }
 
 

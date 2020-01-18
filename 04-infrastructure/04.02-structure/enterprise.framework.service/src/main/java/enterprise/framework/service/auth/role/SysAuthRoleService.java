@@ -20,6 +20,7 @@
 package enterprise.framework.service.auth.role;
 
 import enterprise.framework.core.http.HttpResponse;
+import enterprise.framework.pojo.auth.role.ChoosedRoleMenuButton;
 import enterprise.framework.pojo.auth.role.SysAuthRoleVO;
 
 public interface SysAuthRoleService {
@@ -31,6 +32,14 @@ public interface SysAuthRoleService {
      * @return
      */
     HttpResponse saveRole(SysAuthRoleVO sysAuthRoleVO);
+
+    /**
+     * 保存角色下勾选的菜单与按钮权限
+     *
+     * @param choosedRoleMenuButton
+     * @return
+     */
+    HttpResponse saveRoleMenuButton(ChoosedRoleMenuButton choosedRoleMenuButton);
 
     /**
      * 更新角色
@@ -70,4 +79,12 @@ public interface SysAuthRoleService {
      * @return
      */
     HttpResponse listRoleUser(long roleId);
+
+    /**
+     * 根据角色获取所有菜单权限(包括已选和所有权限)
+     *
+     * @param roleId 角色主键
+     * @return
+     */
+    HttpResponse listRoleMenuAuth(long roleId, long menuId);
 }

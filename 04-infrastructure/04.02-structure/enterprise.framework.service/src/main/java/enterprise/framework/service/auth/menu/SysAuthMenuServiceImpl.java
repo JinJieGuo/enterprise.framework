@@ -251,9 +251,9 @@ public class SysAuthMenuServiceImpl implements SysAuthMenuService {
                     recursiveTreeSelect(treeSelectVO, response);
                 }
                 Map<String, Object> map = new HashMap<>();
-                map.put("TreeTableVOList", treeTableVOList);
-                map.put("TreeSelectVOList", treeSelectVOList);
-                map.put("ButtonList", sysAuthButtonMapper.listAllButtonInfo());
+                map.put("treeTableVOList", treeTableVOList);
+                map.put("treeSelectVOList", treeSelectVOList);
+                map.put("buttonList", sysAuthButtonMapper.listAllButtonInfo());
                 httpResponse.status = HttpStatus.SUCCESS.value();
                 httpResponse.msg = "查询成功";
                 httpResponse.content = map;

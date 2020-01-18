@@ -37,6 +37,10 @@ public class RoleMenuButtonDTO {
 
     public long menuId;
 
+    private boolean buttonIsChoosed;
+
+    private boolean buttonIsAllowClick;
+
     public void setButtonId(long buttonId) {
         this.buttonId = buttonId;
     }
@@ -99,5 +103,21 @@ public class RoleMenuButtonDTO {
 
     public long getMenuId() {
         return menuId;
+    }
+
+    public void setButtonIsChoosed(boolean buttonIsChoosed) {
+        this.buttonIsChoosed = buttonIsChoosed;
+    }
+
+    public boolean getButtonIsChoosed() {
+        return buttonIsChoosed;
+    }
+
+    public void setButtonIsAllowClick(boolean buttonIsAllowClick) {
+        this.buttonIsAllowClick = buttonIsAllowClick;
+    }
+
+    public boolean getButtonIsAllowClick() {
+        return buttonIsAllowClick;
     }
 }

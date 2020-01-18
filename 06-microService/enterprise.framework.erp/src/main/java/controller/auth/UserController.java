@@ -19,6 +19,7 @@
 
 package controller.auth;
 
+import controller.BaseController;
 import enterprise.framework.business.engine.Components;
 import enterprise.framework.business.engine.IScheduler;
 import enterprise.framework.pojo.auth.user.SysAuthUserVO;
@@ -27,9 +28,11 @@ import org.springframework.web.bind.annotation.*;
 import enterprise.framework.core.http.HttpResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 
+import javax.servlet.http.HttpServletRequest;
+
 @RestController
 @RequestMapping("/v1/auth/user/")
-public class UserController {
+public class UserController extends BaseController {
 
     @Autowired(required = false)
     private SysAuthUserService sysAuthUserService;
@@ -40,8 +43,9 @@ public class UserController {
      * @return
      */
     @ResponseBody
-    @RequestMapping("listAllUser")
-    public HttpResponse listAllUser() {
+    @RequestMapping(value = "listAllUser", method = RequestMethod.GET)
+    public HttpResponse listAllUser(HttpServletRequest request) {
+        HttpResponse temp = currentUserInfo(request);
         return sysAuthUserService.listAllUser();
     }
 

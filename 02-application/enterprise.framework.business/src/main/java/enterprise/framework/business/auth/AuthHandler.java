@@ -120,9 +120,9 @@ public class AuthHandler {
         Map<String, Object> map = new HashMap<>();
         HttpResponse httpResponse = new HttpResponse();
         try {
-            SysAuthUser sysAuthUser = new SysAuthUser();
-            sysAuthUser.setLoginName(signInModel.getLoginName());
-            HttpResponse response = sysAuthUserService.listUserByParameters(sysAuthUser);
+//            SysAuthUser sysAuthUser = new SysAuthUser();
+//            sysAuthUser.setLoginName(signInModel.getLoginName());
+            HttpResponse response = sysAuthUserService.listUserByParameters(signInModel.getLoginName());
             RedisHandler redisHandler = new RedisHandler(redisTemplate);
 
             if (response.status != HttpStatus.SUCCESS.value()) {
@@ -130,7 +130,7 @@ public class AuthHandler {
                 return map;
             }
 
-            List<SysAuthUser> userList = (List<SysAuthUser>) response.content;
+            List<SysAuthUserVO> userList = (List<SysAuthUserVO>) response.content;
 
             if (userList.size() == 0) {
                 httpResponse.msg = "该用户不存在,请确认用户名是否正确!";
@@ -145,8 +145,8 @@ public class AuthHandler {
                 map.put("response", httpResponse);
                 return map;
             }
-            SysAuthUser tempUser = userList.get(0);
-            SysAuthUser userInfo = tempUser;
+            SysAuthUserVO tempUser = userList.get(0);
+            SysAuthUserVO userInfo = tempUser;
 
             HttpResponse tokenInfoResponse = getTokenInfo("token_info:" + tempUser.getUserId());
             if (tokenInfoResponse.status != HttpStatus.SUCCESS.value() || tokenInfoResponse.content == null) {
@@ -177,13 +177,37 @@ public class AuthHandler {
                 String userPassword = new String(passwordStr, "utf-8");
                 if (userPassword.equals(signInModel.getPassword())) {
                     StrHandler strHandler = new StrHandler();
+                    SysAuthUserVO tempUserInfo = new SysAuthUserVO();
+                    tempUserInfo.setUserId(userInfo.getUserId());
+                    tempUserInfo.setLoginName(userInfo.getLoginName());
+                    tempUserInfo.setRealName(userInfo.getRealName());
+                    tempUserInfo.setNickName(userInfo.getNickName());
+                    tempUserInfo.setHeadPortrait(userInfo.getHeadPortrait());
+                    tempUserInfo.setGender(userInfo.getUserId());
+                    tempUserInfo.setMajor(userInfo.getMajor());
+                    tempUserInfo.setClasses(userInfo.getClasses());
+                    tempUserInfo.setStuNumber(userInfo.getStuNumber());
+                    tempUserInfo.setEmail(userInfo.getEmail());
+                    tempUserInfo.setPhone(userInfo.getPhone());
+                    tempUserInfo.setJob(userInfo.getJob());
+                    tempUserInfo.setPwdErrorCount(userInfo.getPwdErrorCount());
+                    tempUserInfo.setLoginCount(userInfo.getLoginCount());
+                    tempUserInfo.setRegisterTime(userInfo.getRegisterTime());
+                    tempUserInfo.setLastLoginTime(userInfo.getLastLoginTime());
+                    tempUserInfo.setSort(userInfo.getSort());
+                    tempUserInfo.setAuditState(userInfo.getAuditState());
+                    tempUserInfo.setIsEnabled(userInfo.getIsEnabled());
+                    tempUserInfo.setIsDeleted(userInfo.getIsDeleted());
+                    tempUserInfo.setCreatorId(userInfo.getCreatorId());
+                    tempUserInfo.setCreatorName(userInfo.getCreatorName());
+                    tempUserInfo.setCreateTime(userInfo.getCreateTime());
                     HttpResponse userInfoRedisResult = redisHandler.set("user_info:" + userInfo.getUserId() + "", strHandler.toBinary(JSON.toJSONString(userInfo)));
                     if (userInfoRedisResult.status == HttpStatus.SUCCESS.value()) {
                         //验证成功,记录token
                         map.put("token_info", tokenInfo);
                         httpResponse.msg = "登录成功";
                         httpResponse.status = HttpStatus.SUCCESS.value();
-                        httpResponse.content = userInfo;
+                        httpResponse.content = tempUserInfo;
                         userInfo.setLoginCount(userInfo.getLoginCount() == null ? 1 : userInfo.getLoginCount() + 1);
                         userInfo.setLastLoginTime(new Date());
                         sysAuthUserService.updateUser(userInfo);

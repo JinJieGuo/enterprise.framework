@@ -77,8 +77,8 @@ public interface SysAuthUserService {
     /**
      * 根据条件获取用户集合
      *
-     * @param sysAuthUser
+     * @param loginName
      * @return
      */
-    HttpResponse listUserByParameters(SysAuthUser sysAuthUser);
+    HttpResponse listUserByParameters(String loginName);
 }

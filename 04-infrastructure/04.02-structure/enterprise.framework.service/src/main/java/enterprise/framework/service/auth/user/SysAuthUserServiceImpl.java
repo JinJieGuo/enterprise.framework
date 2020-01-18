@@ -205,13 +205,15 @@ public class SysAuthUserServiceImpl implements SysAuthUserService {
     /**
      * 根据条件获取用户集合
      *
-     * @param sysAuthUser
+     * @param loginName
      * @return
      */
-    public HttpResponse listUserByParameters(SysAuthUser sysAuthUser) {
+    public HttpResponse listUserByParameters(String loginName) {
         HttpResponse httpResponse = new HttpResponse();
         try {
-            List<SysAuthUser> response = sysAuthUserMapper.select(sysAuthUser);
+//            List<SysAuthUser> response = sysAuthUserMapper.select(sysAuthUser);
+            List<SysAuthUserVO> response = sysAuthUserMapper.getUserByLoginName(loginName);
+
             if (response.size() > 0) {
                 httpResponse.status = HttpStatus.SUCCESS.value();
                 httpResponse.msg = "查询成功";

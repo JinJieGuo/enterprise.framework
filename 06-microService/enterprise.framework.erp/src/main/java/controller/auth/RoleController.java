@@ -19,15 +19,19 @@
 
 package controller.auth;
 
+import controller.BaseController;
 import enterprise.framework.core.http.HttpResponse;
+import enterprise.framework.pojo.auth.role.ChoosedRoleMenuButton;
 import enterprise.framework.pojo.auth.role.SysAuthRoleVO;
 import enterprise.framework.service.auth.role.SysAuthRoleService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpServletRequest;
+
 @RestController
 @RequestMapping("/v1/auth/role/")
-public class RoleController {
+public class RoleController extends BaseController {
 
     @Autowired
     private SysAuthRoleService sysAuthRoleService;
@@ -41,6 +45,18 @@ public class RoleController {
     @PostMapping("saveRole")
     public HttpResponse saveRole(@RequestBody SysAuthRoleVO sysAuthRoleVO) {
         return sysAuthRoleService.saveRole(sysAuthRoleVO);
+    }
+
+    /**
+     * 保存角色下勾选的菜单与按钮权限
+     *
+     * @param choosedRoleMenuButton
+     * @return
+     */
+    @ResponseBody
+    @PostMapping("saveRoleMenuButton")
+    public HttpResponse saveRoleMenuButton(@RequestBody ChoosedRoleMenuButton choosedRoleMenuButton) {
+        return sysAuthRoleService.saveRoleMenuButton(choosedRoleMenuButton);
     }
 
     /**
@@ -78,7 +94,8 @@ public class RoleController {
      */
     @ResponseBody
     @GetMapping("listAllRole")
-    public HttpResponse listAllRole(SysAuthRoleVO sysAuthRoleVO) {
+    public HttpResponse listAllRole(SysAuthRoleVO sysAuthRoleVO, HttpServletRequest request) {
+        HttpResponse temp = currentUserInfo(request);
         return sysAuthRoleService.listAllRole();
     }
 
@@ -92,6 +109,18 @@ public class RoleController {
     @GetMapping("listRoleUser")
     public HttpResponse listRoleUser(long roleId) {
         return sysAuthRoleService.listRoleUser(roleId);
+    }
+
+    /**
+     * 根据角色获取所有菜单权限(包括已选和所有权限)
+     *
+     * @param roleId 角色主键
+     * @return
+     */
+    @ResponseBody
+    @GetMapping("listRoleMenuAuth")
+    public HttpResponse listRoleMenuAuth(long roleId, long menuId) {
+        return sysAuthRoleService.listRoleMenuAuth(roleId, menuId);
     }
 
 }

@@ -19,15 +19,17 @@
 
 package enterprise.framework.gateway;
 
+import jdk.nashorn.internal.runtime.GlobalConstants;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.data.redis.connection.jedis.JedisConnectionFactory;
+import org.springframework.session.data.redis.RedisFlushMode;
 import org.springframework.session.data.redis.config.annotation.web.http.EnableRedisHttpSession;
 import org.springframework.session.web.context.AbstractHttpSessionApplicationInitializer;
 
 //单独添加配置才能启动成
 @Configuration
-@EnableRedisHttpSession
+@EnableRedisHttpSession(maxInactiveIntervalInSeconds = 18000, redisFlushMode = RedisFlushMode.IMMEDIATE)
 public class SessionConfig extends AbstractHttpSessionApplicationInitializer {
 
 

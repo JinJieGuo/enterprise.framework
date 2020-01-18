@@ -21,8 +21,10 @@ package auth;
 
 import com.alibaba.fastjson.JSON;
 import com.google.gson.Gson;
+import enterprise.framework.core.http.HttpResponse;
 import enterprise.framework.core.redis.RedisHandler;
 import enterprise.framework.core.token.TokenInfo;
+//import enterprise.framework.pojo.auth.user.SysAuthUserVO;
 import enterprise.framework.utility.security.Base64Utils;
 import enterprise.framework.utility.security.RSAUtils;
 import enterprise.framework.utility.transform.StrHandler;
@@ -128,11 +130,21 @@ public class AuthGlobalFilter implements GlobalFilter, Ordered {
                 String userId = exchange.getRequest().getHeaders().getFirst("id");
                 String sessionId = webSession.getId();
                 String existSessionId = webSession.getAttribute(userId);
-                if (userId != null && existSessionId != null && !existSessionId.equals(sessionId)) {
-                    ServerHttpResponse response = exchange.getResponse();
-                    //用户异地登录,511错误码
-                    response.setStatusCode(HttpStatus.NETWORK_AUTHENTICATION_REQUIRED);
-                    return response.setComplete();
+                RedisHandler redisHandler = new RedisHandler(redisTemplate);
+                if (userId != null) {
+                    webSession.getAttributes().put(userId, sessionId);
+                    HttpResponse userRedis = redisHandler.get("user_info:" + userId);
+                    if (userRedis.status == enterprise.framework.core.http.HttpStatus.SUCCESS.value() && userRedis.content != null) {
+                        StrHandler strHandler = new StrHandler();
+                        strHandler.toBinary(JSON.toJSONString(userRedis.content));
+                        webSession.getAttributes().put("currentUser", strHandler.binaryToStr(userRedis.content.toString()));
+                    }
+                    if (existSessionId != null && !existSessionId.equals(sessionId)) {
+                        ServerHttpResponse response = exchange.getResponse();
+                        //用户异地登录,511错误码
+                        response.setStatusCode(HttpStatus.NETWORK_AUTHENTICATION_REQUIRED);
+                        return response.setComplete();
+                    }
                 }
                 return chain.filter(exchange);
             }).then(Mono.fromRunnable(() -> {

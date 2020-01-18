@@ -30,8 +30,6 @@ public class SysAuthRoleMenuButtonVO extends DbBaseVO {
 
     private Long buttonId;
 
-    private Integer isDeleted;
-
     public void setRoleMenuButtonId(Long roleMenuButtonId) {
         this.roleMenuButtonId = roleMenuButtonId;
     }
@@ -62,13 +60,5 @@ public class SysAuthRoleMenuButtonVO extends DbBaseVO {
 
     public Long getButtonId() {
         return buttonId;
-    }
-
-    public void setIsDeleted(Integer isDeleted) {
-        this.isDeleted = isDeleted;
-    }
-
-    public Integer getIsDeleted() {
-        return isDeleted;
     }
 }

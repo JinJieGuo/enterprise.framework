@@ -25,6 +25,8 @@ public class RoleMenuDTO {
 
     private String menuName;
 
+    private long parentId;
+
     private String menuCode;
 
     private String navigateUrl;
@@ -55,6 +57,14 @@ public class RoleMenuDTO {
 
     public String getMenuName() {
         return menuName;
+    }
+
+    public void setParentId(long parentId) {
+        this.parentId = parentId;
+    }
+
+    public long getParentId() {
+        return parentId;
     }
 
     public void setMenuCode(String menuCode) {

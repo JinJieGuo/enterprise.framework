@@ -106,7 +106,7 @@ public class AuthTest {
             Map<String, Object> keyMap = RSAUtils.genKeyPair(1024);
             SysAuthUser sysAuthUser = new SysAuthUser();
             sysAuthUser.setLoginName(signInModel.getLoginName());
-            HttpResponse response = sysAuthUserService.listUserByParameters(sysAuthUser);
+            HttpResponse response = sysAuthUserService.listUserByParameters(signInModel.getLoginName());
             List<SysAuthUser> userList = (List<SysAuthUser>) response.content;
             SysAuthUser user = userList.get(0);
             byte[] pass_word_byte = RSAUtils.encryptByPublicKey("123456".getBytes("utf-8"), RSAUtils.getPublicKey(keyMap));
