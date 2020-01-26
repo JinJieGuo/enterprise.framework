@@ -130,7 +130,7 @@ public interface SysAuthRoleMapper extends Mapper<SysAuthRole> {
             "FROM sys_auth_menu_button t1\n" +
             "LEFT JOIN sys_auth_button t2 ON t2.button_id = t1.button_id\n" +
             "LEFT JOIN sys_auth_role_menu_button t3 ON t3.button_id = t2.button_id AND t3.menu_id = t1.menu_id AND t3.role_id = #{roleId} AND t3.is_deleted = 0\n" +
-            "WHERE t1.is_deleted = 0 AND t2.is_deleted = 0 <if  test= \"menuId != null and menuId != ''\">  AND t1.menu_id = #{menuId} </if>\n" +
+            "WHERE t1.is_deleted = 0 AND t2.is_deleted = 0 <if  test= \"menuId != null and menuId != '' and menuId != 0\">  AND t1.menu_id = #{menuId} </if>\n" +
             "ORDER BY t2.sort</script>")
 //    @MapKey("menuId")
     List<RoleMenuButtonDTO> listRoleMenuAuth(@Param("roleId") long roleId, @Param("menuId") long menuId);

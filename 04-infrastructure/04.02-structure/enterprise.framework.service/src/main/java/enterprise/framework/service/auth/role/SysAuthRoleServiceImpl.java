@@ -319,8 +319,11 @@ public class SysAuthRoleServiceImpl implements SysAuthRoleService {
             }
 
         }
-        rootNode.setChildren(treeSelectVOList);
-        if (rootNode.getChildren().size() > 0) {
+        if (treeSelectVOList.size() > 0) {
+            rootNode.setIsParent(true);
+            rootNode.setChildren(treeSelectVOList);
+        }
+        if (rootNode.getChildren() != null && rootNode.getChildren().size() > 0) {
             for (TreeSelectVO childrenCategory : rootNode.getChildren()) {
                 recursiveTreeSelect(childrenCategory, dataSource);
             }

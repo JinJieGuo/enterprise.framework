@@ -32,6 +32,8 @@ public class TreeSelectVO {
 
     private String icon;
 
+    private boolean isParent;
+
     private List<TreeSelectVO> children;
 
     public void setTitle(String title) {
@@ -72,6 +74,14 @@ public class TreeSelectVO {
 
     public String getIcon() {
         return icon;
+    }
+
+    public void setIsParent(boolean isParent) {
+        this.isParent = isParent;
+    }
+
+    public boolean getIsParent() {
+        return isParent;
     }
 
     public void setChildren(List<TreeSelectVO> children) {
