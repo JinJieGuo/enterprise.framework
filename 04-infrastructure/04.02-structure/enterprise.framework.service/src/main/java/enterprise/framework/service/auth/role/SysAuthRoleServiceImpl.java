@@ -77,7 +77,7 @@ public class SysAuthRoleServiceImpl implements SysAuthRoleService {
      * @param choosedRoleMenuButton
      * @return
      */
-    public HttpResponse saveRoleMenuButton(ChoosedRoleMenuButton choosedRoleMenuButton) {
+    public HttpResponse saveRoleMenuButton(ChoosedRoleMenuButtonDTO choosedRoleMenuButton) {
         HttpResponse httpResponse = new HttpResponse();
         try {
             SysAuthRoleMenuButton sysAuthRoleMenuButton = new SysAuthRoleMenuButton();

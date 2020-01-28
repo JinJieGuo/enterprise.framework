@@ -21,6 +21,7 @@ package enterprise.framework.mapper.auth.user;
 
 import enterprise.framework.domain.auth.SysAuthUser;
 import enterprise.framework.pojo.auth.user.SysAuthUserVO;
+import enterprise.framework.pojo.auth.user.UserAuthDTO;
 import org.apache.ibatis.annotations.InsertProvider;
 import org.apache.ibatis.annotations.Options;
 import org.apache.ibatis.annotations.Select;
@@ -81,6 +82,22 @@ public interface SysAuthUserMapper extends Mapper<SysAuthUser> {
             "FROM sys_auth_user\n" +
             "WHERE is_deleted = 0 AND login_name = #{loginName}")
     List<SysAuthUserVO> getUserByLoginName(String loginName);
+
+    /**
+     * 获取用户权限
+     *
+     * @param userId
+     * @return
+     */
+    @Select("SELECT DISTINCT t3.menu_id, t3.menu_name AS text, t3.parent_id, t3.menu_code AS i18n, t3.sort AS menuSort, t3.icon, t3.navigate_url AS link, t3.is_menu, t3.is_show_group AS 'group'\n" +
+            "\t\t\t\t\t\t\t, t3.is_hide_in_breadcrumb AS hideInBreadcrumb, t3.is_hide AS hide, t4.button_id, t4.button_name, t4.icon AS buttonIcon, t4.button_class, t4.sort AS buttonSort, t4.method\n" +
+            "FROM sys_auth_user_role t1\n" +
+            "LEFT JOIN sys_auth_role_menu_button t2 ON t2.role_id = t1.role_id AND t2.is_deleted = 0\n" +
+            "LEFT JOIN sys_auth_menu t3 ON t3.menu_id = t2.menu_id \n" +
+            "LEFT JOIN sys_auth_button t4 ON t4.button_id = t2.button_id\n" +
+            "WHERE t1.is_deleted = 0 AND t1.user_id = #{userId}\n" +
+            "ORDER BY t3.sort, t3.sort")
+    List<UserAuthDTO> listUserAuth(int userId);
 }
 
 

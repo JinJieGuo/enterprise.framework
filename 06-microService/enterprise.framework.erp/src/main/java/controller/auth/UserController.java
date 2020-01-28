@@ -22,6 +22,7 @@ package controller.auth;
 import controller.BaseController;
 import enterprise.framework.business.engine.Components;
 import enterprise.framework.business.engine.IScheduler;
+import enterprise.framework.pojo.auth.user.ChoosedUserRoleDTO;
 import enterprise.framework.pojo.auth.user.SysAuthUserVO;
 import enterprise.framework.service.auth.user.SysAuthUserService;
 import org.springframework.web.bind.annotation.*;
@@ -36,29 +37,6 @@ public class UserController extends BaseController {
 
     @Autowired(required = false)
     private SysAuthUserService sysAuthUserService;
-
-    /**
-     * 获取用户集合
-     *
-     * @return
-     */
-    @ResponseBody
-    @RequestMapping(value = "listAllUser", method = RequestMethod.GET)
-    public HttpResponse listAllUser(HttpServletRequest request) {
-        HttpResponse temp = currentUserInfo(request);
-        return sysAuthUserService.listAllUser();
-    }
-
-    /**
-     * 获取单个用户
-     *
-     * @param sysAuthUserVO
-     * @return
-     */
-    @RequestMapping(value = "getUserById", method = RequestMethod.GET)
-    public HttpResponse getUserById(SysAuthUserVO sysAuthUserVO) {
-        return sysAuthUserService.getUserById(sysAuthUserVO);
-    }
 
     /**
      * 用户新增
@@ -97,4 +75,48 @@ public class UserController extends BaseController {
         return sysAuthUserService.deleteUser(sysAuthUserVO);
     }
 
+    /**
+     * @param choosedUserRoleDTO
+     * @return
+     */
+    @ResponseBody
+    @PostMapping("saveUserRoleList")
+    public HttpResponse saveUserRoleList(@RequestBody ChoosedUserRoleDTO choosedUserRoleDTO) {
+        return sysAuthUserService.saveUserRoleList(choosedUserRoleDTO);
+    }
+
+    /**
+     * 获取单个用户
+     *
+     * @param sysAuthUserVO
+     * @return
+     */
+    @RequestMapping(value = "getUserById", method = RequestMethod.GET)
+    public HttpResponse getUserById(SysAuthUserVO sysAuthUserVO) {
+        return sysAuthUserService.getUserById(sysAuthUserVO);
+    }
+
+    /**
+     * 获取用户集合
+     *
+     * @return
+     */
+    @ResponseBody
+    @RequestMapping(value = "listAllUser", method = RequestMethod.GET)
+    public HttpResponse listAllUser(HttpServletRequest request) {
+        HttpResponse temp = currentUserInfo(request);
+        return sysAuthUserService.listAllUser();
+    }
+
+    /**
+     * 获取用户权限
+     *
+     * @param userId
+     * @return
+     */
+    @ResponseBody
+    @RequestMapping(value = "listUserAuth", method = RequestMethod.GET)
+    public HttpResponse listUserAuth(int userId) {
+        return sysAuthUserService.listUserAuth(userId);
+    }
 }

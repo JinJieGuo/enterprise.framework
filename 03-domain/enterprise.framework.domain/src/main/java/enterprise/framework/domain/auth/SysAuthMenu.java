@@ -39,6 +39,7 @@ public class SysAuthMenu extends DbBaseDO {
 
     /**
      * 构造函数 - 用户业务实体转换为数据实体
+     *
      * @param sysAuthMenuVO
      */
     public SysAuthMenu(SysAuthMenuVO sysAuthMenuVO) {
@@ -51,6 +52,9 @@ public class SysAuthMenu extends DbBaseDO {
         this.icon = sysAuthMenuVO.getIcon();
         this.description = sysAuthMenuVO.getDescription();
         this.is_menu = sysAuthMenuVO.getIsMenu();
+        this.is_show_group = sysAuthMenuVO.getIsShowGroup();
+        this.is_hide_in_breadcrumb = sysAuthMenuVO.getIsHideInBreadcrumb();
+        this.is_hide = sysAuthMenuVO.getIsHide();
         this.sort = sysAuthMenuVO.getSort();
         this.audit_state = sysAuthMenuVO.getAuditState();
         this.is_enabled = sysAuthMenuVO.getIsEnabled();
@@ -75,6 +79,12 @@ public class SysAuthMenu extends DbBaseDO {
     private String description;
 
     private Integer is_menu;
+
+    private Integer is_show_group;
+
+    private Integer is_hide_in_breadcrumb;
+
+    private Integer is_hide;
 
     private Long sort;
 
@@ -154,6 +164,30 @@ public class SysAuthMenu extends DbBaseDO {
 
     public Integer getIsMenu() {
         return is_menu;
+    }
+
+    public void setIsShowGroup(Integer isShowGroup) {
+        this.is_show_group = isShowGroup;
+    }
+
+    public Integer getIsShowGroup() {
+        return is_show_group;
+    }
+
+    public void setIsHideInBreadcrumb(Integer isHideInBreadcrumb) {
+        this.is_hide_in_breadcrumb = isHideInBreadcrumb;
+    }
+
+    public Integer getIsHideInBreadcrumb() {
+        return is_hide_in_breadcrumb;
+    }
+
+    public void setIsHide(Integer isHide) {
+        this.is_hide = isHide;
+    }
+
+    public Integer getIsHide() {
+        return is_hide;
     }
 
     public void setSort(Long sort) {

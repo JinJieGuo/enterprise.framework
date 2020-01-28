@@ -77,14 +77,17 @@ public interface SysAuthRoleMapper extends Mapper<SysAuthRole> {
      * @param roleId 角色主键
      * @return
      */
-    @Select("SELECT  t1.user_id\n" +
-            "\t\t\t, t1.login_name\n" +
-            "\t\t\t, t1.real_name\n" +
-            "\t\t\t, t1.nick_name\n" +
-            "\t\t\t, (CASE WHEN t1.gender = 1 THEN 'man' WHEN t1.gender = 2 THEN 'woman' END) AS genderIcon\n" +
-            "\t\t\t, (CASE WHEN t2.user_role_id IS NOT NULL THEN 1 ELSE 0 END)AS isChoosed\n" +
-            "FROM sys_auth_user t1 \n" +
-            "LEFT JOIN sys_auth_user_role t2 ON t2.user_id = t1.user_id AND t2.role_id = #{roleId}")
+    @Select("SELECT DISTINCT t1.user_id\n" +
+            "      , t1.login_name\n" +
+            "      , t1.real_name\n" +
+            "      , t1.sort\n" +
+            "      , t1.nick_name\n" +
+            "      , (CASE WHEN t1.gender = 1 THEN 'man' WHEN t1.gender = 2 THEN 'woman' END) AS genderIcon\n" +
+            "      , (CASE WHEN t2.user_role_id IS NOT NULL THEN 1 ELSE 0 END)AS isChoosed\n" +
+            "      FROM sys_auth_user t1\n" +
+            "      LEFT JOIN sys_auth_user_role t2 ON t2.user_id = t1.user_id AND t2.role_id = #{roleId} AND t2.is_deleted = 0\n" +
+            "\t\t\tWHERE t1.is_deleted = 0\n" +
+            "\t\t\tORDER BY t1.sort")
     List<RoleUserDTO> listRoleUser(long roleId);
 
     /**

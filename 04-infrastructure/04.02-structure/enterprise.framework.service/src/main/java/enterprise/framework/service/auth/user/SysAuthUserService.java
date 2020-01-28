@@ -21,6 +21,7 @@ package enterprise.framework.service.auth.user;
 
 import enterprise.framework.domain.auth.SysAuthUser;
 import enterprise.framework.core.http.HttpResponse;
+import enterprise.framework.pojo.auth.user.ChoosedUserRoleDTO;
 import enterprise.framework.pojo.auth.user.SysAuthUserVO;
 import org.springframework.stereotype.Component;
 
@@ -60,6 +61,14 @@ public interface SysAuthUserService {
     HttpResponse deleteUser(SysAuthUserVO sysAuthUserVO);
 
     /**
+     * 保存用户角色
+     *
+     * @param choosedUserRoleDTO
+     * @return
+     */
+    HttpResponse saveUserRoleList(ChoosedUserRoleDTO choosedUserRoleDTO);
+
+    /**
      * 根据用户主键获取用户信息
      *
      * @param sysAuthUserVO
@@ -81,4 +90,12 @@ public interface SysAuthUserService {
      * @return
      */
     HttpResponse listUserByParameters(String loginName);
+
+    /**
+     * 获取用户权限
+     *
+     * @param userId
+     * @return
+     */
+    HttpResponse listUserAuth(int userId);
 }

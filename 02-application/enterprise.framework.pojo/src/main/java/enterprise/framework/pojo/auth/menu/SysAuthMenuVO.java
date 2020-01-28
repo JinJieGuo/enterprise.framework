@@ -43,6 +43,12 @@ public class SysAuthMenuVO extends DbBaseVO {
 
     private Integer isMenu;
 
+    private Integer isShowGroup;
+
+    private Integer isHideInBreadcrumb;
+
+    private Integer isHide;
+
     private Long sort;
 
     public void setMenuId(Long menuId) {
@@ -115,6 +121,30 @@ public class SysAuthMenuVO extends DbBaseVO {
 
     public Integer getIsMenu() {
         return isMenu;
+    }
+
+    public void setIsShowGroup(Integer isShowGroup) {
+        this.isShowGroup = isShowGroup;
+    }
+
+    public Integer getIsShowGroup() {
+        return isShowGroup;
+    }
+
+    public void setIsHideInBreadcrumb(Integer isHideInBreadcrumb) {
+        this.isHideInBreadcrumb = isHideInBreadcrumb;
+    }
+
+    public Integer getIsHideInBreadcrumb() {
+        return isHideInBreadcrumb;
+    }
+
+    public void setIsHide(Integer isHide) {
+        this.isHide = isHide;
+    }
+
+    public Integer getIsHide() {
+        return isHide;
     }
 
     public void setSort(Long sort) {

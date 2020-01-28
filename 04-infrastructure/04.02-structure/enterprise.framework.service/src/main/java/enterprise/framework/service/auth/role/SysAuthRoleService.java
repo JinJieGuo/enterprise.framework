@@ -20,7 +20,7 @@
 package enterprise.framework.service.auth.role;
 
 import enterprise.framework.core.http.HttpResponse;
-import enterprise.framework.pojo.auth.role.ChoosedRoleMenuButton;
+import enterprise.framework.pojo.auth.role.ChoosedRoleMenuButtonDTO;
 import enterprise.framework.pojo.auth.role.SysAuthRoleVO;
 
 public interface SysAuthRoleService {
@@ -39,7 +39,7 @@ public interface SysAuthRoleService {
      * @param choosedRoleMenuButton
      * @return
      */
-    HttpResponse saveRoleMenuButton(ChoosedRoleMenuButton choosedRoleMenuButton);
+    HttpResponse saveRoleMenuButton(ChoosedRoleMenuButtonDTO choosedRoleMenuButton);
 
     /**
      * 更新角色

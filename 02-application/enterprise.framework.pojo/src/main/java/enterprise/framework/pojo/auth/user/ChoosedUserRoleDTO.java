@@ -14,18 +14,18 @@
  *       11.Others:
  * EditResume:
  *	   Author				Date			  version			   ChangeContent 
- *		gl				 2020-01-17		        1.00					新建
+ *		gl				 2020-01-27		      1.00					新建
  *******************************************************************************/
 
-package enterprise.framework.pojo.auth.role;
+package enterprise.framework.pojo.auth.user;
 
 import java.util.List;
 
-public class ChoosedRoleMenuButton {
+public class ChoosedUserRoleDTO {
 
     private long roleId;
 
-    private List<SysAuthRoleMenuButtonVO> sysAuthRoleMenuButtonVOList;
+    private List<SysAuthUserRoleVO> sysAuthUserRoleVOList;
 
     public void setRoleId(long roleId) {
         this.roleId = roleId;
@@ -35,11 +35,11 @@ public class ChoosedRoleMenuButton {
         return roleId;
     }
 
-    public void setSysAuthRoleMenuButtonVOList(List<SysAuthRoleMenuButtonVO> sysAuthRoleMenuButtonVOList) {
-        this.sysAuthRoleMenuButtonVOList = sysAuthRoleMenuButtonVOList;
+    public void setSysAuthUserRoleVOList(List<SysAuthUserRoleVO> sysAuthUserRoleVOList) {
+        this.sysAuthUserRoleVOList = sysAuthUserRoleVOList;
     }
 
-    public List<SysAuthRoleMenuButtonVO> getSysAuthRoleMenuButtonVOList() {
-        return sysAuthRoleMenuButtonVOList;
+    public List<SysAuthUserRoleVO> getSysAuthUserRoleVOList() {
+        return sysAuthUserRoleVOList;
     }
 }

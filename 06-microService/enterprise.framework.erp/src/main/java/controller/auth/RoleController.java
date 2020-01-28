@@ -21,7 +21,7 @@ package controller.auth;
 
 import controller.BaseController;
 import enterprise.framework.core.http.HttpResponse;
-import enterprise.framework.pojo.auth.role.ChoosedRoleMenuButton;
+import enterprise.framework.pojo.auth.role.ChoosedRoleMenuButtonDTO;
 import enterprise.framework.pojo.auth.role.SysAuthRoleVO;
 import enterprise.framework.service.auth.role.SysAuthRoleService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -50,13 +50,13 @@ public class RoleController extends BaseController {
     /**
      * 保存角色下勾选的菜单与按钮权限
      *
-     * @param choosedRoleMenuButton
+     * @param choosedRoleMenuButtonDTO
      * @return
      */
     @ResponseBody
     @PostMapping("saveRoleMenuButton")
-    public HttpResponse saveRoleMenuButton(@RequestBody ChoosedRoleMenuButton choosedRoleMenuButton) {
-        return sysAuthRoleService.saveRoleMenuButton(choosedRoleMenuButton);
+    public HttpResponse saveRoleMenuButton(@RequestBody ChoosedRoleMenuButtonDTO choosedRoleMenuButtonDTO) {
+        return sysAuthRoleService.saveRoleMenuButton(choosedRoleMenuButtonDTO);
     }
 
     /**

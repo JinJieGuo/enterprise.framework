@@ -22,12 +22,19 @@ package enterprise.framework.service.auth.user;
 import enterprise.framework.domain.auth.SysAuthUser;
 import enterprise.framework.core.http.HttpResponse;
 import enterprise.framework.core.http.HttpStatus;
+import enterprise.framework.domain.auth.SysAuthUserRole;
 import enterprise.framework.mapper.auth.user.SysAuthUserMapper;
+import enterprise.framework.mapper.auth.user.SysAuthUserRoleMapper;
+import enterprise.framework.pojo.auth.user.ChoosedUserRoleDTO;
 import enterprise.framework.pojo.auth.user.SysAuthUserVO;
+import enterprise.framework.pojo.auth.user.UserAuthDTO;
+import enterprise.framework.pojo.auth.user.UserAuthMenuDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
 
 @Service
@@ -36,6 +43,9 @@ public class SysAuthUserServiceImpl implements SysAuthUserService {
 
     @Autowired(required = false)
     private SysAuthUserMapper sysAuthUserMapper;
+
+    @Autowired(required = false)
+    private SysAuthUserRoleMapper sysAuthUserRoleMapper;
 
 
     // region ""
@@ -150,6 +160,46 @@ public class SysAuthUserServiceImpl implements SysAuthUserService {
     }
 
     /**
+     * 保存用户角色
+     *
+     * @param choosedUserRoleDTO
+     * @return
+     */
+    public HttpResponse saveUserRoleList(ChoosedUserRoleDTO choosedUserRoleDTO) {
+        HttpResponse httpResponse = new HttpResponse();
+        try {
+            SysAuthUserRole sysAuthUserRole = new SysAuthUserRole();
+            sysAuthUserRole.setRoleId(choosedUserRoleDTO.getRoleId());
+            int count = sysAuthUserRoleMapper.selectCount(sysAuthUserRole);
+            int response = 0;
+            if (count > 0) {
+                int deleteResponse = sysAuthUserRoleMapper.deleteUserRole(choosedUserRoleDTO.getRoleId());
+                if (deleteResponse > 0) {
+                    if (choosedUserRoleDTO.getSysAuthUserRoleVOList().size() > 0) {
+                        response = sysAuthUserRoleMapper.saveUserRoleList(choosedUserRoleDTO.getSysAuthUserRoleVOList());
+                    } else {
+                        response = 1;
+                    }
+                }
+            } else {
+                response = sysAuthUserRoleMapper.saveUserRoleList(choosedUserRoleDTO.getSysAuthUserRoleVOList());
+            }
+            if (response > 0) {
+                httpResponse.status = HttpStatus.SUCCESS.value();
+                httpResponse.msg = "保存成功";
+            } else {
+                httpResponse.status = HttpStatus.FAIL.value();
+                httpResponse.msg = "保存失败";
+            }
+            return httpResponse;
+        } catch (Exception error) {
+            httpResponse.status = HttpStatus.ERROR.value();
+            httpResponse.msg = "[类名:(" + this.getClass() + ")]" + "保存异常:" + error.getMessage();
+            return httpResponse;
+        }
+    }
+
+    /**
      * 根据用户主键获取用户信息
      *
      * @param sysAuthUserVO
@@ -227,6 +277,94 @@ public class SysAuthUserServiceImpl implements SysAuthUserService {
             httpResponse.status = HttpStatus.ERROR.value();
             httpResponse.msg = "[类名:(" + this.getClass() + ")]" + "查询异常:" + error.getMessage();
             return httpResponse;
+        }
+    }
+
+    /**
+     * 获取用户权限
+     *
+     * @param userId
+     * @return
+     */
+    public HttpResponse listUserAuth(int userId) {
+        HttpResponse httpResponse = new HttpResponse();
+        try {
+            List<UserAuthDTO> response = sysAuthUserMapper.listUserAuth(userId);
+            List<UserAuthMenuDTO> userAuthMenuDTOList = new ArrayList<>();
+            List<UserAuthMenuDTO> rootUserAuthMenuDTOList = new ArrayList<>();
+            if (response.size() > 0) {
+                for (UserAuthDTO authDTO : response) {
+                    UserAuthMenuDTO userAuthMenuDTO = new UserAuthMenuDTO();
+                    userAuthMenuDTO.setMenuId(authDTO.getMenuId());
+                    userAuthMenuDTO.setParentId(authDTO.getParentId());
+                    userAuthMenuDTO.setI18n(authDTO.getI18n());
+                    userAuthMenuDTO.setMenuSort(authDTO.getMenuSort());
+                    userAuthMenuDTO.setText(authDTO.getText());
+                    userAuthMenuDTO.setLink(authDTO.getLink());
+                    userAuthMenuDTO.setIcon(authDTO.getIcon());
+                    userAuthMenuDTO.setIsMenu(authDTO.getIsMenu());
+                    userAuthMenuDTO.setGroup(authDTO.getGroup());
+                    userAuthMenuDTO.setHideInBreadcrumb(authDTO.getHideInBreadcrumb());
+                    userAuthMenuDTO.setHide(authDTO.getHide());
+                    if (userAuthMenuDTOList.contains(userAuthMenuDTO)) {
+                        continue;
+                    }
+                    userAuthMenuDTOList.add(userAuthMenuDTO);
+                }
+
+                for (UserAuthMenuDTO authDTO : userAuthMenuDTOList) {
+                    if (authDTO.getParentId() == 0) {
+                        UserAuthMenuDTO userAuthDTO = new UserAuthMenuDTO();
+                        userAuthDTO.setMenuId(authDTO.getMenuId());
+                        userAuthDTO.setParentId(authDTO.getParentId());
+                        userAuthDTO.setText(authDTO.getText());
+                        userAuthDTO.setLink(authDTO.getLink());
+                        userAuthDTO.setIcon(authDTO.getIcon());
+                        userAuthDTO.setIsMenu(authDTO.getIsMenu());
+                        userAuthDTO.setGroup(authDTO.getGroup());
+                        userAuthDTO.setHideInBreadcrumb(authDTO.getHideInBreadcrumb());
+                        userAuthDTO.setHide(authDTO.getHide());
+                        rootUserAuthMenuDTOList.add(userAuthDTO);
+                    }
+                }
+
+                for (UserAuthMenuDTO authDTO : rootUserAuthMenuDTOList) {
+                    recursiveTreeAuth(authDTO, userAuthMenuDTOList);
+                }
+            }
+                httpResponse.status = HttpStatus.SUCCESS.value();
+            httpResponse.msg = "查询成功";
+            httpResponse.content = rootUserAuthMenuDTOList;
+            return httpResponse;
+        } catch (Exception error) {
+            httpResponse.status = HttpStatus.ERROR.value();
+            httpResponse.msg = "[类名:(" + this.getClass() + ")]" + "查询异常:" + error.getMessage();
+            return httpResponse;
+        }
+    }
+
+    private void recursiveTreeAuth(UserAuthMenuDTO rootNode, List<UserAuthMenuDTO> dataSource) {
+        List<UserAuthMenuDTO> childrenList = new ArrayList<>();
+        for (UserAuthMenuDTO authDTO : dataSource) {
+            if (authDTO.getParentId() != 0 && authDTO.getParentId() == rootNode.getMenuId()) {
+                UserAuthMenuDTO userAuthDTO = new UserAuthMenuDTO();
+                userAuthDTO.setMenuId(authDTO.getMenuId());
+                userAuthDTO.setParentId(authDTO.getParentId());
+                userAuthDTO.setText(authDTO.getText());
+                userAuthDTO.setLink(authDTO.getLink());
+                userAuthDTO.setIcon(authDTO.getIcon());
+                userAuthDTO.setIsMenu(authDTO.getIsMenu());
+                userAuthDTO.setGroup(authDTO.getGroup());
+                userAuthDTO.setHideInBreadcrumb(authDTO.getHideInBreadcrumb());
+                userAuthDTO.setHide(authDTO.getHide());
+                childrenList.add(userAuthDTO);
+            }
+        }
+        rootNode.setChildren(childrenList);
+        if (rootNode.getChildren().size() > 0) {
+            for (UserAuthMenuDTO childrenUserAuth : rootNode.getChildren()) {
+                recursiveTreeAuth(childrenUserAuth, dataSource);
+            }
         }
     }
 }
