@@ -37,6 +37,14 @@ public class UserAuthMenuButtonDTO {
 
     private String method;
 
+    public void setMenuId(long menuId) {
+        this.menuId = menuId;
+    }
+
+    public long getMenuId() {
+        return menuId;
+    }
+
     public void setButtonId(long buttonId) {
         this.buttonId = buttonId;
     }

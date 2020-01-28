@@ -46,9 +46,9 @@ public class UserAuthMenuDTO {
 
     private boolean hide;
 
-    private List<UserAuthMenuDTO> children = new ArrayList<>();
+    private List<UserAuthMenuDTO> children;
 
-    private List<UserAuthMenuButtonDTO> buttonDTOList = new ArrayList<>();
+    private List<UserAuthMenuButtonDTO> buttonDTOList;
 
     public void setMenuId(long menuId) {
         this.menuId = menuId;

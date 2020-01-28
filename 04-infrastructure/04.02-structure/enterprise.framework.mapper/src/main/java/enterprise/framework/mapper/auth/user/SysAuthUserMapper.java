@@ -96,7 +96,7 @@ public interface SysAuthUserMapper extends Mapper<SysAuthUser> {
             "LEFT JOIN sys_auth_menu t3 ON t3.menu_id = t2.menu_id \n" +
             "LEFT JOIN sys_auth_button t4 ON t4.button_id = t2.button_id\n" +
             "WHERE t1.is_deleted = 0 AND t1.user_id = #{userId}\n" +
-            "ORDER BY t3.sort, t3.sort")
+            "ORDER BY t3.sort, t4.sort")
     List<UserAuthDTO> listUserAuth(int userId);
 }
 

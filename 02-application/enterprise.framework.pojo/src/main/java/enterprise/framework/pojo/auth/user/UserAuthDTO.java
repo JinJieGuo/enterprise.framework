@@ -19,6 +19,8 @@
 
 package enterprise.framework.pojo.auth.user;
 
+import java.util.Objects;
+
 public class UserAuthDTO {
     private long menuId;
 
@@ -191,4 +193,32 @@ public class UserAuthDTO {
         return method;
     }
 
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        UserAuthDTO that = (UserAuthDTO) o;
+        return menuId == that.menuId &&
+                parentId == that.parentId &&
+                isMenu == that.isMenu &&
+                group == that.group &&
+                hideInBreadcrumb == that.hideInBreadcrumb &&
+                hide == that.hide &&
+                buttonId == that.buttonId &&
+                Objects.equals(text, that.text) &&
+                Objects.equals(i18n, that.i18n) &&
+                Objects.equals(menuSort, that.menuSort) &&
+                Objects.equals(icon, that.icon) &&
+                Objects.equals(link, that.link) &&
+                Objects.equals(buttonName, that.buttonName) &&
+                Objects.equals(buttonIcon, that.buttonIcon) &&
+                Objects.equals(buttonClass, that.buttonClass) &&
+                Objects.equals(buttonSort, that.buttonSort) &&
+                Objects.equals(method, that.method);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(menuId, text, parentId, i18n, menuSort, icon, link, isMenu, group, hideInBreadcrumb, hide, buttonId, buttonName, buttonIcon, buttonClass, buttonSort, method);
+    }
 }

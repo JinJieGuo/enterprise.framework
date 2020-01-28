@@ -25,17 +25,13 @@ import enterprise.framework.core.http.HttpStatus;
 import enterprise.framework.domain.auth.SysAuthUserRole;
 import enterprise.framework.mapper.auth.user.SysAuthUserMapper;
 import enterprise.framework.mapper.auth.user.SysAuthUserRoleMapper;
-import enterprise.framework.pojo.auth.user.ChoosedUserRoleDTO;
-import enterprise.framework.pojo.auth.user.SysAuthUserVO;
-import enterprise.framework.pojo.auth.user.UserAuthDTO;
-import enterprise.framework.pojo.auth.user.UserAuthMenuDTO;
+import enterprise.framework.pojo.auth.user.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.List;
+import java.util.*;
+import java.util.stream.Collectors;
 
 @Service
 @Component
@@ -289,9 +285,11 @@ public class SysAuthUserServiceImpl implements SysAuthUserService {
     public HttpResponse listUserAuth(int userId) {
         HttpResponse httpResponse = new HttpResponse();
         try {
+            Map<String, Object> responseMap = new HashMap<>();
             List<UserAuthDTO> response = sysAuthUserMapper.listUserAuth(userId);
             List<UserAuthMenuDTO> userAuthMenuDTOList = new ArrayList<>();
             List<UserAuthMenuDTO> rootUserAuthMenuDTOList = new ArrayList<>();
+            Map<Long, List<UserAuthMenuButtonDTO>> userAuthMenuButtonMap = new HashMap<>();
             if (response.size() > 0) {
                 for (UserAuthDTO authDTO : response) {
                     UserAuthMenuDTO userAuthMenuDTO = new UserAuthMenuDTO();
@@ -310,13 +308,38 @@ public class SysAuthUserServiceImpl implements SysAuthUserService {
                         continue;
                     }
                     userAuthMenuDTOList.add(userAuthMenuDTO);
+
                 }
+
+                for (UserAuthMenuDTO authMenuDto : userAuthMenuDTOList) {
+                    List<UserAuthDTO> temp = response.stream().filter(t -> t.getMenuId() == authMenuDto.getMenuId() && t.getButtonId() != 0).collect(Collectors.toList());
+                    List<UserAuthMenuButtonDTO> userAuthMenuButtonDTOList = new ArrayList<>();
+                    for (UserAuthDTO item : temp) {
+                        UserAuthMenuButtonDTO userAuthMenuButtonDTO = new UserAuthMenuButtonDTO();
+                        userAuthMenuButtonDTO.setMenuId(item.getMenuId());
+                        userAuthMenuButtonDTO.setButtonId(item.getButtonId());
+                        userAuthMenuButtonDTO.setButtonName(item.getButtonName());
+                        userAuthMenuButtonDTO.setButtonIcon(item.getButtonIcon());
+                        userAuthMenuButtonDTO.setButtonSort(item.getButtonSort());
+                        userAuthMenuButtonDTO.setButtonClass(item.getButtonClass());
+                        userAuthMenuButtonDTO.setMethod(item.getMethod());
+                        if (userAuthMenuButtonDTOList.contains(userAuthMenuButtonDTO)) {
+                            continue;
+                        }
+                        userAuthMenuButtonDTOList.add(userAuthMenuButtonDTO);
+                    }
+                    userAuthMenuButtonMap.put(authMenuDto.getMenuId(), userAuthMenuButtonDTOList);
+                    authMenuDto.setButtonDTOList(userAuthMenuButtonDTOList);
+                }
+
 
                 for (UserAuthMenuDTO authDTO : userAuthMenuDTOList) {
                     if (authDTO.getParentId() == 0) {
                         UserAuthMenuDTO userAuthDTO = new UserAuthMenuDTO();
                         userAuthDTO.setMenuId(authDTO.getMenuId());
                         userAuthDTO.setParentId(authDTO.getParentId());
+                        userAuthDTO.setI18n(authDTO.getI18n());
+                        userAuthDTO.setMenuSort(authDTO.getMenuSort());
                         userAuthDTO.setText(authDTO.getText());
                         userAuthDTO.setLink(authDTO.getLink());
                         userAuthDTO.setIcon(authDTO.getIcon());
@@ -324,6 +347,7 @@ public class SysAuthUserServiceImpl implements SysAuthUserService {
                         userAuthDTO.setGroup(authDTO.getGroup());
                         userAuthDTO.setHideInBreadcrumb(authDTO.getHideInBreadcrumb());
                         userAuthDTO.setHide(authDTO.getHide());
+                        userAuthDTO.setButtonDTOList(authDTO.getButtonDTOList());
                         rootUserAuthMenuDTOList.add(userAuthDTO);
                     }
                 }
@@ -332,9 +356,11 @@ public class SysAuthUserServiceImpl implements SysAuthUserService {
                     recursiveTreeAuth(authDTO, userAuthMenuDTOList);
                 }
             }
-                httpResponse.status = HttpStatus.SUCCESS.value();
+            responseMap.put("userAuthMenuArray", rootUserAuthMenuDTOList);
+            responseMap.put("userAuthMenuButtonMap", userAuthMenuButtonMap);
+            httpResponse.status = HttpStatus.SUCCESS.value();
             httpResponse.msg = "查询成功";
-            httpResponse.content = rootUserAuthMenuDTOList;
+            httpResponse.content = responseMap;
             return httpResponse;
         } catch (Exception error) {
             httpResponse.status = HttpStatus.ERROR.value();
@@ -350,6 +376,8 @@ public class SysAuthUserServiceImpl implements SysAuthUserService {
                 UserAuthMenuDTO userAuthDTO = new UserAuthMenuDTO();
                 userAuthDTO.setMenuId(authDTO.getMenuId());
                 userAuthDTO.setParentId(authDTO.getParentId());
+                userAuthDTO.setI18n(authDTO.getI18n());
+                userAuthDTO.setMenuSort(authDTO.getMenuSort());
                 userAuthDTO.setText(authDTO.getText());
                 userAuthDTO.setLink(authDTO.getLink());
                 userAuthDTO.setIcon(authDTO.getIcon());
@@ -357,6 +385,7 @@ public class SysAuthUserServiceImpl implements SysAuthUserService {
                 userAuthDTO.setGroup(authDTO.getGroup());
                 userAuthDTO.setHideInBreadcrumb(authDTO.getHideInBreadcrumb());
                 userAuthDTO.setHide(authDTO.getHide());
+                userAuthDTO.setButtonDTOList(authDTO.getButtonDTOList());
                 childrenList.add(userAuthDTO);
             }
         }
