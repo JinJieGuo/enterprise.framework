@@ -254,11 +254,11 @@ public class SysAuthUserServiceImpl implements SysAuthUserService {
      * @param loginName
      * @return
      */
-    public HttpResponse listUserByParameters(String loginName) {
+    public HttpResponse listUserByLoginName(String loginName) {
         HttpResponse httpResponse = new HttpResponse();
         try {
 //            List<SysAuthUser> response = sysAuthUserMapper.select(sysAuthUser);
-            List<SysAuthUserVO> response = sysAuthUserMapper.getUserByLoginName(loginName);
+            List<SysAuthUserVO> response = sysAuthUserMapper.listUserByLoginName(loginName);
 
             if (response.size() > 0) {
                 httpResponse.status = HttpStatus.SUCCESS.value();

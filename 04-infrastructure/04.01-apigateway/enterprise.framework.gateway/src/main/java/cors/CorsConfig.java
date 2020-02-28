@@ -64,7 +64,7 @@ public class CorsConfig {
                 headers.add(HttpHeaders.ACCESS_CONTROL_ALLOW_ORIGIN, requestHeaders.getOrigin());
                 headers.addAll(HttpHeaders.ACCESS_CONTROL_ALLOW_HEADERS, requestHeaders.getAccessControlRequestHeaders());
                 if (requestMethod != null) {
-                    headers.add(HttpHeaders.ACCESS_CONTROL_ALLOW_METHODS, "POST, GET");
+                    headers.add(HttpHeaders.ACCESS_CONTROL_ALLOW_METHODS, "POST, GET, OPTIONS");
 
                 }
                 String temp1 = requestHeaders.getFirst("Cookie");
@@ -74,10 +74,10 @@ public class CorsConfig {
                 headers.add(HttpHeaders.ACCESS_CONTROL_ALLOW_CREDENTIALS, "true");
                 headers.add(HttpHeaders.ACCESS_CONTROL_EXPOSE_HEADERS, "*");
                 headers.add(HttpHeaders.ACCESS_CONTROL_MAX_AGE, MAX_AGE);
-                if (request.getMethod() == HttpMethod.OPTIONS) {
-                    response.setStatusCode(HttpStatus.OK);
-                    return Mono.empty();
-                }
+//                if (request.getMethod() == HttpMethod.OPTIONS) {
+//                    response.setStatusCode(HttpStatus.OK);
+//                    return Mono.empty();
+//                }
 
             }
             return chain.filter(ctx);

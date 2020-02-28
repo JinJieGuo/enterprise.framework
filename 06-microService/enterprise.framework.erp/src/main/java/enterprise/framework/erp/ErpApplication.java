@@ -25,9 +25,12 @@ import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.autoconfigure.jdbc.DataSourceAutoConfiguration;
 import org.springframework.boot.web.servlet.FilterRegistrationBean;
+import org.springframework.boot.web.servlet.MultipartConfigFactory;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.session.data.redis.config.annotation.web.http.EnableRedisHttpSession;
+
+import javax.servlet.MultipartConfigElement;
 
 @tk.mybatis.spring.annotation.MapperScan("enterprise.framework.mapper")
 @ComponentScan(basePackages = {"controller", "enterprise.framework.business", "enterprise.framework.service", "enterprise.framework.core", "common.datasource"})
@@ -47,5 +50,13 @@ public class ErpApplication {
         registration.setName("httpServletRequestReplacedFilter");
         registration.setOrder(1);
         return registration;
+    }
+
+    @Bean
+    public MultipartConfigElement multipartConfigElement() {
+        MultipartConfigFactory factory = new MultipartConfigFactory();
+        factory.setMaxFileSize("500MB");
+        factory.setMaxRequestSize("500MB");
+        return factory.createMultipartConfig();
     }
 }

@@ -163,7 +163,7 @@ public class AuthGatewayFilterFactory extends AbstractGatewayFilterFactory<AuthG
                     response.setStatusCode(HttpStatus.SERVICE_UNAVAILABLE);
                     return response.setComplete();
                 } else {
-                    if (requestBody == null) {
+                    if (requestBody == null || ((String) requestBody).contains("file")) {
                         //不论任何请求,只要参数为空,便直接返回控制器
                         return chain.filter(exchange);
                     }

@@ -112,8 +112,10 @@ public class AuthGlobalFilter implements GlobalFilter, Ordered {
                     if (contentType == null || contentType.length() == 0) {
                         return chain.filter(exchange);
                     }
+
+                    String uri = request.getURI().toString().toLowerCase();
                     //文件上传不读取body
-                    if ("true".equals(upload)) {
+                    if (uri.contains("upload")) {
                         return chain.filter(exchange);
                     }
 

@@ -81,7 +81,7 @@ public interface SysAuthUserMapper extends Mapper<SysAuthUser> {
             "\t\t , register_time, last_login_time, sort, audit_state, is_enabled, is_deleted, creator_id, creator_name, create_time\n" +
             "FROM sys_auth_user\n" +
             "WHERE is_deleted = 0 AND login_name = #{loginName}")
-    List<SysAuthUserVO> getUserByLoginName(String loginName);
+    List<SysAuthUserVO> listUserByLoginName(String loginName);
 
     /**
      * 获取用户权限
@@ -89,14 +89,25 @@ public interface SysAuthUserMapper extends Mapper<SysAuthUser> {
      * @param userId
      * @return
      */
-    @Select("SELECT DISTINCT t3.menu_id, t3.menu_name AS text, t3.parent_id, t3.menu_code AS i18n, t3.sort AS menuSort, t3.icon, t3.navigate_url AS link, t3.is_menu, t3.is_show_group AS 'group'\n" +
-            "\t\t\t\t\t\t\t, t3.is_hide_in_breadcrumb AS hideInBreadcrumb, t3.is_hide AS hide, t4.button_id, t4.button_name, t4.icon AS buttonIcon, t4.button_class, t4.sort AS buttonSort, t4.method\n" +
-            "FROM sys_auth_user_role t1\n" +
-            "LEFT JOIN sys_auth_role_menu_button t2 ON t2.role_id = t1.role_id AND t2.is_deleted = 0\n" +
-            "LEFT JOIN sys_auth_menu t3 ON t3.menu_id = t2.menu_id \n" +
-            "LEFT JOIN sys_auth_button t4 ON t4.button_id = t2.button_id\n" +
-            "WHERE t1.is_deleted = 0 AND t1.user_id = #{userId}\n" +
-            "ORDER BY t3.sort, t4.sort")
+//    @Select("SELECT DISTINCT t3.menu_id, t3.menu_name AS text, t3.parent_id, t3.menu_code AS i18n, t3.sort AS menuSort, t3.icon, t3.navigate_url AS link, t3.is_menu, t3.is_show_group AS 'group'\n" +
+//            "\t\t\t\t\t\t\t, t3.is_hide_in_breadcrumb AS hideInBreadcrumb, t3.is_hide AS hide, t4.button_id, t4.button_name, t4.icon AS buttonIcon, t4.button_class, t4.sort AS buttonSort, t4.method\n" +
+//            "FROM sys_auth_user_role t1\n" +
+//            "LEFT JOIN sys_auth_role_menu_button t2 ON t2.role_id = t1.role_id AND t2.is_deleted = 0\n" +
+//            "LEFT JOIN sys_auth_menu t3 ON t3.menu_id = t2.menu_id \n" +
+//            "LEFT JOIN sys_auth_button t4 ON t4.button_id = t2.button_id\n" +
+//            "WHERE t1.is_deleted = 0 AND t1.user_id = #{userId}\n" +
+//            "ORDER BY t3.sort, t4.sort")
+    // 修复BUG=> 菜单按钮去掉某个菜单下的按钮,在角色管理的设置权限中,仍然能看到删除的按钮
+    @Select("SELECT DISTINCT t2.is_deleted, t3.menu_id, t3.menu_name AS text, t3.parent_id, t3.menu_code AS i18n, t3.sort AS menuSort, t3.icon, t3.navigate_url AS link, t3.is_menu, t3.is_show_group AS 'group'\n" +
+            "            , t3.is_hide_in_breadcrumb AS hideInBreadcrumb, t3.is_hide AS hide, t4.button_id, t4.button_name, t4.icon AS buttonIcon, t4.button_class, t4.sort AS buttonSort, t4.method\n" +
+            "            FROM sys_auth_user_role t1\n" +
+            "            LEFT JOIN sys_auth_role_menu_button t2 ON t2.role_id = t1.role_id AND t2.is_deleted = 0\n" +
+            "            LEFT JOIN sys_auth_menu t3 ON t3.menu_id = t2.menu_id\n" +
+            "            LEFT JOIN (SELECT t6.menu_id, t7.button_id, t7.button_name, t7.icon, t7.button_class, t7.sort, t7.method FROM sys_auth_menu_button t6\n" +
+            "LEFT JOIN sys_auth_button t7 ON t7.button_id = t6.button_id\n" +
+            "WHERE t6.is_deleted = 0 AND t7.is_deleted = 0) t4 ON t4.menu_id = t2.menu_id AND t4.button_id = t2.button_id\n" +
+            "            WHERE t1.is_deleted = 0 AND t1.user_id = #{userId}\n" +
+            "            ORDER BY t3.sort, t4.sort")
     List<UserAuthDTO> listUserAuth(int userId);
 }
 

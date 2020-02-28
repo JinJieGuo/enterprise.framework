@@ -4,6 +4,11 @@ server:
   connectionTimeout: 180000
 #数据库地址
 spring:
+  servlet:
+    multipart:
+      max-file-size: 100MB
+      max-request-size: 100MB
+  #      enabled: false
   datasource:
     druid:
       type: com.alibaba.druid.pool.DruidDataSource

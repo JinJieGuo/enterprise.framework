@@ -39,10 +39,10 @@ public class InitDataTest {
 
     @Test
     public void initData() {
-        SysAuthMenuVO sysAuthMenuVO = new SysAuthMenuVO();
-        sysAuthMenuVO.setMenuName("根菜单");
-        sysAuthMenuVO.setMenuCode("root");
-        sysAuthMenuVO.setIsMenu(0);
-        HttpResponse httpResponse = sysAuthMenuService.saveMenu(sysAuthMenuVO);
+//        SysAuthMenuVO sysAuthMenuVO = new SysAuthMenuVO();
+//        sysAuthMenuVO.setMenuName("根菜单");
+//        sysAuthMenuVO.setMenuCode("root");
+//        sysAuthMenuVO.setIsMenu(0);
+//        HttpResponse httpResponse = sysAuthMenuService.saveMenu(sysAuthMenuVO);
     }
 }

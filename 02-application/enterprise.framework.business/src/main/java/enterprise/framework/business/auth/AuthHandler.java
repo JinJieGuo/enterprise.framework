@@ -80,6 +80,14 @@ public class AuthHandler {
         HttpResponse httpResponse = new HttpResponse();
         try {
             Map<String, Object> keyMap = RSAUtils.genKeyPair(1024);
+            HttpResponse listUserResponse = sysAuthUserService.listUserByLoginName(sysAuthUserVO.getLoginName());
+
+            List<SysAuthUserVO> userList = (List<SysAuthUserVO>) listUserResponse.content;
+            if (userList != null && userList.size() > 1) {
+                httpResponse.msg = "该用户已存在";
+                httpResponse.status = HttpStatus.USER_NOTEXIST.value();
+                return httpResponse;
+            }
 
             sysAuthUserVO.setPassword(sysAuthUserVO.getIsDefaultPassword() == null || sysAuthUserVO.getIsDefaultPassword() == 1 ? "123456" : sysAuthUserVO.getPassword());
             sysAuthUserVO.setPassword(Base64Utils.encode(RSAUtils.encryptByPublicKey(sysAuthUserVO.getPassword().getBytes("utf-8"), RSAUtils.getPublicKey(keyMap))));
@@ -122,7 +130,7 @@ public class AuthHandler {
         try {
 //            SysAuthUser sysAuthUser = new SysAuthUser();
 //            sysAuthUser.setLoginName(signInModel.getLoginName());
-            HttpResponse response = sysAuthUserService.listUserByParameters(signInModel.getLoginName());
+            HttpResponse response = sysAuthUserService.listUserByLoginName(signInModel.getLoginName());
             RedisHandler redisHandler = new RedisHandler(redisTemplate);
 
             if (response.status != HttpStatus.SUCCESS.value()) {

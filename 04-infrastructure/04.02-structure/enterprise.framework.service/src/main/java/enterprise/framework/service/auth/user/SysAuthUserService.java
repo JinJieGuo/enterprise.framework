@@ -89,7 +89,7 @@ public interface SysAuthUserService {
      * @param loginName
      * @return
      */
-    HttpResponse listUserByParameters(String loginName);
+    HttpResponse listUserByLoginName(String loginName);
 
     /**
      * 获取用户权限

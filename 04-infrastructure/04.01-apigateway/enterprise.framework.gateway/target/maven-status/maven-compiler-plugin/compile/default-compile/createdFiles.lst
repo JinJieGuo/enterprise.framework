@@ -1,10 +1,10 @@
+auth\RequestBodyHandler$1.class
+enterprise\framework\gateway\SessionConfig.class
+controller\ConsulController.class
 enterprise\framework\gateway\GatewayApplication.class
 auth\AuthGatewayFilterFactory$Config.class
 auth\AuthGatewayFilterFactory.class
 auth\RequestBodyHandler.class
 auth\AuthGlobalFilter.class
-auth\RequestBodyHandler$1.class
 cors\CorsConfig.class
-enterprise\framework\gateway\SessionConfig.class
 pojo\ParametersModel.class
-controller\ConsulController.class

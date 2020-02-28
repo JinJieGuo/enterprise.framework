@@ -20,11 +20,13 @@
 package controller;
 
 import com.alibaba.fastjson.JSON;
+//import com.sun.istack.internal.NotNull;
+//import org.jetbrains.annotations.NotNull;
+import javax.validation.constraints.NotNull;
 import enterprise.framework.core.http.HttpResponse;
 import enterprise.framework.core.http.HttpStatus;
 import enterprise.framework.core.redis.RedisHandler;
 import enterprise.framework.pojo.auth.user.SysAuthUserVO;
-import org.jetbrains.annotations.NotNull;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.data.redis.serializer.RedisSerializer;

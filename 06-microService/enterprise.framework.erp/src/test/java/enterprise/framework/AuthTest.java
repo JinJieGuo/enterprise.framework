@@ -29,6 +29,7 @@ import enterprise.framework.core.token.TokenManager;
 import enterprise.framework.domain.auth.SysAuthUser;
 import enterprise.framework.erp.ErpApplication;
 import enterprise.framework.pojo.auth.user.SignInVO;
+import enterprise.framework.pojo.auth.user.SysAuthUserVO;
 import enterprise.framework.service.auth.user.SysAuthUserService;
 import enterprise.framework.utility.generaltools.TimeTypeEnum;
 import enterprise.framework.utility.security.Base64Utils;
@@ -106,9 +107,9 @@ public class AuthTest {
             Map<String, Object> keyMap = RSAUtils.genKeyPair(1024);
             SysAuthUser sysAuthUser = new SysAuthUser();
             sysAuthUser.setLoginName(signInModel.getLoginName());
-            HttpResponse response = sysAuthUserService.listUserByParameters(signInModel.getLoginName());
-            List<SysAuthUser> userList = (List<SysAuthUser>) response.content;
-            SysAuthUser user = userList.get(0);
+            HttpResponse response = sysAuthUserService.listUserByLoginName(signInModel.getLoginName());
+            List<SysAuthUserVO> userList = (List<SysAuthUserVO>) response.content;
+            SysAuthUserVO user = userList.get(0);
             byte[] pass_word_byte = RSAUtils.encryptByPublicKey("123456".getBytes("utf-8"), RSAUtils.getPublicKey(keyMap));
             user.setPassword(Base64Utils.encode(pass_word_byte));
             HttpResponse result = sysAuthUserService.updateUser(user);
@@ -129,18 +130,18 @@ public class AuthTest {
         System.out.println(date);
     }
 
-    @Test
-    public void verifyToken() {
-        HttpResponse tokenInfoResponse = getTokenInfo("token_info:1");
-        if (tokenInfoResponse.status == HttpStatus.SUCCESS.value()) {
-            TokenInfo tokenInfo = (TokenInfo) tokenInfoResponse.content;
-            ITokenManager tokenManager = new TokenManager();
-            if (tokenManager.tokenInfoIsInvalid(tokenInfo)) {
-                //用户令牌已失效
-                boolean res = tokenManager.extendTokenTime(tokenInfo, 30, TimeTypeEnum.MINUTE);
-            }
-        }
-    }
+//    @Test
+//    public void verifyToken() {
+//        HttpResponse tokenInfoResponse = getTokenInfo("token_info:1");
+//        if (tokenInfoResponse.status == HttpStatus.SUCCESS.value()) {
+//            TokenInfo tokenInfo = (TokenInfo) tokenInfoResponse.content;
+//            ITokenManager tokenManager = new TokenManager();
+//            if (tokenManager.tokenInfoIsInvalid(tokenInfo)) {
+//                //用户令牌已失效
+//                boolean res = tokenManager.extendTokenTime(tokenInfo, 30, TimeTypeEnum.MINUTE);
+//            }
+//        }
+//    }
 
     /**
      * 根据用户id获取token

@@ -21,12 +21,14 @@ package controller;
 
 import com.rabbitmq.client.Channel;
 import com.rabbitmq.client.Connection;
+//import org.jetbrains.annotations.NotNull;
+//import com.sun.istack.internal.NotNull;
+import javax.validation.constraints.NotNull;
 import enterprise.framework.core.http.HttpResponse;
 import enterprise.framework.core.rabbitmq.IMQManager;
 import enterprise.framework.core.rabbitmq.MQManager;
 import enterprise.framework.core.rabbitmq.RabbitMqInfo;
 import enterprise.framework.utility.transform.MapHandler;
-import org.jetbrains.annotations.NotNull;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.data.redis.serializer.RedisSerializer;
