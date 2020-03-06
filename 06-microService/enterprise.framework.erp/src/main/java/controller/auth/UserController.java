@@ -23,6 +23,7 @@ import controller.BaseController;
 import enterprise.framework.business.engine.Components;
 import enterprise.framework.business.engine.IScheduler;
 import enterprise.framework.pojo.auth.user.ChoosedUserRoleDTO;
+import enterprise.framework.pojo.auth.user.PasswordVO;
 import enterprise.framework.pojo.auth.user.SysAuthUserVO;
 import enterprise.framework.service.auth.user.SysAuthUserService;
 import org.springframework.web.bind.annotation.*;
@@ -61,6 +62,17 @@ public class UserController extends BaseController {
     @PostMapping("updateUser")
     public HttpResponse updateUser(@RequestBody SysAuthUserVO sysAuthUserVO) {
         return sysAuthUserService.updateUser(sysAuthUserVO);
+    }
+
+    /***
+     * 修改密码
+     * @param passwordVO
+     * @return
+     */
+    @ResponseBody
+    @PostMapping("updatePwd")
+    public HttpResponse updatePwd(@RequestBody PasswordVO passwordVO){
+        return sysAuthUserService.updatePwd(passwordVO);
     }
 
     /**

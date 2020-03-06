@@ -83,7 +83,7 @@ public class AuthHandler {
             HttpResponse listUserResponse = sysAuthUserService.listUserByLoginName(sysAuthUserVO.getLoginName());
 
             List<SysAuthUserVO> userList = (List<SysAuthUserVO>) listUserResponse.content;
-            if (userList != null && userList.size() > 1) {
+            if (userList != null && userList.size() >= 1) {
                 httpResponse.msg = "该用户已存在";
                 httpResponse.status = HttpStatus.USER_NOTEXIST.value();
                 return httpResponse;

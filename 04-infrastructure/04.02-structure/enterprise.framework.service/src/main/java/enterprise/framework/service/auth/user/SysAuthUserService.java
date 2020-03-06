@@ -22,6 +22,7 @@ package enterprise.framework.service.auth.user;
 import enterprise.framework.domain.auth.SysAuthUser;
 import enterprise.framework.core.http.HttpResponse;
 import enterprise.framework.pojo.auth.user.ChoosedUserRoleDTO;
+import enterprise.framework.pojo.auth.user.PasswordVO;
 import enterprise.framework.pojo.auth.user.SysAuthUserVO;
 import org.springframework.stereotype.Component;
 
@@ -51,6 +52,14 @@ public interface SysAuthUserService {
      * @return
      */
     HttpResponse updateUser(SysAuthUserVO sysAuthUserVO);
+
+    /**
+     * 更新密码
+     *
+     * @param passwordVO
+     * @return
+     */
+    HttpResponse updatePwd(PasswordVO passwordVO);
 
     /**
      * 删除用户

@@ -19,6 +19,9 @@
 
 package enterprise.framework.service.auth.user;
 
+import com.alibaba.fastjson.JSON;
+import enterprise.framework.core.redis.RedisHandler;
+import enterprise.framework.core.token.TokenInfo;
 import enterprise.framework.domain.auth.SysAuthUser;
 import enterprise.framework.core.http.HttpResponse;
 import enterprise.framework.core.http.HttpStatus;
@@ -26,7 +29,13 @@ import enterprise.framework.domain.auth.SysAuthUserRole;
 import enterprise.framework.mapper.auth.user.SysAuthUserMapper;
 import enterprise.framework.mapper.auth.user.SysAuthUserRoleMapper;
 import enterprise.framework.pojo.auth.user.*;
+import enterprise.framework.utility.security.Base64Utils;
+import enterprise.framework.utility.security.RSAUtils;
+import enterprise.framework.utility.transform.StrHandler;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.redis.core.RedisTemplate;
+import org.springframework.data.redis.serializer.RedisSerializer;
+import org.springframework.data.redis.serializer.StringRedisSerializer;
 import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
 
@@ -36,6 +45,19 @@ import java.util.stream.Collectors;
 @Service
 @Component
 public class SysAuthUserServiceImpl implements SysAuthUserService {
+
+    @Autowired
+    private static RedisTemplate redisTemplate;
+
+    @Autowired(required = false)
+    private void setRedisTemplate(RedisTemplate redisTemplate) {
+        RedisSerializer stringSerializer = new StringRedisSerializer();
+        redisTemplate.setKeySerializer(stringSerializer);
+        redisTemplate.setValueSerializer(stringSerializer);
+        redisTemplate.setHashKeySerializer(stringSerializer);
+        redisTemplate.setHashValueSerializer(stringSerializer);
+        this.redisTemplate = redisTemplate;
+    }
 
     @Autowired(required = false)
     private SysAuthUserMapper sysAuthUserMapper;
@@ -120,6 +142,38 @@ public class SysAuthUserServiceImpl implements SysAuthUserService {
                 httpResponse.status = HttpStatus.FAIL.value();
                 httpResponse.msg = "更新失败";
             }
+            return httpResponse;
+        } catch (Exception error) {
+            httpResponse.status = HttpStatus.ERROR.value();
+            httpResponse.msg = "[类名:(" + this.getClass() + ")]" + "更新异常:" + error.getMessage();
+            return httpResponse;
+        }
+    }
+
+    /**
+     * 更新密码
+     *
+     * @param passwordVO
+     * @return
+     */
+    public HttpResponse updatePwd(PasswordVO passwordVO) {
+        HttpResponse httpResponse = new HttpResponse();
+        try {
+            RedisHandler redisHandler = new RedisHandler(redisTemplate);
+            HttpResponse redisResponse = redisHandler.get("token_info:" + passwordVO.getUserId());
+            if (redisResponse.status == HttpStatus.SUCCESS.value()) {
+                StrHandler strHandler = new StrHandler();
+                TokenInfo tokenInfo = JSON.parseObject(strHandler.binaryToStr((String) redisResponse.content), TokenInfo.class);
+                SysAuthUserVO sysAuthUserVO = new SysAuthUserVO();
+                sysAuthUserVO.setUserId(passwordVO.getUserId());
+                sysAuthUserVO.setPassword(Base64Utils.encode(RSAUtils.encryptByPublicKey(passwordVO.getPassword().getBytes("utf-8"), tokenInfo.getPublic_key())));
+                String tempStr = new String(RSAUtils.decryptByPrivateKey(Base64Utils.decode(sysAuthUserVO.getPassword()), tokenInfo.getPrivate_key()));
+                httpResponse = updateUser(sysAuthUserVO);
+            } else {
+                httpResponse.status = HttpStatus.ERROR.value();
+                httpResponse.msg = "修改密码失败!";
+            }
+
             return httpResponse;
         } catch (Exception error) {
             httpResponse.status = HttpStatus.ERROR.value();
