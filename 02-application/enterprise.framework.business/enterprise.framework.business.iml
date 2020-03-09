@@ -23,7 +23,6 @@
     </content>
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />
-    <orderEntry type="library" name="Maven: mysql:mysql-connector-java:5.1.45" level="project" />
     <orderEntry type="module" module-name="enterprise.framework.service" />
     <orderEntry type="module" module-name="enterprise.framework.domain" />
     <orderEntry type="module" module-name="enterprise.framework.mapper" />

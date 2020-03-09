@@ -110,7 +110,7 @@ public class AuthTest {
             HttpResponse response = sysAuthUserService.listUserByLoginName(signInModel.getLoginName());
             List<SysAuthUserVO> userList = (List<SysAuthUserVO>) response.content;
             SysAuthUserVO user = userList.get(0);
-            byte[] pass_word_byte = RSAUtils.encryptByPublicKey("123456".getBytes("utf-8"), RSAUtils.getPublicKey(keyMap));
+            byte[] pass_word_byte = RSAUtils.encryptByPublicKey("Liang_0213".getBytes("utf-8"), RSAUtils.getPublicKey(keyMap));
             user.setPassword(Base64Utils.encode(pass_word_byte));
             HttpResponse result = sysAuthUserService.updateUser(user);
             if (result.status == HttpStatus.SUCCESS.value()) {
