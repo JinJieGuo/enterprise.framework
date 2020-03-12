@@ -169,6 +169,10 @@ public class SysAuthUserServiceImpl implements SysAuthUserService {
                 sysAuthUserVO.setPassword(Base64Utils.encode(RSAUtils.encryptByPublicKey(passwordVO.getPassword().getBytes("utf-8"), tokenInfo.getPublic_key())));
                 String tempStr = new String(RSAUtils.decryptByPrivateKey(Base64Utils.decode(sysAuthUserVO.getPassword()), tokenInfo.getPrivate_key()));
                 httpResponse = updateUser(sysAuthUserVO);
+                if (httpResponse.status == HttpStatus.SUCCESS.value()) {
+                    //#BUG=>用户密码更新成功后移除用户缓存生效,否则密码会被重置成旧密码
+                    redisHandler.del("user_info:" + passwordVO.getUserId());
+                }
             } else {
                 httpResponse.status = HttpStatus.ERROR.value();
                 httpResponse.msg = "修改密码失败!";
