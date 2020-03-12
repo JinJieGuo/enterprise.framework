@@ -1,27 +1,28 @@
-D:\03_CoreProduct\02_EnterpriseSite\01_Code\EnterpriseSite Version3.0.0\01_CorePackages\enterprise.framework\02-application\enterprise.framework.pojo\src\main\java\enterprise\framework\pojo\config\tree\SysConfigTreeVO.java
-D:\03_CoreProduct\02_EnterpriseSite\01_Code\EnterpriseSite Version3.0.0\01_CorePackages\enterprise.framework\02-application\enterprise.framework.pojo\src\main\java\enterprise\framework\pojo\auth\user\UserModel.java
-D:\03_CoreProduct\02_EnterpriseSite\01_Code\EnterpriseSite Version3.0.0\01_CorePackages\enterprise.framework\02-application\enterprise.framework.pojo\src\main\java\enterprise\framework\pojo\auth\role\RoleMenuButtonDTO.java
-D:\03_CoreProduct\02_EnterpriseSite\01_Code\EnterpriseSite Version3.0.0\01_CorePackages\enterprise.framework\02-application\enterprise.framework.pojo\src\main\java\enterprise\framework\pojo\auth\user\UserAuthDTO.java
-D:\03_CoreProduct\02_EnterpriseSite\01_Code\EnterpriseSite Version3.0.0\01_CorePackages\enterprise.framework\02-application\enterprise.framework.pojo\src\main\java\enterprise\framework\pojo\config\tree\TreeSelectVO.java
-D:\03_CoreProduct\02_EnterpriseSite\01_Code\EnterpriseSite Version3.0.0\01_CorePackages\enterprise.framework\02-application\enterprise.framework.pojo\src\main\java\enterprise\framework\pojo\config\dictionary\SysConfigDictionaryVO.java
-D:\03_CoreProduct\02_EnterpriseSite\01_Code\EnterpriseSite Version3.0.0\01_CorePackages\enterprise.framework\02-application\enterprise.framework.pojo\src\main\java\enterprise\framework\pojo\auth\user\SignInVO.java
-D:\03_CoreProduct\02_EnterpriseSite\01_Code\EnterpriseSite Version3.0.0\01_CorePackages\enterprise.framework\02-application\enterprise.framework.pojo\src\main\java\enterprise\framework\pojo\auth\user\SysAuthUserRoleVO.java
-D:\03_CoreProduct\02_EnterpriseSite\01_Code\EnterpriseSite Version3.0.0\01_CorePackages\enterprise.framework\02-application\enterprise.framework.pojo\src\main\java\enterprise\framework\pojo\communication\ParametersModel.java
-D:\03_CoreProduct\02_EnterpriseSite\01_Code\EnterpriseSite Version3.0.0\01_CorePackages\enterprise.framework\02-application\enterprise.framework.pojo\src\main\java\enterprise\framework\pojo\auth\menu\ChoosedButtonDTO.java
-D:\03_CoreProduct\02_EnterpriseSite\01_Code\EnterpriseSite Version3.0.0\01_CorePackages\enterprise.framework\02-application\enterprise.framework.pojo\src\main\java\enterprise\framework\pojo\auth\menu\SysAuthMenuVO.java
-D:\03_CoreProduct\02_EnterpriseSite\01_Code\EnterpriseSite Version3.0.0\01_CorePackages\enterprise.framework\02-application\enterprise.framework.pojo\src\main\java\enterprise\framework\pojo\config\dictionary\DictionarySearchVO.java
-D:\03_CoreProduct\02_EnterpriseSite\01_Code\EnterpriseSite Version3.0.0\01_CorePackages\enterprise.framework\02-application\enterprise.framework.pojo\src\main\java\enterprise\framework\pojo\auth\user\UserAuthMenuButtonDTO.java
-D:\03_CoreProduct\02_EnterpriseSite\01_Code\EnterpriseSite Version3.0.0\01_CorePackages\enterprise.framework\02-application\enterprise.framework.pojo\src\main\java\enterprise\framework\pojo\auth\role\RoleMenuDTO.java
-D:\03_CoreProduct\02_EnterpriseSite\01_Code\EnterpriseSite Version3.0.0\01_CorePackages\enterprise.framework\02-application\enterprise.framework.pojo\src\main\java\enterprise\framework\pojo\auth\role\RoleUserDTO.java
-D:\03_CoreProduct\02_EnterpriseSite\01_Code\EnterpriseSite Version3.0.0\01_CorePackages\enterprise.framework\02-application\enterprise.framework.pojo\src\main\java\enterprise\framework\pojo\auth\user\SysAuthUserVO.java
-D:\03_CoreProduct\02_EnterpriseSite\01_Code\EnterpriseSite Version3.0.0\01_CorePackages\enterprise.framework\02-application\enterprise.framework.pojo\src\main\java\enterprise\framework\pojo\config\tree\TreeTableVO.java
-D:\03_CoreProduct\02_EnterpriseSite\01_Code\EnterpriseSite Version3.0.0\01_CorePackages\enterprise.framework\02-application\enterprise.framework.pojo\src\main\java\enterprise\framework\pojo\auth\role\SysAuthRoleMenuButtonVO.java
-D:\03_CoreProduct\02_EnterpriseSite\01_Code\EnterpriseSite Version3.0.0\01_CorePackages\enterprise.framework\02-application\enterprise.framework.pojo\src\main\java\enterprise\framework\pojo\auth\role\SysAuthRoleVO.java
-D:\03_CoreProduct\02_EnterpriseSite\01_Code\EnterpriseSite Version3.0.0\01_CorePackages\enterprise.framework\02-application\enterprise.framework.pojo\src\main\java\enterprise\framework\pojo\auth\button\SysAuthButtonVO.java
-D:\03_CoreProduct\02_EnterpriseSite\01_Code\EnterpriseSite Version3.0.0\01_CorePackages\enterprise.framework\02-application\enterprise.framework.pojo\src\main\java\enterprise\framework\pojo\auth\menu\ChoosedButtonVO.java
-D:\03_CoreProduct\02_EnterpriseSite\01_Code\EnterpriseSite Version3.0.0\01_CorePackages\enterprise.framework\02-application\enterprise.framework.pojo\src\main\java\enterprise\framework\pojo\auth\role\ChoosedRoleMenuButtonDTO.java
-D:\03_CoreProduct\02_EnterpriseSite\01_Code\EnterpriseSite Version3.0.0\01_CorePackages\enterprise.framework\02-application\enterprise.framework.pojo\src\main\java\enterprise\framework\pojo\auth\user\UserAuthMenuDTO.java
-D:\03_CoreProduct\02_EnterpriseSite\01_Code\EnterpriseSite Version3.0.0\01_CorePackages\enterprise.framework\02-application\enterprise.framework.pojo\src\main\java\enterprise\framework\pojo\auth\user\ChoosedUserRoleDTO.java
-D:\03_CoreProduct\02_EnterpriseSite\01_Code\EnterpriseSite Version3.0.0\01_CorePackages\enterprise.framework\02-application\enterprise.framework.pojo\src\main\java\enterprise\framework\pojo\auth\user\UserSearchModel.java
-D:\03_CoreProduct\02_EnterpriseSite\01_Code\EnterpriseSite Version3.0.0\01_CorePackages\enterprise.framework\02-application\enterprise.framework.pojo\src\main\java\enterprise\framework\pojo\auth\menu\SysAuthMenuButtonVO.java
-D:\03_CoreProduct\02_EnterpriseSite\01_Code\EnterpriseSite Version3.0.0\01_CorePackages\enterprise.framework\02-application\enterprise.framework.pojo\src\main\java\enterprise\framework\pojo\auth\user\SignOutVO.java
+E:\02_OpenSource\16_Enterprise.Framework\enterprise.framework\02-application\enterprise.framework.pojo\src\main\java\enterprise\framework\pojo\auth\role\RoleMenuDTO.java
+E:\02_OpenSource\16_Enterprise.Framework\enterprise.framework\02-application\enterprise.framework.pojo\src\main\java\enterprise\framework\pojo\auth\role\ChoosedRoleMenuButtonDTO.java
+E:\02_OpenSource\16_Enterprise.Framework\enterprise.framework\02-application\enterprise.framework.pojo\src\main\java\enterprise\framework\pojo\auth\role\SysAuthRoleMenuButtonVO.java
+E:\02_OpenSource\16_Enterprise.Framework\enterprise.framework\02-application\enterprise.framework.pojo\src\main\java\enterprise\framework\pojo\auth\role\RoleUserDTO.java
+E:\02_OpenSource\16_Enterprise.Framework\enterprise.framework\02-application\enterprise.framework.pojo\src\main\java\enterprise\framework\pojo\auth\button\SysAuthButtonVO.java
+E:\02_OpenSource\16_Enterprise.Framework\enterprise.framework\02-application\enterprise.framework.pojo\src\main\java\enterprise\framework\pojo\auth\user\UserAuthDTO.java
+E:\02_OpenSource\16_Enterprise.Framework\enterprise.framework\02-application\enterprise.framework.pojo\src\main\java\enterprise\framework\pojo\auth\menu\SysAuthMenuButtonVO.java
+E:\02_OpenSource\16_Enterprise.Framework\enterprise.framework\02-application\enterprise.framework.pojo\src\main\java\enterprise\framework\pojo\auth\user\PasswordVO.java
+E:\02_OpenSource\16_Enterprise.Framework\enterprise.framework\02-application\enterprise.framework.pojo\src\main\java\enterprise\framework\pojo\auth\user\UserAuthMenuButtonDTO.java
+E:\02_OpenSource\16_Enterprise.Framework\enterprise.framework\02-application\enterprise.framework.pojo\src\main\java\enterprise\framework\pojo\config\tree\TreeSelectVO.java
+E:\02_OpenSource\16_Enterprise.Framework\enterprise.framework\02-application\enterprise.framework.pojo\src\main\java\enterprise\framework\pojo\auth\user\SignInVO.java
+E:\02_OpenSource\16_Enterprise.Framework\enterprise.framework\02-application\enterprise.framework.pojo\src\main\java\enterprise\framework\pojo\auth\role\SysAuthRoleVO.java
+E:\02_OpenSource\16_Enterprise.Framework\enterprise.framework\02-application\enterprise.framework.pojo\src\main\java\enterprise\framework\pojo\auth\menu\ChoosedButtonDTO.java
+E:\02_OpenSource\16_Enterprise.Framework\enterprise.framework\02-application\enterprise.framework.pojo\src\main\java\enterprise\framework\pojo\auth\menu\ChoosedButtonVO.java
+E:\02_OpenSource\16_Enterprise.Framework\enterprise.framework\02-application\enterprise.framework.pojo\src\main\java\enterprise\framework\pojo\auth\user\SysAuthUserRoleVO.java
+E:\02_OpenSource\16_Enterprise.Framework\enterprise.framework\02-application\enterprise.framework.pojo\src\main\java\enterprise\framework\pojo\auth\user\ChoosedUserRoleDTO.java
+E:\02_OpenSource\16_Enterprise.Framework\enterprise.framework\02-application\enterprise.framework.pojo\src\main\java\enterprise\framework\pojo\auth\user\SysAuthUserVO.java
+E:\02_OpenSource\16_Enterprise.Framework\enterprise.framework\02-application\enterprise.framework.pojo\src\main\java\enterprise\framework\pojo\config\tree\TreeTableVO.java
+E:\02_OpenSource\16_Enterprise.Framework\enterprise.framework\02-application\enterprise.framework.pojo\src\main\java\enterprise\framework\pojo\config\dictionary\SysConfigDictionaryVO.java
+E:\02_OpenSource\16_Enterprise.Framework\enterprise.framework\02-application\enterprise.framework.pojo\src\main\java\enterprise\framework\pojo\config\tree\SysConfigTreeVO.java
+E:\02_OpenSource\16_Enterprise.Framework\enterprise.framework\02-application\enterprise.framework.pojo\src\main\java\enterprise\framework\pojo\auth\user\UserAuthMenuDTO.java
+E:\02_OpenSource\16_Enterprise.Framework\enterprise.framework\02-application\enterprise.framework.pojo\src\main\java\enterprise\framework\pojo\config\dictionary\DictionarySearchVO.java
+E:\02_OpenSource\16_Enterprise.Framework\enterprise.framework\02-application\enterprise.framework.pojo\src\main\java\enterprise\framework\pojo\auth\user\UserModel.java
+E:\02_OpenSource\16_Enterprise.Framework\enterprise.framework\02-application\enterprise.framework.pojo\src\main\java\enterprise\framework\pojo\communication\ParametersModel.java
+E:\02_OpenSource\16_Enterprise.Framework\enterprise.framework\02-application\enterprise.framework.pojo\src\main\java\enterprise\framework\pojo\auth\menu\SysAuthMenuVO.java
+E:\02_OpenSource\16_Enterprise.Framework\enterprise.framework\02-application\enterprise.framework.pojo\src\main\java\enterprise\framework\pojo\auth\role\RoleMenuButtonDTO.java
+E:\02_OpenSource\16_Enterprise.Framework\enterprise.framework\02-application\enterprise.framework.pojo\src\main\java\enterprise\framework\pojo\auth\user\UserSearchModel.java
+E:\02_OpenSource\16_Enterprise.Framework\enterprise.framework\02-application\enterprise.framework.pojo\src\main\java\enterprise\framework\pojo\auth\user\SignOutVO.java

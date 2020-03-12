@@ -1,0 +1,9 @@
+enterprise\framework\domain\auth\SysAuthUserRole.class
+enterprise\framework\domain\config\SysConfigDictionary.class
+enterprise\framework\domain\auth\SysAuthUser.class
+enterprise\framework\domain\auth\SysAuthMenuButton.class
+enterprise\framework\domain\auth\SysAuthButton.class
+enterprise\framework\domain\auth\SysAuthRole.class
+enterprise\framework\domain\auth\SysAuthRoleMenuButton.class
+enterprise\framework\domain\config\SysConfigTree.class
+enterprise\framework\domain\auth\SysAuthMenu.class

@@ -1,0 +1,14 @@
+enterprise\framework\mapper\auth\menu\SysAuthMenuButtonGenerateSql.class
+enterprise\framework\mapper\auth\user\SysAuthUserGenerateSql.class
+enterprise\framework\mapper\auth\user\SysAuthUserMapper.class
+enterprise\framework\mapper\auth\role\RoleMenuButtonGenerateSql.class
+enterprise\framework\mapper\auth\user\SysAuthUserRoleGenerateSql.class
+enterprise\framework\mapper\auth\role\SysAuthRoleGenerateSql.class
+enterprise\framework\mapper\auth\menu\SysAuthMenuGenerateSql.class
+enterprise\framework\mapper\auth\role\SysAuthRoleMapper.class
+enterprise\framework\mapper\auth\role\SysAuthRoleMenuButtonMapper.class
+enterprise\framework\mapper\auth\menu\SysAuthMenuButtonMapper.class
+enterprise\framework\mapper\auth\button\SysAuthButtonMapper.class
+enterprise\framework\mapper\auth\user\SysAuthUserRoleMapper.class
+enterprise\framework\mapper\auth\button\SysAuthButtonGenerateSql.class
+enterprise\framework\mapper\auth\menu\SysAuthMenuMapper.class

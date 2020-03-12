@@ -1,0 +1,8 @@
+enterprise\framework\service\auth\button\SysAuthButtonServiceImpl.class
+enterprise\framework\service\auth\role\SysAuthRoleService.class
+enterprise\framework\service\auth\menu\SysAuthMenuServiceImpl.class
+enterprise\framework\service\auth\menu\SysAuthMenuService.class
+enterprise\framework\service\auth\user\SysAuthUserServiceImpl.class
+enterprise\framework\service\auth\button\SysAuthButtonService.class
+enterprise\framework\service\auth\role\SysAuthRoleServiceImpl.class
+enterprise\framework\service\auth\user\SysAuthUserService.class
