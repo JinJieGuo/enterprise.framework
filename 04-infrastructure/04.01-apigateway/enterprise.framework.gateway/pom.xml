@@ -13,7 +13,8 @@
 
     <groupId>enterprise.framework</groupId>
     <artifactId>enterprise.framework.gateway</artifactId>
-    <version>1.0.0.191223-ALPHA</version>
+<!--    <version>1.0.0.191223-ALPHA</version>-->
+    <version>ALPHA</version>
 
     <name>enterprise.framework.gateway</name>
 
