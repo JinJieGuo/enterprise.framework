@@ -76,14 +76,14 @@ spring:
   cloud:
     consul:
       host:
-        172.168.1.110
+        172.168.1.112
       port:
         8500
       discovery:
         servername:
           permission
         hostname:
-          172.168.1.110
+          172.168.1.112
         port:
           8080
         health-check-path:
