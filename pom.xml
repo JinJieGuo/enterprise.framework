@@ -23,6 +23,7 @@
         <module>04-infrastructure/04.03-inside/enterprise.framework.core</module>
         <module>02-application/enterprise.framework.business</module>
         <module>06-microService/enterprise.framework.erp</module>
+        <module>06-microService/enterprise.framework.filecenter</module>
     </modules>
 
 
