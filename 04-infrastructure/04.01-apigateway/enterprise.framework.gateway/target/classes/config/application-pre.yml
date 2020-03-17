@@ -22,7 +22,7 @@ spring:
       discovery:
         prefer-ip-address: true
         healthCheckPath: /consul/health
-        hostname: 172.168.1.113
+        hostname: 172.168.1.110
         port: 8500
     gateway:
       #      全局跨域不管用
@@ -45,7 +45,7 @@ spring:
       routes:
         - id: gatewayRoute
             #          uri: http://localhost:8889
-            #          uri: http://localhost:8080
+          #          uri: http://localhost:8080
           uri: lb://enterprise-framework-erp-auth
           predicates:
             - Path=/erp/sys/**
@@ -56,7 +56,7 @@ spring:
             - Auth=true
         - id: gatewayRoute1
           #          uri: http://localhost:8889
-#          uri: http://localhost:8081
+          #          uri: http://localhost:8081
           uri: lb://enterprise-framework-erp-auth
           predicates:
             - Path=/filecenter/**
@@ -67,7 +67,7 @@ spring:
             - Auth=true
   # Redis服务器地址
   redis:
-    host: 172.168.1.100
+    host: 192.168.2.110
     port: 6382
     password: Liang_0213
     #    jedis:
