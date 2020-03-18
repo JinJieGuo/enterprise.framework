@@ -49,7 +49,7 @@ public class FileCenterController {
             System.out.println("file path:" + destFile.getAbsolutePath());
             SimpleDateFormat sf_ = new SimpleDateFormat("yyyy-MM");
             String times = sf_.format(new Date());
-            File upload = new File(destFile.getAbsolutePath(), "pictures/" + times);
+            File upload = new File(destFile.getAbsolutePath(), "/pictures/" + times);
 
             //若目标文件夹不存在，则创建
             if (!upload.exists()) {
