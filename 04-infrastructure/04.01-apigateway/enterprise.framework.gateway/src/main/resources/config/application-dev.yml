@@ -57,7 +57,7 @@ spring:
         - id: gatewayRoute1
           #          uri: http://localhost:8889
           #          uri: http://localhost:8081
-          uri: lb://enterprise-framework-erp-auth
+          uri: lb://enterprise-framework-filecenter
           predicates:
             - Path=/filecenter/**
             #转发等级
