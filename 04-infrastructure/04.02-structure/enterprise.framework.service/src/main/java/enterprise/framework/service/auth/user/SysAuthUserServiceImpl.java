@@ -161,7 +161,7 @@ public class SysAuthUserServiceImpl implements SysAuthUserService {
         HttpResponse httpResponse = new HttpResponse();
         try {
             RedisHandler redisHandler = new RedisHandler(redisTemplate);
-            HttpResponse redisResponse = redisHandler.get("token_info:" + passwordVO.getUserId());
+            HttpResponse redisResponse = redisHandler.get(PrefixEnum.TOKENINFO + ":" + passwordVO.getUserId());
             if (redisResponse.status == HttpStatus.SUCCESS.value()) {
                 StrHandler strHandler = new StrHandler();
                 TokenInfo tokenInfo = JSON.parseObject(strHandler.binaryToStr((String) redisResponse.content), TokenInfo.class);
