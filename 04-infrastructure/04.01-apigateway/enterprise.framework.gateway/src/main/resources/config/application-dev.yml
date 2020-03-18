@@ -17,12 +17,12 @@ spring:
     #      ribbon:
     #        enabled: false
     consul:
-      host: 192.168.2.110
+      host: 172.168.1.113
       port: 8500
       discovery:
         prefer-ip-address: true
         healthCheckPath: /consul/health
-        hostname: 192.168.2.110
+        hostname: 172.168.1.113
         port: 8500
     gateway:
       #      全局跨域不管用
