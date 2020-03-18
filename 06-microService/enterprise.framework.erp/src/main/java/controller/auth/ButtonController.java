@@ -19,15 +19,20 @@
 
 package controller.auth;
 
+import controller.BaseController;
+import enterprise.framework.business.engine.BaseScheduler;
 import enterprise.framework.core.http.HttpResponse;
 import enterprise.framework.pojo.auth.button.SysAuthButtonVO;
+import enterprise.framework.pojo.auth.user.SysAuthUserVO;
 import enterprise.framework.service.auth.button.SysAuthButtonService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpServletRequest;
+
 @RestController
 @RequestMapping("/v1/auth/button/")
-public class ButtonController {
+public class ButtonController extends BaseController {
 
     @Autowired
     private SysAuthButtonService sysAuthButtonService;
@@ -78,7 +83,8 @@ public class ButtonController {
      */
     @ResponseBody
     @GetMapping("listAllButton")
-    public HttpResponse listAllButton(SysAuthButtonVO sysAuthButtonVO) {
+    public HttpResponse listAllButton(HttpServletRequest request, SysAuthButtonVO sysAuthButtonVO) {
+        SysAuthUserVO sysAuthUserVO = currentUserInfo(request);
         return sysAuthButtonService.listAllButton();
     }
 }

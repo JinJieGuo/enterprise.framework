@@ -31,6 +31,7 @@ import enterprise.framework.pojo.auth.user.SignInVO;
 import enterprise.framework.pojo.auth.user.SignOutVO;
 import enterprise.framework.pojo.auth.user.SysAuthUserVO;
 import enterprise.framework.service.auth.user.SysAuthUserService;
+import enterprise.framework.utility.generaltools.PrefixEnum;
 import enterprise.framework.utility.generaltools.TimeTypeEnum;
 import enterprise.framework.utility.security.Base64Utils;
 import enterprise.framework.utility.security.RSAUtils;
@@ -99,7 +100,7 @@ public class AuthHandler {
                 TokenInfo tokenInfo = tokenManager.createToken(userId, keyMap, 30, TimeTypeEnum.MINUTE);
                 RedisHandler redisHandler = new RedisHandler(redisTemplate);
                 StrHandler strHandler = new StrHandler();
-                HttpResponse redisResponse = redisHandler.set("token_info:" + userId, strHandler.toBinary(JSON.toJSONString(tokenInfo)));
+                HttpResponse redisResponse = redisHandler.set(PrefixEnum.TOKENINFO.toString() + ":" + userId, strHandler.toBinary(JSON.toJSONString(tokenInfo)));
                 if (redisResponse.status != HttpStatus.SUCCESS.value()) {
                     redisResponse.msg = "用户保存成功,但令牌写入缓存失败:" + redisResponse.msg;
                     return redisResponse;
@@ -156,36 +157,22 @@ public class AuthHandler {
             SysAuthUserVO tempUser = userList.get(0);
             SysAuthUserVO userInfo = tempUser;
 
-            HttpResponse tokenInfoResponse = getTokenInfo("token_info:" + tempUser.getUserId());
+            HttpResponse tokenInfoResponse = getTokenInfo(PrefixEnum.TOKENINFO.toString() + ":" + tempUser.getUserId());
             if (tokenInfoResponse.status != HttpStatus.SUCCESS.value() || tokenInfoResponse.content == null) {
                 map.put("response", tokenInfoResponse);
                 return map;
             }
             TokenInfo tokenInfo = (TokenInfo) tokenInfoResponse.content;
+            SysAuthUserVO tempUserInfo = new SysAuthUserVO();
             ITokenManager tokenManager = new TokenManager();
             if (tokenManager.tokenInfoIsInvalid(tokenInfo)) {
                 //用户令牌已失效,延长令牌有效时间
                 boolean res = tokenManager.extendTokenTime(tokenInfo, 30, TimeTypeEnum.MINUTE);
             } else {//#1 BUG => 令牌有效期内验证用户redis
-                HttpResponse userRedisResponse = redisHandler.get("user_info:" + tempUser.getUserId() + "");
+                HttpResponse userRedisResponse = redisHandler.get(PrefixEnum.USERINFO.toString() + ":" + tempUser.getUserId() + "");
                 if (userRedisResponse.content != null && userRedisResponse.status == HttpStatus.SUCCESS.value()) {
                     httpResponse.msg = "用户已登录,请勿重复登录!";
                     httpResponse.status = HttpStatus.SUCCESS.value();
-                    httpResponse.content = userInfo;
-                    map.put("response", httpResponse);
-                    map.put("token_info", tokenInfo);
-                    return map;
-                }
-            }
-
-            if (userInfo != null) {
-                //验证密码
-                byte[] userPasswordByte = Base64Utils.decode(userInfo.getPassword());
-                byte[] passwordStr = RSAUtils.decryptByPrivateKey(userPasswordByte, tokenInfo.getPrivate_key());
-                String userPassword = new String(passwordStr, "utf-8");
-                if (userPassword.equals(signInModel.getPassword())) {
-                    StrHandler strHandler = new StrHandler();
-                    SysAuthUserVO tempUserInfo = new SysAuthUserVO();
                     tempUserInfo.setUserId(userInfo.getUserId());
                     tempUserInfo.setLoginName(userInfo.getLoginName());
                     tempUserInfo.setRealName(userInfo.getRealName());
@@ -209,10 +196,47 @@ public class AuthHandler {
                     tempUserInfo.setCreatorId(userInfo.getCreatorId());
                     tempUserInfo.setCreatorName(userInfo.getCreatorName());
                     tempUserInfo.setCreateTime(userInfo.getCreateTime());
-                    HttpResponse userInfoRedisResult = redisHandler.set("user_info:" + userInfo.getUserId() + "", strHandler.toBinary(JSON.toJSONString(userInfo)));
+                    httpResponse.content = tempUserInfo;
+                    map.put("response", httpResponse);
+                    map.put(PrefixEnum.TOKENINFO.toString(), tokenInfo);
+                    return map;
+                }
+            }
+
+            if (userInfo != null) {
+                //验证密码
+                byte[] userPasswordByte = Base64Utils.decode(userInfo.getPassword());
+                byte[] passwordStr = RSAUtils.decryptByPrivateKey(userPasswordByte, tokenInfo.getPrivate_key());
+                String userPassword = new String(passwordStr, "utf-8");
+                if (userPassword.equals(signInModel.getPassword())) {
+                    StrHandler strHandler = new StrHandler();
+                    tempUserInfo.setUserId(userInfo.getUserId());
+                    tempUserInfo.setLoginName(userInfo.getLoginName());
+                    tempUserInfo.setRealName(userInfo.getRealName());
+                    tempUserInfo.setNickName(userInfo.getNickName());
+                    tempUserInfo.setHeadPortrait(userInfo.getHeadPortrait());
+                    tempUserInfo.setGender(userInfo.getUserId());
+                    tempUserInfo.setMajor(userInfo.getMajor());
+                    tempUserInfo.setClasses(userInfo.getClasses());
+                    tempUserInfo.setStuNumber(userInfo.getStuNumber());
+                    tempUserInfo.setEmail(userInfo.getEmail());
+                    tempUserInfo.setPhone(userInfo.getPhone());
+                    tempUserInfo.setJob(userInfo.getJob());
+                    tempUserInfo.setPwdErrorCount(userInfo.getPwdErrorCount());
+                    tempUserInfo.setLoginCount(userInfo.getLoginCount());
+                    tempUserInfo.setRegisterTime(userInfo.getRegisterTime());
+                    tempUserInfo.setLastLoginTime(userInfo.getLastLoginTime());
+                    tempUserInfo.setSort(userInfo.getSort());
+                    tempUserInfo.setAuditState(userInfo.getAuditState());
+                    tempUserInfo.setIsEnabled(userInfo.getIsEnabled());
+                    tempUserInfo.setIsDeleted(userInfo.getIsDeleted());
+                    tempUserInfo.setCreatorId(userInfo.getCreatorId());
+                    tempUserInfo.setCreatorName(userInfo.getCreatorName());
+                    tempUserInfo.setCreateTime(userInfo.getCreateTime());
+                    HttpResponse userInfoRedisResult = redisHandler.set(PrefixEnum.USERINFO.toString() + ":" + userInfo.getUserId() + "", strHandler.toBinary(JSON.toJSONString(userInfo)));
                     if (userInfoRedisResult.status == HttpStatus.SUCCESS.value()) {
                         //验证成功,记录token
-                        map.put("token_info", tokenInfo);
+                        map.put(PrefixEnum.TOKENINFO.toString(), tokenInfo);
                         httpResponse.msg = "登录成功";
                         httpResponse.status = HttpStatus.SUCCESS.value();
                         httpResponse.content = tempUserInfo;
@@ -252,7 +276,7 @@ public class AuthHandler {
             // 获取用户缓存信息并验证是否为空
             StrHandler strHandler = new StrHandler();
             RedisHandler redisHandler = new RedisHandler(redisTemplate);
-            HttpResponse userInfoResponse = redisHandler.get("user_info:" + signOutVO.getUserId());
+            HttpResponse userInfoResponse = redisHandler.get(PrefixEnum.USERINFO.toString() + ":" + signOutVO.getUserId());
             if (userInfoResponse.status != HttpStatus.SUCCESS.value() || userInfoResponse.content == null) {
                 httpResponse.msg = "获取用户缓存信息失败";
                 httpResponse.status = HttpStatus.FAIL.value();
@@ -261,7 +285,7 @@ public class AuthHandler {
 
             // 用户缓存不为空,获取用户令牌并验证是否为空
             SysAuthUser sysAuthUser = JSON.parseObject(strHandler.binaryToStr((String) userInfoResponse.content), SysAuthUser.class);
-            HttpResponse tokenInfoResponse = redisHandler.get("token_info:" + signOutVO.getUserId());
+            HttpResponse tokenInfoResponse = redisHandler.get(PrefixEnum.TOKENINFO.toString() + ":" + signOutVO.getUserId());
             if (tokenInfoResponse.status != HttpStatus.SUCCESS.value() || tokenInfoResponse.content == null) {
                 httpResponse.msg = "获取用户令牌失败";
                 httpResponse.status = HttpStatus.FAIL.value();
@@ -278,7 +302,7 @@ public class AuthHandler {
             Map<String, Object> keyMap = RSAUtils.genKeyPair(1024);
             ITokenManager tokenManager = new TokenManager();
             TokenInfo tokenInfo = tokenManager.createToken(signOutVO.getUserId(), keyMap, 30, TimeTypeEnum.MINUTE);
-            HttpResponse tokenRedisResult = redisHandler.set("token_info:" + signOutVO.getUserId(), strHandler.toBinary(JSON.toJSONString(tokenInfo)));
+            HttpResponse tokenRedisResult = redisHandler.set(PrefixEnum.TOKENINFO.toString() + ":" + signOutVO.getUserId(), strHandler.toBinary(JSON.toJSONString(tokenInfo)));
 
             if (tokenRedisResult.status != HttpStatus.SUCCESS.value()) {
                 httpResponse.msg = "重新生成的用户令牌缓存失败";
@@ -297,7 +321,7 @@ public class AuthHandler {
             }
 
             // 移除用户信息
-            HttpResponse removeUserResponse = redisHandler.del("user_info:" + signOutVO.getUserId());
+            HttpResponse removeUserResponse = redisHandler.del(PrefixEnum.USERINFO.toString() + ":" + signOutVO.getUserId());
             if (removeUserResponse.status != HttpStatus.SUCCESS.value()) {
                 httpResponse.msg = "旧用户信息移除失败";
                 httpResponse.status = HttpStatus.FAIL.value();

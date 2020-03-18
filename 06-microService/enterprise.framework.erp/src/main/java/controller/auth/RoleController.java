@@ -23,6 +23,7 @@ import controller.BaseController;
 import enterprise.framework.core.http.HttpResponse;
 import enterprise.framework.pojo.auth.role.ChoosedRoleMenuButtonDTO;
 import enterprise.framework.pojo.auth.role.SysAuthRoleVO;
+import enterprise.framework.pojo.auth.user.SysAuthUserVO;
 import enterprise.framework.service.auth.role.SysAuthRoleService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -95,7 +96,6 @@ public class RoleController extends BaseController {
     @ResponseBody
     @GetMapping("listAllRole")
     public HttpResponse listAllRole(SysAuthRoleVO sysAuthRoleVO, HttpServletRequest request) {
-        HttpResponse temp = currentUserInfo(request);
         return sysAuthRoleService.listAllRole();
     }
 

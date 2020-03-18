@@ -23,10 +23,13 @@ import com.alibaba.fastjson.JSON;
 //import com.sun.istack.internal.NotNull;
 //import org.jetbrains.annotations.NotNull;
 import javax.validation.constraints.NotNull;
+
 import enterprise.framework.core.http.HttpResponse;
 import enterprise.framework.core.http.HttpStatus;
 import enterprise.framework.core.redis.RedisHandler;
 import enterprise.framework.pojo.auth.user.SysAuthUserVO;
+import enterprise.framework.utility.generaltools.PrefixEnum;
+import enterprise.framework.utility.transform.StrHandler;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.data.redis.serializer.RedisSerializer;
@@ -50,19 +53,22 @@ public class BaseController {
     }
 
 
-    protected HttpResponse currentUserInfo(HttpServletRequest request) {
+    protected SysAuthUserVO currentUserInfo(HttpServletRequest request) {
         HttpResponse httpResponse = new HttpResponse();
         try {
-            String temp1 = request.getSession().getId();
-//            String temp1 = request.getSession().getAttribute("currentUser").toString();
-
-
-            SysAuthUserVO sysAuthUserVO = JSON.parseObject(request.getAttribute("currentUser").toString(), SysAuthUserVO.class);
-            return httpResponse;
+            SysAuthUserVO sysAuthUserVO = new SysAuthUserVO();
+            String user_id = request.getHeader("id");
+            RedisHandler redisHandler = new RedisHandler(redisTemplate);
+            HttpResponse response = redisHandler.get(PrefixEnum.USERINFO.toString() + ":" + user_id);
+            if (response.status == HttpStatus.SUCCESS.value()) {
+                StrHandler strHandler = new StrHandler();
+                sysAuthUserVO = JSON.parseObject(strHandler.binaryToStr(response.content.toString()), SysAuthUserVO.class);
+            }
+            return sysAuthUserVO;
         } catch (Exception error) {
             httpResponse.msg = error.getMessage();
             httpResponse.status = HttpStatus.ERROR.value();
-            return httpResponse;
+            return null;
         }
     }
 }

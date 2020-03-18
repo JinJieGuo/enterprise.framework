@@ -22,6 +22,7 @@ package enterprise.framework.core.token;
 import com.alibaba.fastjson.JSON;
 import enterprise.framework.core.http.HttpResponse;
 import enterprise.framework.core.redis.RedisHandler;
+import enterprise.framework.utility.generaltools.PrefixEnum;
 import enterprise.framework.utility.generaltools.TimeStampHandler;
 import enterprise.framework.utility.generaltools.TimeTypeEnum;
 import enterprise.framework.utility.security.Base64Utils;
@@ -147,7 +148,7 @@ public class TokenManager implements ITokenManager {
             tokenInfo.getJwtInfo().getJwtPayload().setExp(timeStampHandler.dateTimeToTimeStamp(time, timeTypeEnum));
             RedisHandler redisHandler = new RedisHandler(redisTemplate);
             StrHandler strHandler = new StrHandler();
-            HttpResponse httpResponse = redisHandler.set("token_info:" + tokenInfo.getJwtInfo().getJwtPayload().getAud(), strHandler.toBinary(JSON.toJSONString(tokenInfo)));
+            HttpResponse httpResponse = redisHandler.set(PrefixEnum.TOKENINFO + ":" + tokenInfo.getJwtInfo().getJwtPayload().getAud(), strHandler.toBinary(JSON.toJSONString(tokenInfo)));
             return true;
         } catch (Exception error) {
             return false;

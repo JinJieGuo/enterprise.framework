@@ -116,7 +116,6 @@ public class UserController extends BaseController {
     @ResponseBody
     @RequestMapping(value = "listAllUser", method = RequestMethod.GET)
     public HttpResponse listAllUser(HttpServletRequest request) {
-        HttpResponse temp = currentUserInfo(request);
         return sysAuthUserService.listAllUser();
     }
 

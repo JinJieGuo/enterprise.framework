@@ -28,6 +28,7 @@ import enterprise.framework.pojo.auth.user.SignInVO;
 import enterprise.framework.pojo.auth.user.SignOutVO;
 import enterprise.framework.pojo.auth.user.SysAuthUserVO;
 import enterprise.framework.service.auth.user.SysAuthUserService;
+import enterprise.framework.utility.generaltools.PrefixEnum;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
@@ -72,7 +73,7 @@ public class PassportController {
         Map<String, Object> map = businessScheduler.authManager().instance().singleSignOn(signInModel);
         HttpResponse httpResponse = (HttpResponse) map.get("response");
         if (httpResponse.status == enterprise.framework.core.http.HttpStatus.SUCCESS.value()) {
-            TokenInfo tokenInfo = (TokenInfo) map.get("token_info");
+            TokenInfo tokenInfo = (TokenInfo) map.get(PrefixEnum.TOKENINFO.toString());
             if (tokenInfo != null) {//# BUG => 用户重复登录时,分发上一次token与公钥
                 responseHeaders.set("authorization", tokenInfo.getToken_str());
                 responseHeaders.set("public_key", tokenInfo.getPublic_key());

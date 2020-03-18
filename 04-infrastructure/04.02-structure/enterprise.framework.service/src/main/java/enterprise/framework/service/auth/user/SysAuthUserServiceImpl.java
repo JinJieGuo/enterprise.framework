@@ -29,6 +29,7 @@ import enterprise.framework.domain.auth.SysAuthUserRole;
 import enterprise.framework.mapper.auth.user.SysAuthUserMapper;
 import enterprise.framework.mapper.auth.user.SysAuthUserRoleMapper;
 import enterprise.framework.pojo.auth.user.*;
+import enterprise.framework.utility.generaltools.PrefixEnum;
 import enterprise.framework.utility.security.Base64Utils;
 import enterprise.framework.utility.security.RSAUtils;
 import enterprise.framework.utility.transform.StrHandler;
@@ -171,7 +172,7 @@ public class SysAuthUserServiceImpl implements SysAuthUserService {
                 httpResponse = updateUser(sysAuthUserVO);
                 if (httpResponse.status == HttpStatus.SUCCESS.value()) {
                     //#BUG=>用户密码更新成功后移除用户缓存生效,否则密码会被重置成旧密码
-                    redisHandler.del("user_info:" + passwordVO.getUserId());
+                    redisHandler.del(PrefixEnum.USERINFO + ":" + passwordVO.getUserId());
                 }
             } else {
                 httpResponse.status = HttpStatus.ERROR.value();

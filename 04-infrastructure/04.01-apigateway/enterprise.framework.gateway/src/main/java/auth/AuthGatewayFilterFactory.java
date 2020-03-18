@@ -25,6 +25,7 @@ import enterprise.framework.core.redis.RedisHandler;
 import enterprise.framework.core.token.ITokenManager;
 import enterprise.framework.core.token.TokenInfo;
 import enterprise.framework.core.token.TokenManager;
+import enterprise.framework.utility.generaltools.PrefixEnum;
 import enterprise.framework.utility.generaltools.TimeTypeEnum;
 import enterprise.framework.utility.security.Base64Utils;
 import enterprise.framework.utility.security.RSAUtils;
@@ -106,7 +107,7 @@ public class AuthGatewayFilterFactory extends AbstractGatewayFilterFactory<AuthG
                 }
 
                 String userId = exchange.getRequest().getHeaders().getFirst("id");
-                String token = exchange.getRequest().getHeaders().getFirst("token_info");
+                String token = exchange.getRequest().getHeaders().getFirst(PrefixEnum.TOKENINFO.toString());
                 ServerHttpResponse response = exchange.getResponse();
 
                 if (userId != null && userId.equals("")) {
@@ -128,7 +129,7 @@ public class AuthGatewayFilterFactory extends AbstractGatewayFilterFactory<AuthG
                 RedisHandler redisHandler = new RedisHandler(redisTemplate);
                 StrHandler strHandler = new StrHandler();
                 //token不为空时,先获取redis中的token字节,转为json字符串,并反序列化
-                HttpResponse tokenInfoRedis = redisHandler.get("token_info:" + userId);
+                HttpResponse tokenInfoRedis = redisHandler.get(PrefixEnum.TOKENINFO.toString() + ":" + userId);
                 if (tokenInfoRedis.status != enterprise.framework.core.http.HttpStatus.SUCCESS.value() && tokenInfoRedis.content != null) {
                     //token不存在返回401
                     response.setStatusCode(HttpStatus.UNAUTHORIZED);
@@ -140,7 +141,7 @@ public class AuthGatewayFilterFactory extends AbstractGatewayFilterFactory<AuthG
                 ITokenManager tokenManager = new TokenManager();
                 if (tokenManager.tokenInfoIsInvalid(tokenInfo)) {
                     //用户令牌已失效,返回客户端,重新登录
-                    HttpResponse removeUserInfoResponse = redisHandler.del("user_info:" + tokenInfo.getJwtInfo().getJwtPayload().getAud());
+                    HttpResponse removeUserInfoResponse = redisHandler.del(PrefixEnum.USERINFO.toString() + ":" + tokenInfo.getJwtInfo().getJwtPayload().getAud());
                     response.setStatusCode(HttpStatus.NOT_ACCEPTABLE);
                     return response.setComplete();
                 }
