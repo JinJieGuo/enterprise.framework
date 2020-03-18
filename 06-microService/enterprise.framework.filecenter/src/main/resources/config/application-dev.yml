@@ -76,14 +76,14 @@ spring:
   cloud:
     consul:
       host:
-        172.168.1.111
+        172.168.1.112
       port:
         8500
       discovery:
         servername:
           filecenter
         hostname:
-          172.168.1.111
+          172.168.1.112
         port:
           8081
         health-check-path:
