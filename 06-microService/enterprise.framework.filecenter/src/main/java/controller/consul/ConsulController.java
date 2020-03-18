@@ -30,7 +30,7 @@ public class ConsulController {
     @RequestMapping("health")
     public HttpResponse health() {
         HttpResponse httpResponse = new HttpResponse();
-        httpResponse.msg = "microservice is live";
+        httpResponse.msg = "filecenter microservice is live";
         httpResponse.status = HttpStatus.SUCCESS.value();
         return httpResponse;
     }
