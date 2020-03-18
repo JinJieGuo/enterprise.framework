@@ -29,6 +29,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
+import java.util.Date;
 
 @RestController
 @RequestMapping("/v1/auth/role/")
@@ -44,7 +45,10 @@ public class RoleController extends BaseController {
      */
     @ResponseBody
     @PostMapping("saveRole")
-    public HttpResponse saveRole(@RequestBody SysAuthRoleVO sysAuthRoleVO) {
+    public HttpResponse saveRole(@RequestBody SysAuthRoleVO sysAuthRoleVO, HttpServletRequest request) {
+        SysAuthUserVO userInfo = currentUserInfo(request);
+        sysAuthRoleVO.setCreatorId(userInfo.getUserId());
+        sysAuthRoleVO.setCreatorName(userInfo.getRealName());
         return sysAuthRoleService.saveRole(sysAuthRoleVO);
     }
 
@@ -67,7 +71,11 @@ public class RoleController extends BaseController {
      */
     @ResponseBody
     @PostMapping("updateRole")
-    public HttpResponse updateRole(@RequestBody SysAuthRoleVO sysAuthRoleVO) {
+    public HttpResponse updateRole(@RequestBody SysAuthRoleVO sysAuthRoleVO, HttpServletRequest request) {
+        SysAuthUserVO userInfo = currentUserInfo(request);
+        sysAuthRoleVO.setModifierId(userInfo.getUserId());
+        sysAuthRoleVO.setModifierName(userInfo.getRealName());
+        sysAuthRoleVO.setModifyTime(new Date());
         return sysAuthRoleService.updateRole(sysAuthRoleVO);
     }
 

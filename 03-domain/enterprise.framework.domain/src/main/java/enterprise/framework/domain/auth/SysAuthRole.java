@@ -26,6 +26,8 @@ import enterprise.framework.utility.database.Table;
 import tk.mybatis.mapper.annotation.NameStyle;
 import tk.mybatis.mapper.code.Style;
 
+import java.util.Date;
+
 @Table("sys_auth_role")
 @NameStyle(Style.camelhumpAndLowercase)
 public class SysAuthRole extends DbBaseDO {
@@ -44,6 +46,11 @@ public class SysAuthRole extends DbBaseDO {
         this.audit_state = sysAuthRoleVO.getAuditState();
         this.is_enabled = sysAuthRoleVO.getIsEnabled();
         this.is_deleted = sysAuthRoleVO.getIsDeleted();
+        this.setCreatorId(sysAuthRoleVO.getCreatorId());
+        this.setCreatorName(sysAuthRoleVO.getCreatorName());
+        this.setModifierId(sysAuthRoleVO.getModifierId());
+        this.setModifierName(sysAuthRoleVO.getModifierName());
+        this.setModifyTime(sysAuthRoleVO.getModifyTime());
     }
 
     @PrimaryKey("role_id")

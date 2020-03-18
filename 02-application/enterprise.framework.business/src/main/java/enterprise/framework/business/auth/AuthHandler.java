@@ -178,7 +178,7 @@ public class AuthHandler {
                     tempUserInfo.setRealName(userInfo.getRealName());
                     tempUserInfo.setNickName(userInfo.getNickName());
                     tempUserInfo.setHeadPortrait(userInfo.getHeadPortrait());
-                    tempUserInfo.setGender(userInfo.getUserId());
+                    tempUserInfo.setGender(userInfo.getGender());
                     tempUserInfo.setMajor(userInfo.getMajor());
                     tempUserInfo.setClasses(userInfo.getClasses());
                     tempUserInfo.setStuNumber(userInfo.getStuNumber());
@@ -215,7 +215,7 @@ public class AuthHandler {
                     tempUserInfo.setRealName(userInfo.getRealName());
                     tempUserInfo.setNickName(userInfo.getNickName());
                     tempUserInfo.setHeadPortrait(userInfo.getHeadPortrait());
-                    tempUserInfo.setGender(userInfo.getUserId());
+                    tempUserInfo.setGender(userInfo.getGender());
                     tempUserInfo.setMajor(userInfo.getMajor());
                     tempUserInfo.setClasses(userInfo.getClasses());
                     tempUserInfo.setStuNumber(userInfo.getStuNumber());
@@ -312,7 +312,10 @@ public class AuthHandler {
 
             // 将用户明文密码根据新令牌重新生成密文并更新,更新成功后移除用户缓存信息
             sysAuthUser.setPassword(Base64Utils.encode(RSAUtils.encryptByPublicKey(userPassword.getBytes("utf-8"), tokenInfo.getPublic_key())));
-            HttpResponse userResponse = sysAuthUserService.updateUser(sysAuthUser);
+            SysAuthUser temp = new SysAuthUser();
+            temp.setUserId(sysAuthUser.getUserId());
+            temp.setPassword(sysAuthUser.getPassword());
+            HttpResponse userResponse = sysAuthUserService.updateUser(temp);
 
             if (userResponse.status != HttpStatus.SUCCESS.value()) {
                 httpResponse.msg = "新令牌生成的密码更新失败";

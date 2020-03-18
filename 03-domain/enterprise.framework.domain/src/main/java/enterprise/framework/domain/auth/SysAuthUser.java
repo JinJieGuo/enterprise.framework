@@ -61,10 +61,15 @@ public class SysAuthUser extends DbBaseDO {
         this.is_deleted = sysAuthUserVO.getIsDeleted();
         this.audit_state = sysAuthUserVO.getAuditState();
         this.is_enabled = sysAuthUserVO.getIsEnabled();
+        this.setCreatorId(sysAuthUserVO.getCreatorId());
+        this.setCreatorName(sysAuthUserVO.getCreatorName());
+        this.setModifierId(sysAuthUserVO.getModifierId());
+        this.setModifierName(sysAuthUserVO.getModifierName());
+        this.setModifyTime(sysAuthUserVO.getModifyTime());
     }
 
     @PrimaryKey("user_id")
-    private Integer user_id;
+    private Long user_id;
 
     private String login_name;
 
@@ -106,11 +111,11 @@ public class SysAuthUser extends DbBaseDO {
 
     private Integer is_deleted;
 
-    public void setUserId(Integer userId) {
+    public void setUserId(Long userId) {
         this.user_id = userId;
     }
 
-    public Integer getUserId() {
+    public Long getUserId() {
         return user_id;
     }
 

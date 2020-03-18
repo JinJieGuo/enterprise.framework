@@ -33,7 +33,7 @@ import java.util.Date;
 public class SysAuthUserVO extends DbBaseVO {
 
     @JsonProperty("userId")
-    private Integer userId;
+    private Long userId;
 
     private String parameters;
 
@@ -87,11 +87,11 @@ public class SysAuthUserVO extends DbBaseVO {
 
     private Integer isDeleted;
 
-    public void setUserId(Integer userId) {
+    public void setUserId(Long userId) {
         this.userId = userId;
     }
 
-    public Integer getUserId() {
+    public Long getUserId() {
         return userId;
     }
 

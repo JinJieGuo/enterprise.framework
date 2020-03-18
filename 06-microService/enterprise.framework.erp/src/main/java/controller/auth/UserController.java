@@ -31,6 +31,7 @@ import enterprise.framework.core.http.HttpResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import javax.servlet.http.HttpServletRequest;
+import java.util.Date;
 
 @RestController
 @RequestMapping("/v1/auth/user/")
@@ -47,8 +48,11 @@ public class UserController extends BaseController {
      */
     @ResponseBody
     @PostMapping("saveUser")
-    public HttpResponse saveUser(@RequestBody SysAuthUserVO sysAuthUserVO) {
+    public HttpResponse saveUser(@RequestBody SysAuthUserVO sysAuthUserVO, HttpServletRequest request) {
         IScheduler businessScheduler = new Components();
+        SysAuthUserVO userInfo = currentUserInfo(request);
+        sysAuthUserVO.setCreatorId(userInfo.getUserId());
+        sysAuthUserVO.setCreatorName(userInfo.getRealName());
         return businessScheduler.authManager().instance().register(sysAuthUserVO);
     }
 
@@ -60,7 +64,11 @@ public class UserController extends BaseController {
      */
     @ResponseBody
     @PostMapping("updateUser")
-    public HttpResponse updateUser(@RequestBody SysAuthUserVO sysAuthUserVO) {
+    public HttpResponse updateUser(@RequestBody SysAuthUserVO sysAuthUserVO, HttpServletRequest request) {
+        SysAuthUserVO userInfo = currentUserInfo(request);
+        sysAuthUserVO.setModifierId(userInfo.getUserId());
+        sysAuthUserVO.setModifierName(userInfo.getRealName());
+        sysAuthUserVO.setModifyTime(new Date());
         return sysAuthUserService.updateUser(sysAuthUserVO);
     }
 
@@ -71,7 +79,7 @@ public class UserController extends BaseController {
      */
     @ResponseBody
     @PostMapping("updatePwd")
-    public HttpResponse updatePwd(@RequestBody PasswordVO passwordVO){
+    public HttpResponse updatePwd(@RequestBody PasswordVO passwordVO) {
         return sysAuthUserService.updatePwd(passwordVO);
     }
 
