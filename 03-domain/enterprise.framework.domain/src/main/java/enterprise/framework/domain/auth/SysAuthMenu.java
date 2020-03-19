@@ -59,6 +59,11 @@ public class SysAuthMenu extends DbBaseDO {
         this.audit_state = sysAuthMenuVO.getAuditState();
         this.is_enabled = sysAuthMenuVO.getIsEnabled();
         this.is_deleted = sysAuthMenuVO.getIsDeleted();
+        this.setCreatorId(sysAuthMenuVO.getCreatorId());
+        this.setCreatorName(sysAuthMenuVO.getCreatorName());
+        this.setModifierId(sysAuthMenuVO.getModifierId());
+        this.setModifierName(sysAuthMenuVO.getModifierName());
+        this.setModifyTime(sysAuthMenuVO.getModifyTime());
     }
 
     @PrimaryKey("menu_id")

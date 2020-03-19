@@ -19,20 +19,24 @@
 
 package controller.auth;
 
+import controller.BaseController;
 import enterprise.framework.core.http.HttpResponse;
 import enterprise.framework.pojo.auth.button.SysAuthButtonVO;
 import enterprise.framework.pojo.auth.menu.ChoosedButtonDTO;
 import enterprise.framework.pojo.auth.menu.SysAuthMenuButtonVO;
 import enterprise.framework.pojo.auth.menu.SysAuthMenuVO;
+import enterprise.framework.pojo.auth.user.SysAuthUserVO;
 import enterprise.framework.service.auth.menu.SysAuthMenuService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpServletRequest;
+import java.util.Date;
 import java.util.List;
 
 @RestController
 @RequestMapping("/v1/auth/menu/")
-public class MenuController {
+public class MenuController extends BaseController {
 
     @Autowired
     private SysAuthMenuService sysAuthMenuService;
@@ -45,7 +49,10 @@ public class MenuController {
      */
     @ResponseBody
     @PostMapping("saveMenu")
-    public HttpResponse saveMenu(@RequestBody SysAuthMenuVO sysAuthMenuVO) {
+    public HttpResponse saveMenu(@RequestBody SysAuthMenuVO sysAuthMenuVO, HttpServletRequest request) {
+        SysAuthUserVO userInfo = currentUserInfo(request);
+        sysAuthMenuVO.setCreatorId(userInfo.getUserId());
+        sysAuthMenuVO.setCreatorName(userInfo.getRealName());
         return sysAuthMenuService.saveMenu(sysAuthMenuVO);
     }
 
@@ -53,7 +60,6 @@ public class MenuController {
     @PostMapping("saveMenuButton")
     public HttpResponse saveMenuButton(@RequestBody ChoosedButtonDTO choosedButtonDTO) {
         return sysAuthMenuService.saveMenuButton(choosedButtonDTO);
-//        return new HttpResponse();
     }
 
     /**
@@ -63,7 +69,11 @@ public class MenuController {
      */
     @ResponseBody
     @PostMapping("updateMenu")
-    public HttpResponse updateMenu(@RequestBody SysAuthMenuVO sysAuthMenuVO) {
+    public HttpResponse updateMenu(@RequestBody SysAuthMenuVO sysAuthMenuVO, HttpServletRequest request) {
+        SysAuthUserVO userInfo = currentUserInfo(request);
+        sysAuthMenuVO.setModifierId(userInfo.getUserId());
+        sysAuthMenuVO.setModifierName(userInfo.getRealName());
+        sysAuthMenuVO.setModifyTime(new Date());
         return sysAuthMenuService.updateMenu(sysAuthMenuVO);
     }
 

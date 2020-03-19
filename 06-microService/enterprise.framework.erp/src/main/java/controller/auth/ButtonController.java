@@ -29,6 +29,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
+import java.util.Date;
 
 @RestController
 @RequestMapping("/v1/auth/button/")
@@ -44,7 +45,10 @@ public class ButtonController extends BaseController {
      */
     @ResponseBody
     @PostMapping("saveButton")
-    public HttpResponse saveButton(@RequestBody SysAuthButtonVO sysAuthButtonVO) {
+    public HttpResponse saveButton(@RequestBody SysAuthButtonVO sysAuthButtonVO, HttpServletRequest request) {
+        SysAuthUserVO userInfo = currentUserInfo(request);
+        sysAuthButtonVO.setCreatorId(userInfo.getUserId());
+        sysAuthButtonVO.setCreatorName(userInfo.getRealName());
         return sysAuthButtonService.saveButton(sysAuthButtonVO);
     }
 
@@ -55,7 +59,11 @@ public class ButtonController extends BaseController {
      */
     @ResponseBody
     @PostMapping("updateButton")
-    public HttpResponse updateButton(@RequestBody SysAuthButtonVO sysAuthButtonVO) {
+    public HttpResponse updateButton(@RequestBody SysAuthButtonVO sysAuthButtonVO, HttpServletRequest request) {
+        SysAuthUserVO userInfo = currentUserInfo(request);
+        sysAuthButtonVO.setModifierId(userInfo.getUserId());
+        sysAuthButtonVO.setModifierName(userInfo.getRealName());
+        sysAuthButtonVO.setModifyTime(new Date());
         return sysAuthButtonService.updateButton(sysAuthButtonVO);
     }
 
