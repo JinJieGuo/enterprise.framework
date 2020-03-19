@@ -39,7 +39,7 @@ public class FileHandler {
      * @return
      * @throws IOException
      */
-    public boolean upload(byte[] bytes, String filePath) throws IOException {
+    public boolean upload(byte[] bytes, String filePath, String fileName) throws IOException {
         try {
             File destFile = new File(ResourceUtils.getURL("classpath:").getPath());
             if (!destFile.exists()) {
@@ -53,10 +53,11 @@ public class FileHandler {
                 upload.mkdirs();
             }
 
-            Path path = Paths.get(upload.getAbsolutePath());
+            Path path = Paths.get(upload.getAbsolutePath() + "/" + fileName);
             Files.write(path, bytes);
             return true;
         } catch (Exception error) {
+            System.out.println("文件上传异常:" + error.getMessage());
             return false;
         }
     }

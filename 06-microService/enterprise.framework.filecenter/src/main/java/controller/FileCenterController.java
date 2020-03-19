@@ -80,14 +80,14 @@ public class FileCenterController {
             SimpleDateFormat sf_ = new SimpleDateFormat("yyyy-MM");
             String times = sf_.format(new Date());
 
-            String path = "/eamp-files/" + sysAuthUserVO.getLoginName() + "/" + times + "/" + UUID.randomUUID().toString().toUpperCase() + "." + file.getOriginalFilename().substring(file.getOriginalFilename().lastIndexOf(".") + 1);
-
+            String path = "/eamp-files/" + sysAuthUserVO.getLoginName() + "/" + times + "/";
+            String fileName = UUID.randomUUID().toString().toUpperCase() + "." + file.getOriginalFilename().substring(file.getOriginalFilename().lastIndexOf(".") + 1);
             FileHandler fileHandler = new FileHandler();
-            boolean result = fileHandler.upload(file.getBytes(), path);
+            boolean result = fileHandler.upload(file.getBytes(), path, fileName);
             if (result) {
                 httpResponse.status = HttpStatus.SUCCESS.value();
                 httpResponse.msg = "上传成功";
-                httpResponse.content = path;
+                httpResponse.content = path + fileName;
             } else {
                 httpResponse.status = HttpStatus.FAIL.value();
                 httpResponse.msg = "上传失败";
