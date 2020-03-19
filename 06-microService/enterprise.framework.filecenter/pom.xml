@@ -141,6 +141,12 @@
             <artifactId>druid-spring-boot-starter</artifactId>
             <version>1.1.9</version>
         </dependency>
+        <dependency>
+            <groupId>enterprise.framework</groupId>
+            <artifactId>enterprise.framework.pojo</artifactId>
+            <version>1.0.0.191223-ALPHA</version>
+            <scope>compile</scope>
+        </dependency>
     </dependencies>
 
     <dependencyManagement>

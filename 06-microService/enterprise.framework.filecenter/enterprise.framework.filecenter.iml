@@ -187,5 +187,6 @@
     <orderEntry type="library" name="Maven: com.alibaba:fastjson:1.2.37" level="project" />
     <orderEntry type="library" name="Maven: org.springframework.boot:spring-boot-starter-aop:2.0.8.RELEASE" level="project" />
     <orderEntry type="library" name="Maven: org.aspectj:aspectjweaver:1.8.13" level="project" />
+    <orderEntry type="module" module-name="enterprise.framework.pojo" />
   </component>
 </module>

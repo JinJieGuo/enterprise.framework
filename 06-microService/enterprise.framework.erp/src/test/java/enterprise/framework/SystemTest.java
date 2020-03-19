@@ -23,6 +23,7 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.Properties;
+import java.util.UUID;
 
 import enterprise.framework.erp.ErpApplication;
 import org.junit.Test;
@@ -41,7 +42,13 @@ public class SystemTest {
 
     @Test
     public void ConfigTest() throws FileNotFoundException {
-
+        File destFile = new File(ResourceUtils.getURL("classpath:").getPath());
+        System.out.println("file path:" + destFile.getAbsolutePath());
+        if (!destFile.exists()) {
+            destFile = new File("");
+        }
+        System.out.println("file path:" + destFile.getAbsolutePath());
+        System.out.println(UUID.randomUUID().toString().toUpperCase());
 //        File file = new File(ResourceUtils.getURL("classpath:").getPath());
 //
 ////        String path =  ClassUtils.getDefaultClassLoader().getResource("").getPath();
