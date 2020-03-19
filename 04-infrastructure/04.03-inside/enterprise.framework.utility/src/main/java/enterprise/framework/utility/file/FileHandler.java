@@ -41,13 +41,14 @@ public class FileHandler {
      */
     public boolean upload(byte[] bytes, String filePath, String fileName) throws IOException {
         try {
-            File destFile = new File(ResourceUtils.getURL("classpath:").getPath());
-            if (!destFile.exists()) {
-                destFile = new File("");
-            }
-            String defaultPath = destFile.getAbsolutePath();
-
-            File upload = new File(defaultPath, filePath);
+//            File destFile = new File(ResourceUtils.getURL("classpath:").getPath());
+//            if (!destFile.exists()) {
+//                destFile = new File("");
+//            }
+//            String defaultPath = destFile.getAbsolutePath();
+//
+//            File upload = new File(defaultPath, filePath);
+            File upload = new File(filePath);
             //若目标文件夹不存在，则创建
             if (!upload.exists()) {
                 upload.mkdirs();

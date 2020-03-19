@@ -80,7 +80,7 @@ public class FileCenterController {
             SimpleDateFormat sf_ = new SimpleDateFormat("yyyy-MM");
             String times = sf_.format(new Date());
 
-            String path = "/eamp-files/" + sysAuthUserVO.getLoginName() + "/" + times + "/";
+            String path = "/packages/eamp-files/" + sysAuthUserVO.getLoginName() + "/" + times + "/";
             String fileName = UUID.randomUUID().toString().toUpperCase() + "." + file.getOriginalFilename().substring(file.getOriginalFilename().lastIndexOf(".") + 1);
             FileHandler fileHandler = new FileHandler();
             boolean result = fileHandler.upload(file.getBytes(), path, fileName);
