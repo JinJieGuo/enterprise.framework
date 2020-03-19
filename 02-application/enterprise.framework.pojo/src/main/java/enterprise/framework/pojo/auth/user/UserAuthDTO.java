@@ -48,6 +48,8 @@ public class UserAuthDTO {
 
     private String buttonName;
 
+    private String buttonCode;
+
     private String buttonIcon;
 
     private String buttonClass;
@@ -159,6 +161,14 @@ public class UserAuthDTO {
 
     public String getButtonName() {
         return buttonName;
+    }
+
+    public void setButtonCode(String buttonCode) {
+        this.buttonCode = buttonCode;
+    }
+
+    public String getButtonCode() {
+        return buttonCode;
     }
 
     public void setButtonIcon(String buttonIcon) {

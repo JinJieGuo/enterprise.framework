@@ -378,6 +378,7 @@ public class SysAuthUserServiceImpl implements SysAuthUserService {
                         userAuthMenuButtonDTO.setMenuId(item.getMenuId());
                         userAuthMenuButtonDTO.setButtonId(item.getButtonId());
                         userAuthMenuButtonDTO.setButtonName(item.getButtonName());
+                        userAuthMenuButtonDTO.setButtonCode(item.getButtonCode());
                         userAuthMenuButtonDTO.setButtonIcon(item.getButtonIcon());
                         userAuthMenuButtonDTO.setButtonSort(item.getButtonSort());
                         userAuthMenuButtonDTO.setButtonClass(item.getButtonClass());

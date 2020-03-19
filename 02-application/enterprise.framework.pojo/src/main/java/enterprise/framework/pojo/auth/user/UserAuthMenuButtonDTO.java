@@ -29,6 +29,8 @@ public class UserAuthMenuButtonDTO {
 
     private String buttonName;
 
+    private String buttonCode;
+
     private String buttonIcon;
 
     private String buttonClass;
@@ -55,6 +57,14 @@ public class UserAuthMenuButtonDTO {
 
     public void setButtonName(String buttonName) {
         this.buttonName = buttonName;
+    }
+
+    public void setButtonCode(String buttonCode) {
+        this.buttonCode = buttonCode;
+    }
+
+    public String getButtonCode() {
+        return buttonCode;
     }
 
     public String getButtonName() {
