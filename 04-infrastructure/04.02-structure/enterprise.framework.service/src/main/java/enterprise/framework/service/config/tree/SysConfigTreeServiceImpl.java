@@ -23,13 +23,17 @@ import enterprise.framework.core.http.HttpResponse;
 import enterprise.framework.core.http.HttpStatus;
 import enterprise.framework.domain.config.SysConfigTree;
 import enterprise.framework.mapper.config.tree.SysConfigTreeMapper;
+import enterprise.framework.pojo.auth.menu.SysAuthMenuVO;
 import enterprise.framework.pojo.config.tree.SysConfigTreeVO;
+import enterprise.framework.pojo.config.tree.TreeSelectVO;
 import enterprise.framework.pojo.config.tree.TreeTableVO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @Service
 public class SysConfigTreeServiceImpl implements SysConfigTreeService {
@@ -131,6 +135,8 @@ public class SysConfigTreeServiceImpl implements SysConfigTreeService {
         try {
             List<SysConfigTreeVO> response = sysConfigTreeMapper.listAllTree();
             List<TreeTableVO> treeTableVOList = new ArrayList<>();
+            List<TreeSelectVO> treeSelectVOList = new ArrayList<>();
+
             if (response.size() > 0) {
                 for (SysConfigTreeVO sysConfigTreeVO : response) {
                     if (sysConfigTreeVO.getParentId() == null || sysConfigTreeVO.getParentId() == 0) {
@@ -145,6 +151,14 @@ public class SysConfigTreeServiceImpl implements SysConfigTreeService {
                         treeTableVO.setIcon(sysConfigTreeVO.getIcon());
                         treeTableVO.setExpand(true);
                         treeTableVOList.add(treeTableVO);
+
+                        TreeSelectVO treeSelectVO = new TreeSelectVO();
+                        treeSelectVO.setTitle(sysConfigTreeVO.getTreeName());
+                        treeSelectVO.setKey(String.valueOf(sysConfigTreeVO.getTreeId()));
+                        treeSelectVO.setValue(sysConfigTreeVO.getTreeId());
+                        treeSelectVO.setIcon(sysConfigTreeVO.getIcon());
+                        treeSelectVO.setLeaf(true);
+                        treeSelectVOList.add(treeSelectVO);
                     }
                 }
 
@@ -152,9 +166,16 @@ public class SysConfigTreeServiceImpl implements SysConfigTreeService {
                     recursiveTreeTable(treeTableVO, response);
                 }
 
+                for (TreeSelectVO treeSelectVO : treeSelectVOList) {
+                    recursiveTreeSelect(treeSelectVO, response);
+                }
+
+                Map<String, Object> map = new HashMap<>();
+                map.put("treeTableVOList", treeTableVOList);
+                map.put("treeSelectVOList", treeSelectVOList);
                 httpResponse.status = HttpStatus.SUCCESS.value();
                 httpResponse.msg = "查询成功";
-                httpResponse.content = treeTableVOList;
+                httpResponse.content = map;
             }else {
                 httpResponse.status = HttpStatus.SUCCESS.value();
                 httpResponse.msg = "查询成功,但无返回值";
@@ -194,6 +215,34 @@ public class SysConfigTreeServiceImpl implements SysConfigTreeService {
         if (rootNode.getChildren().size() > 0) {
             for (TreeTableVO childrenCategory : rootNode.getChildren()) {
                 recursiveTreeTable(childrenCategory, dataSource);
+            }
+        }
+    }
+
+    /**
+     * 递归建立菜单父子关系 - 用于下拉树
+     *
+     * @param rootNode
+     * @param dataSource
+     */
+    private void recursiveTreeSelect(TreeSelectVO rootNode, List<SysConfigTreeVO> dataSource) {
+        List<TreeSelectVO> treeSelectVOList = new ArrayList<>();
+        for (SysConfigTreeVO sysConfigTreeVO : dataSource) {
+            String parentId = String.valueOf(sysConfigTreeVO.getParentId());
+            if (sysConfigTreeVO.getParentId() != null && sysConfigTreeVO.getParentId() != 0 && String.valueOf(sysConfigTreeVO.getParentId()).equals(rootNode.getKey())) {
+                TreeSelectVO treeSelectVO = new TreeSelectVO();
+                treeSelectVO.setTitle(sysConfigTreeVO.getTreeName());
+                treeSelectVO.setKey(String.valueOf(sysConfigTreeVO.getTreeId()));
+                treeSelectVO.setValue(sysConfigTreeVO.getTreeId());
+                treeSelectVO.setIcon(sysConfigTreeVO.getIcon());
+                treeSelectVO.setLeaf(true);
+                treeSelectVOList.add(treeSelectVO);
+            }
+        }
+        rootNode.setChildren(treeSelectVOList);
+        if (rootNode.getChildren().size() > 0) {
+            for (TreeSelectVO childrenCategory : rootNode.getChildren()) {
+                recursiveTreeSelect(childrenCategory, dataSource);
             }
         }
     }
