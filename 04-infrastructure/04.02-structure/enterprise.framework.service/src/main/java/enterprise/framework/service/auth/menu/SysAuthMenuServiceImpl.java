@@ -129,9 +129,6 @@ public class SysAuthMenuServiceImpl implements SysAuthMenuService {
         HttpResponse httpResponse = new HttpResponse();
         try {
             SysAuthMenu sysAuthMenu = new SysAuthMenu(sysAuthMenuVO);
-//            SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-//            sysAuthRole.setModifyTime(formatter.format(new Date()));
-            sysAuthMenu.setModifyTime(new Date());
             int response = sysAuthMenuMapper.updateMenu(sysAuthMenu);
             if (response > 0) {
                 httpResponse.status = HttpStatus.SUCCESS.value();
@@ -160,7 +157,6 @@ public class SysAuthMenuServiceImpl implements SysAuthMenuService {
         try {
             sysAuthMenuVO.setIsDeleted(1);
             SysAuthMenu sysAuthMenu = new SysAuthMenu(sysAuthMenuVO);
-            sysAuthMenu.setModifyTime(new Date());
             int response = sysAuthMenuMapper.updateMenu(sysAuthMenu);
             if (response > 0) {
                 httpResponse.status = HttpStatus.SUCCESS.value();

@@ -37,6 +37,7 @@ public class ReflectProvider<T> {
     public String generateSaveSql(T modelDO) throws NoSuchMethodException, InvocationTargetException, IllegalAccessException {
 
         try {
+            //公共实体与实体所有字段
             Field[] childFields = modelDO.getClass().getDeclaredFields();
             Field[] parentFields = modelDO.getClass().getSuperclass().getDeclaredFields();
             Field[] allFields = new Field[childFields.length + parentFields.length];

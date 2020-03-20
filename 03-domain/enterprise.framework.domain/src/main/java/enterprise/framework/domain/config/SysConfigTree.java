@@ -41,6 +41,11 @@ public class SysConfigTree extends DbBaseDO {
         this.description = sysConfigTreeVO.getDescription();
         this.sort = sysConfigTreeVO.getSort();
         this.is_deleted = sysConfigTreeVO.getIsDeleted();
+        this.setCreatorId(sysConfigTreeVO.getCreatorId());
+        this.setCreatorName(sysConfigTreeVO.getCreatorName());
+        this.setModifierId(sysConfigTreeVO.getModifierId());
+        this.setModifierName(sysConfigTreeVO.getModifierName());
+        this.setModifyTime(sysConfigTreeVO.getModifyTime());
     }
 
 

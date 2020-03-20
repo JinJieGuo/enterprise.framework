@@ -95,7 +95,7 @@ public class MenuController extends BaseController {
     }
 
     /**
-     * 获取所有按钮
+     * 获取所有菜单
      *
      * @return
      */

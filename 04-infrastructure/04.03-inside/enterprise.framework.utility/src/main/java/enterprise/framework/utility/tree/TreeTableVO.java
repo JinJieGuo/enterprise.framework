@@ -14,19 +14,19 @@
  *       11.Others:
  * EditResume:
  *	   Author				Date			  version			   ChangeContent 
- *		gl				 2020-01-03		      1.00					新建
+ *		gl				 2020-03-20		        1.00					新建
  *******************************************************************************/
 
-package enterprise.framework.pojo.config.tree;
+package enterprise.framework.utility.tree;
 
-import enterprise.framework.utility.database.DbBaseVO;
+import java.util.List;
 
-public class SysConfigTreeVO extends DbBaseVO {
-    private Long treeId;
-
-    private String treeCode;
+public class TreeTableVO {
+    private Long id;
 
     private String treeName;
+
+    private String treeCode;
 
     private Long parentId;
 
@@ -34,28 +34,22 @@ public class SysConfigTreeVO extends DbBaseVO {
 
     private String icon;
 
-    private String description;
+    private int level;
 
-    private String sort;
+    private boolean expand;
 
-    private Integer isDeleted;
+    private Integer isMenu;
 
-    private Integer isEnabled;
+    private boolean isParent;
 
-    public void setTreeId(Long treeId) {
-        this.treeId = treeId;
+    private List<TreeTableVO> children;
+
+    public void setId(Long id) {
+        this.id = id;
     }
 
-    public Long getTreeId() {
-        return treeId;
-    }
-
-    public void setTreeCode(String treeCode) {
-        this.treeCode = treeCode;
-    }
-
-    public String getTreeCode() {
-        return treeCode;
+    public Long getId() {
+        return id;
     }
 
     public void setTreeName(String treeName) {
@@ -64,6 +58,14 @@ public class SysConfigTreeVO extends DbBaseVO {
 
     public String getTreeName() {
         return treeName;
+    }
+
+    public void setTreeCode(String treeCode) {
+        this.treeCode = treeCode;
+    }
+
+    public String getTreeCode() {
+        return treeCode;
     }
 
     public void setParentId(Long parentId) {
@@ -90,35 +92,43 @@ public class SysConfigTreeVO extends DbBaseVO {
         return icon;
     }
 
-    public void setDescription(String description) {
-        this.description = description;
+    public void setLevel(int level) {
+        this.level = level;
     }
 
-    public String getDescription() {
-        return description;
+    public int getLevel() {
+        return level;
     }
 
-    public void setSort(String sort) {
-        this.sort = sort;
+    public void setIsParent(boolean isParent) {
+        this.isParent = isParent;
     }
 
-    public String getSort() {
-        return sort;
+    public boolean getIsParent() {
+        return isParent;
     }
 
-    public void setIsEnabled(Integer isEnabled) {
-        this.isEnabled = isEnabled;
+    public void setIsMenu(Integer isMenu) {
+        this.isMenu = isMenu;
     }
 
-    public Integer getIsEnabled() {
-        return isEnabled;
+    public Integer getIsMenu() {
+        return isMenu;
     }
 
-    public void setIsDeleted(Integer isDeleted) {
-        this.isDeleted = isDeleted;
+    public void setExpand(boolean expand) {
+        this.expand = expand;
     }
 
-    public Integer getIsDeleted() {
-        return isDeleted;
+    public boolean isExpand() {
+        return expand;
+    }
+
+    public void setChildren(List<TreeTableVO> children) {
+        this.children = children;
+    }
+
+    public List<TreeTableVO> getChildren() {
+        return children;
     }
 }
