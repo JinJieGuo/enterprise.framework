@@ -89,8 +89,8 @@ public class TreeController extends BaseController {
      * @return
      */
     @ResponseBody
-    @GetMapping("listAllMenu")
-    public HttpResponse listAllMenu(@RequestBody SysConfigTreeVO sysConfigTreeVO) {
+    @GetMapping("listAllTree")
+    public HttpResponse listAllTree(SysConfigTreeVO sysConfigTreeVO) {
         return sysConfigTreeService.listAllTree();
     }
 }
