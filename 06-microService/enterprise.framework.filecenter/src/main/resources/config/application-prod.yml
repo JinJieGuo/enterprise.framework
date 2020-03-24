@@ -1,0 +1,125 @@
+#程序启动端口
+server:
+  port: 8081
+  connectionTimeout: 180000
+#数据库地址
+spring:
+  servlet:
+    multipart:
+      max-file-size: 100MB
+      max-request-size: 100MB
+  #      enabled: false
+  datasource:
+    druid:
+      type: com.alibaba.druid.pool.DruidDataSource
+      initialSize: 1
+      minIdle: 3
+      maxActive: 20
+      maxWait: 60000
+      timeBetweenEvictionRunsMillis: 60000
+      minEvictableIdleTimeMillis: 30000
+      testWhileIdle: true
+      testOnBorrow: false
+      testOnReturn: false
+      poolPreparedStatements: true
+      maxPoolPreparedStatementPerConnectionSize: 20
+      # 配置监控统计拦截的filters，去掉后监控界面sql无法统计，'wall'用于防火墙
+      filters: stat,wall,slf4j
+      # 通过connectProperties属性来打开mergeSql功能；慢SQL记录
+      connectionProperties: druid.stat.mergeSql=true;druid.stat.slowSqlMillis=5000
+      # 合并多个DruidDataSource的监控数据
+      #useGlobalDataSourceStat: true
+    enterprise-erp:
+      url: jdbc:mysql://172.168.1.100:58885/enterprise_erp?useUnicode=true&characterEncoding=utf-8&useSSL=false&useJDBCCompliantTimezoneShift=true&allowPublicKeyRetrieval=true&serverTimezone=GMT%2b8
+      username: root
+      password: Liang_0213
+      #      url: jdbc:mysql://172.18.0.11:58885/db_cbs_base?useUnicode=true&characterEncoding=utf-8&useSSL=true&serverTimezone=UTC
+      #      username: develop
+      #      password: chaboshigps
+      driverClassName: com.mysql.cj.jdbc.Driver
+      validationQuery: select 'x'
+    mysql2:
+      url: jdbc:mysql://172.16.0.241:3306/db02?useUnicode=true&useSSL=false&characterEncoding=utf8
+      username: root
+      password: 1234
+      driverClassName: com.mysql.jdbc.Driver
+      validationQuery: select 'x'
+    mysql3:
+      url: jdbc:mysql://172.16.0.241:3306/db03?useUnicode=true&useSSL=false&characterEncoding=utf8
+      username: root
+      password: 1234
+      driverClassName: com.mysql.jdbc.Driver
+      validationQuery: select 'x'
+    # Redis服务器地址
+  redis:
+    host: 172.168.1.100
+    port: 6382
+    password: Liang_0213
+    #    jedis:
+    #      pool:
+    #        min-idle: 10
+    #        max-idle: 50
+    #        max-wait: 50
+    timeout: 6000ms
+    lettuce:
+      pool:
+        max-active: 8
+        max-wait: -1ms
+        max-idle: 8
+        min-idle: 0
+    database: 0
+
+    #服务治理
+  application:
+    name:
+      enterprise.framework.filecenter
+  cloud:
+    consul:
+      host:
+        172.168.1.110
+      port:
+        8500
+      discovery:
+        servername:
+          filecenter
+        hostname:
+          172.168.1.110
+        port:
+          8081
+        health-check-path:
+          /consul/health
+
+        # 分页配置
+  resources:
+    static-locations: classpath:static/,file:static/
+pagehelper:
+  helper-dialect: mysql
+  reasonable: true
+  support-methods-arguments: true
+  params: count=countSql
+
+
+rabbitmq:
+  rabbit-mq-info:
+    - mqName: "msg-server"
+      userName: "msg-server"
+      password: "123456"
+      hostName: "192.168.2.110"
+      port: 5672
+      virtualHost: "msg-server"
+      channelList:
+        - "msg-server-alpha-01"
+        - "msg-server-alpha-02"
+        - "msg-server-alpha-03"
+        - "msg-server-alpha-04"
+        - "msg-server-alpha-05"
+    - mqName: "log-server"
+      userName: "log-server"
+      password: "123456"
+      hostName: "192.168.2.110"
+      port: 5672
+      virtualHost: "log-server"
+# 下划线转驼峰
+mybatis:
+  configuration:
+    map-underscore-to-camel-case: true
