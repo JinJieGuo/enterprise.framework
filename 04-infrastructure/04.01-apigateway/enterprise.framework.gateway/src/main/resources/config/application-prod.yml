@@ -44,8 +44,6 @@ spring:
           lower-case-service-id: true
       routes:
         - id: gatewayRoute
-            #          uri: http://localhost:8889
-          #          uri: http://localhost:8080
           uri: lb://enterprise-framework-erp-auth
           predicates:
             - Path=/erp/sys/**
@@ -55,8 +53,6 @@ spring:
             # 开启权限认证
             - Auth=true
         - id: gatewayRoute1
-          #          uri: http://localhost:8889
-          #          uri: http://localhost:8081
           uri: lb://enterprise-framework-erp-auth
           predicates:
             - Path=/filecenter/**
