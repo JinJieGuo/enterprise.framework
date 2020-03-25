@@ -31,6 +31,7 @@ import enterprise.framework.erp.ErpApplication;
 import enterprise.framework.pojo.auth.user.SignInVO;
 import enterprise.framework.pojo.auth.user.SysAuthUserVO;
 import enterprise.framework.service.auth.user.SysAuthUserService;
+import enterprise.framework.utility.generaltools.PrefixEnum;
 import enterprise.framework.utility.generaltools.TimeTypeEnum;
 import enterprise.framework.utility.security.Base64Utils;
 import enterprise.framework.utility.security.RSAUtils;
@@ -102,7 +103,7 @@ public class AuthTest {
             RedisHandler redisHandler = new RedisHandler(redisTemplate);
             StrHandler strHandler = new StrHandler();
             SignInVO signInModel = new SignInVO();
-            signInModel.setLoginName("admin");
+            signInModel.setLoginName("gl_0213@163.com");
 
             Map<String, Object> keyMap = RSAUtils.genKeyPair(1024);
             SysAuthUser sysAuthUser = new SysAuthUser();
@@ -116,7 +117,7 @@ public class AuthTest {
             if (result.status == HttpStatus.SUCCESS.value()) {
                 ITokenManager tokenManager = new TokenManager();
                 TokenInfo tokenInfo = tokenManager.createToken(user.getUserId().toString(), keyMap, 30, TimeTypeEnum.MINUTE);
-                HttpResponse tokenRedisResult = redisHandler.set("token_info:" + user.getUserId(), strHandler.toBinary(JSON.toJSONString(tokenInfo)));
+                HttpResponse tokenRedisResult = redisHandler.set(PrefixEnum.TOKENINFO + ":" + user.getUserId(), strHandler.toBinary(JSON.toJSONString(tokenInfo)));
             }
         } catch (Exception error) {
 
