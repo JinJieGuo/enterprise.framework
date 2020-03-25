@@ -53,7 +53,7 @@ spring:
             # 开启权限认证
             - Auth=true
         - id: gatewayRoute1
-          uri: lb://enterprise-framework-erp-filecenter
+          uri: lb://enterprise-framework-filecenter
           predicates:
             - Path=/filecenter/**
             #转发等级
