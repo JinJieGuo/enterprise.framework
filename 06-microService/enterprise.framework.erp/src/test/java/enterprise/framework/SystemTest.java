@@ -25,6 +25,10 @@ import java.io.IOException;
 import java.util.Properties;
 import java.util.UUID;
 
+import enterprise.framework.business.engine.Components;
+import enterprise.framework.business.engine.IScheduler;
+import enterprise.framework.core.log.ILogManager;
+import enterprise.framework.core.log.LogManager;
 import enterprise.framework.erp.ErpApplication;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -57,5 +61,12 @@ public class SystemTest {
 //        String path = file.getAbsolutePath();
 //        Object property = YmlPropUtils.getInstance().getProperty("spring.datasource.type");
 //        System.out.println(property);
+    }
+
+    @Test
+    public void LogTest(){
+
+        ILogManager logManager = new LogManager();
+        logManager.instance().error("测试输出日志");
     }
 }

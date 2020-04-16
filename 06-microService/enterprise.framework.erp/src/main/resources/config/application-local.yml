@@ -2,6 +2,10 @@
 server:
   port: 8080
   connectionTimeout: 180000
+
+flowable:
+  #关闭定时任务JOB
+  async-executor-activate: false
 #数据库地址
 spring:
   servlet:
@@ -33,15 +37,12 @@ spring:
       url: jdbc:mysql://192.168.2.110:58885/enterprise_erp?useUnicode=true&characterEncoding=utf-8&useSSL=false&useJDBCCompliantTimezoneShift=true&allowPublicKeyRetrieval=true&serverTimezone=GMT%2b8
       username: root
       password: Liang_0213
-      #      url: jdbc:mysql://172.18.0.11:58885/db_cbs_base?useUnicode=true&characterEncoding=utf-8&useSSL=true&serverTimezone=UTC
-      #      username: develop
-      #      password: chaboshigps
       driverClassName: com.mysql.cj.jdbc.Driver
       validationQuery: select 'x'
     mysql2:
-      url: jdbc:mysql://172.16.0.241:3306/db02?useUnicode=true&useSSL=false&characterEncoding=utf8
+      url: jdbc:mysql://192.168.2.110:58885/enterprise_test?useUnicode=true&characterEncoding=utf-8&useSSL=false&useJDBCCompliantTimezoneShift=true&allowPublicKeyRetrieval=true&serverTimezone=GMT%2b8
       username: root
-      password: 1234
+      password: Liang_0213
       driverClassName: com.mysql.jdbc.Driver
       validationQuery: select 'x'
     mysql3:
